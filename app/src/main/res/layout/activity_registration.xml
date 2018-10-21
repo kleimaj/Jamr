@@ -33,30 +33,36 @@
         <EditText
             android:layout_width="200dp"
             android:layout_height="40dp"
+            android:inputType="text"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="250dp"
             android:background="@drawable/rounded_border_edittext"
-            android:hint="  name"
+            android:hint="name"
+            android:paddingLeft="10dp"
             android:id="@+id/editText" />
 
         <EditText
             android:layout_width="200dp"
             android:layout_height="40dp"
+            android:inputType="text"
             android:layout_alignLeft="@+id/editText"
             android:layout_alignStart="@+id/editText"
             android:layout_below="@+id/editText"
             android:layout_marginTop="17dp"
-            android:hint="  email"
+            android:hint="email"
+            android:paddingLeft="10dp"
             android:background="@drawable/rounded_border_edittext"
             android:id="@+id/editText2" />
         <EditText
             android:layout_width="200dp"
             android:layout_height="40dp"
+            android:inputType="text"
             android:layout_alignLeft="@+id/editText2"
             android:layout_alignStart="@+id/editText2"
             android:layout_below="@+id/editText2"
             android:layout_marginTop="17dp"
-            android:hint="  password"
+            android:hint="password"
+            android:paddingLeft="10dp"
             android:background="@drawable/rounded_border_edittext"/>
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
