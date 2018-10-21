@@ -1,3 +1,128 @@
 <resources>
     <string name="app_name">Jamr_V2</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Binary</item>
+        <item>Non-Binary</item>
+        <item>Genderfluid</item>
+        <item>Neutrois</item>
+        <item>Transitioning</item>
+        <item>Intersex</item>
+        <item>Trans Woman</item>
+        <item>Trans Man</item>
+    </string-array>
+    <string-array name="genres">
+        <item>Rock</item>
+        <item>Jazz</item>
+        <item>Pop</item>
+        <item>Funk</item>
+        <item>RnB</item>
+        <item>Hip Hop</item>
+        <item>Country</item>
+        <item>Experimental</item>
+        <item>Classical</item>
+        <item>Metal</item>
+        <item>Grunge</item>
+        <item>Soul</item>
+        <item>Punk</item>
+        <item>Reggae</item>
+        <item>Ska</item>
+        <item>Electronic</item>
+        <item>EDM</item>
+        <item>Alternative</item>
+        <item>Latin</item>
+        <item>Gypsy Jazz</item>
+        <item>Healing</item>
+        <item>Meditation</item>
+        <item>Techno</item>
+        <item>Surf Rock</item>
+        <item>Gregorian Chant</item>
+        <item>Baroque</item>
+        <item>Motown</item>
+        <item>Neo-Soul</item>
+        <item>Dance</item>
+        <item>Ambient</item>
+        <item>Gospel</item>
+        <item>Industrial</item>
+        <item>Disco</item>
+        <item>Drum and Bass</item>
+        <item>Orchestral</item>
+        <item>Big Band</item>
+        <item>Swing</item>
+        <item>World Music</item>
+        <item>Psychedelic</item>
+        <item>Experimental</item>
+        <item>Trance</item>
+        <item>Tech</item>
+        <item>Electro</item>
+        <item>Hardcore</item>
+        <item>Progressive</item>
+        <item>Indie</item>
+        <item>Dub</item>
+        <item>Dubstep</item>
+        <item>House</item>
+        <item>Acoustic</item>
+        <item>Folk</item>
+        <item>Theater</item>
+        <item>Opera</item>
+        <item>Singer/Songwriter</item>
+        <item>Smooth Jazz</item>
+        <item>Contemporary Jazz</item>
+        <item>Blues</item>
+        <item>K-pop</item>
+        <item>J-pop</item>
+        <item>Lo-Fi</item>
+        <item>Soundtrack</item>
+        <item>Avante-Garde</item>
+        <item>Metalcore</item>
+        <item>Stoner Metal</item>
+        <item>Thrash Metal</item>
+        <item>Viking Metal</item>
+        <item>Trap</item>
+        <item>Rap</item>
+    </string-array>
+
+    <string-array name="identities">
+        <item>Guitarist</item>
+        <item>Bassist</item>
+        <item>Vocalist</item>
+        <item>Singer</item>
+        <item>Songwriter</item>
+        <item>Producer</item>
+        <item>Drummer</item>
+        <item>Percussion</item>
+        <item>Keyboardist</item>
+        <item>Rapper</item>
+        <item>Session Player</item>
+        <item>Engineer</item>
+        <item>DJ</item>
+        <item>Mixer</item>
+        <item>Performer</item>
+        <item>Music Lover</item>
+        <item>Manager</item>
+        <item>Composer</item>
+        <item>Teacher</item>
+        <item>Therapist</item>
+        <item>Organist</item>
+        <item>Acoustic Guitar</item>
+        <item>Ukulele</item>
+        <item>Dancer</item>
+        <item>Piano</item>
+        <item>Electric Guitar</item>
+        <item>Upright Bass</item>
+        <item>Harpist</item>
+        <item>Electric Upright Bass</item>
+        <item>Cello</item>
+        <item>Violin</item>
+        <item>Flute</item>
+        <item>Alto Saxophone</item>
+        <item>Tenor Saxophone</item>
+        <item>Trumpet</item>
+        <item>Trombone</item>
+        <item>Turn Table</item>
+        <item>Club DJ</item>
+    </string-array>
+
+
 </resources>
