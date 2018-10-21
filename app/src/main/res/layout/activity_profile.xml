@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    tools:context="com.example.kleimaj.jamr_v2.ProfileActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/anon"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Artist"
+            android:textSize="40sp"
+            android:layout_below="@+id/profile_image"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:textColor="#fff"
+            android:id="@+id/ArtistName"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:layout_below="@+id/ArtistName"
+            android:layout_marginTop="-5dp"
+            android:layout_centerHorizontal="true"
+            android:text="View your profile"
+            android:textColorHint="#fff"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle"
+            android:layout_marginTop="320dp"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/InfoRoundButton"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle"
+            android:layout_below="@+id/InfoRoundButton"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/MediaButton"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/MediaButton"
+            android:id="@+id/SettingsButton"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignTop="@id/InfoRoundButton"
+           android:layout_marginLeft="100dp"
+           android:textStyle="bold"
+           android:textSize="15dp"
+           android:textColor="#fff"
+           android:text="My Info"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/InfoRoundButton"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop=
+            android:text="Edit your display name, genres, bio"
+            android:textColor="#fff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/MediaButton"
+            android:layout_marginLeft="100dp"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="#fff"
+            android:text="My Media"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/MediaButton"
+            android:layout_marginLeft="100dp"
+            android:text="Change your featured social media"
+            android:textColor="#fff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/SettingsButton"
+            android:layout_marginLeft="100dp"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="#fff"
+            android:text="My Settings"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/SettingsButton"
+            android:layout_marginLeft="100dp"
+            android:text="Update your search preferences"
+            android:textColor="#fff" />
+
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
