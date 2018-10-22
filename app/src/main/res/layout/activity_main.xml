@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="Login"
             android:textColor="#FFF"
-            android:layout_above="@id/editText"
+            android:layout_above="@id/emailEditText"
             android:textStyle="bold"
             android:layout_marginLeft="170dp"
             android:layout_marginTop="200dp"
@@ -40,34 +40,35 @@
             android:paddingLeft="10dp"
             android:textColorHint="#808080"
             android:textColor="#808080"
-            android:id="@+id/editText" />
+            android:id="@+id/emailEditText" />
 
         <EditText
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:inputType="text"
-            android:layout_alignLeft="@+id/editText"
-            android:layout_alignStart="@+id/editText"
-            android:layout_below="@+id/editText"
+            android:layout_alignLeft="@+id/emailEditText"
+            android:layout_alignStart="@+id/emailEditText"
+            android:layout_below="@+id/emailEditText"
             android:layout_marginTop="17dp"
             android:hint="password"
             android:paddingLeft="10dp"
             android:textColorHint="#808080"
             android:textColor="#808080"
             android:background="@drawable/rounded_border_edittext"
-            android:id="@+id/editText2" />
+            android:id="@+id/passwordEditText" />
 
-        <EditText
+        <Button
             android:layout_width="205dp"
             android:layout_height="40dp"
-            android:layout_alignLeft="@+id/editText2"
-            android:layout_alignStart="@+id/editText2"
-            android:layout_below="@+id/editText2"
+            android:layout_alignLeft="@+id/passwordEditText"
+            android:layout_alignStart="@+id/passwordEditText"
+            android:layout_below="@+id/passwordEditText"
             android:layout_marginTop="17dp"
-            android:hint="  Continue with Google"
+            android:hint="Sign In"
             android:textColorHint="#fff"
-            android:background="@color/Transparent"
-            android:id="@+id/editText3" />
+            android:background="@drawable/rounded_border_button"
+            android:id="@+id/editText3"
+            android:onClick="SignInClick"/>
 
         <EditText
             android:layout_width="205dp"
@@ -76,7 +77,7 @@
             android:layout_alignStart="@+id/editText3"
             android:layout_below="@+id/editText3"
             android:layout_marginTop="17dp"
-            android:hint="  Continue with Facebook"
+            android:hint="  Continue with Google"
             android:textColorHint="#fff"
             android:background="@color/Transparent"
             android:id="@+id/editText4" />
@@ -84,9 +85,9 @@
         <Button
             android:layout_width="200dp"
             android:layout_height="40dp"
-            android:layout_alignLeft="@+id/editText2"
+            android:layout_alignLeft="@+id/editText4"
             android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/editText2"
+            android:layout_alignStart="@+id/editText4"
             android:layout_marginBottom="22dp"
             android:text="Register"
             android:textColor="#FFF"
