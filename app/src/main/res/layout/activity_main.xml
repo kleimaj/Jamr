@@ -51,6 +51,7 @@
             android:layout_below="@+id/emailEditText"
             android:layout_marginTop="17dp"
             android:hint="password"
+            android:password="true"
             android:paddingLeft="10dp"
             android:textColorHint="#808080"
             android:textColor="#808080"

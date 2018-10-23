@@ -1,5 +1,6 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Registration extends AppCompatActivity {
 
@@ -81,6 +83,10 @@ public class Registration extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) { //registration failed
                         Toast.makeText(Registration.this, "Unable to register", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(Registration.this, "Register successful", Toast.LENGTH_SHORT).show();
+                        FirebaseUser user = mAuth.getCurrentUser();
                     }
                 }
             });

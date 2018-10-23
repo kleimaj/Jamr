@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.Theme_AppCompat_NoActionBar);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance(); //must initialize firebase auth
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) { //must initialize authstatelistener
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //current logged in user, or null
                 if (user != null){
                     //user is already logged in
