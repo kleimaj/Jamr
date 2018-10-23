@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null){
                     //user is already logged in
                     //TODO: create intent for swipe screen
+                    Toast.makeText(MainActivity.this, "signed-in",Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SignInClick(View view){
-        if (emailString == null && passwordString == null) {
+        if (emailString.isEmpty() || passwordString.isEmpty()) {
             Toast.makeText(MainActivity.this, "Unfinished Sign-in Fields",Toast.LENGTH_SHORT).show();
         }
         else {
@@ -93,7 +94,10 @@ public class MainActivity extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(emailString,passwordString).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()){ //firebase login failed
+                    if (task.isSuccessful()){ //firebase login failed
+                        Toast.makeText(MainActivity.this, "Sign-in Success",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
                         Toast.makeText(MainActivity.this, "Sign-in Error",Toast.LENGTH_SHORT).show();
                     }
                 }

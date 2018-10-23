@@ -34,7 +34,10 @@ public class Registration extends AppCompatActivity {
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    Toast.makeText(Registration.this, "Already signed-in",Toast.LENGTH_SHORT).show();
+                }
             }
         } ;
 
