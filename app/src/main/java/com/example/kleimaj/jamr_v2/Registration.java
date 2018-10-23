@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,6 +28,13 @@ public class Registration extends AppCompatActivity {
         name = findViewById(R.id.NameEditText);
         emailText = findViewById(R.id.emailRegisterEditText);
         passwordText = findViewById(R.id.passwordRegisterEditText);
+        mAuth = FirebaseAuth.getInstance();
+        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            }
+        } ;
 
         emailText.addTextChangedListener(new TextWatcher() {
             @Override
