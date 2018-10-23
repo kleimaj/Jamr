@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +24,9 @@ public class Registration extends AppCompatActivity {
     private EditText name,emailText,passwordText;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+
+    private static final String TAG = "Registration";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,7 @@ public class Registration extends AppCompatActivity {
         name = findViewById(R.id.NameEditText);
         emailText = findViewById(R.id.emailRegisterEditText);
         passwordText = findViewById(R.id.passwordRegisterEditText);
+
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -77,7 +82,7 @@ public class Registration extends AppCompatActivity {
     }
 
     public void SignUpClick(View view){
-        if (email == null && password == null) {
+        if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(Registration.this, "Unfinished Sign-up Fields",Toast.LENGTH_SHORT).show();
         }
         else {
@@ -86,8 +91,10 @@ public class Registration extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) { //registration failed
                         Toast.makeText(Registration.this, "Unable to register", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
                     }
                     else {
+
                         Toast.makeText(Registration.this, "Register successful", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
                     }
