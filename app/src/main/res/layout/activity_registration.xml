@@ -77,7 +77,7 @@
             android:padding="20dp" >
 
             <RadioButton
-                android:id="@+id/radio0"
+                android:id="@+id/artistRadio"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -85,10 +85,11 @@
                 android:textColor="#fff"
                 android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
                 android:gravity="center_horizontal|bottom"
+                android:onClick="artistClick"
                 android:text="Artist" />
 
             <RadioButton
-                android:id="@+id/radio1"
+                android:id="@+id/bandRadio"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -96,6 +97,7 @@
                 android:textColor="#fff"
                 android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
                 android:gravity="center_horizontal|bottom"
+                android:onClick="bandClick"
                 android:text="Band" />
 
         </RadioGroup>

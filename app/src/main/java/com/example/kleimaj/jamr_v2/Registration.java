@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,14 +19,18 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Registration extends AppCompatActivity {
 
-    private String email,password;
-    private EditText name,emailText,passwordText;
+    private String name, email,password;
+    private EditText nameText,emailText,passwordText;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private View passingView;
+    boolean isBand;
+    boolean radioClicked;
 
     private static final String TAG = "Registration";
 
@@ -33,10 +38,11 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        name = findViewById(R.id.NameEditText);
+        nameText = findViewById(R.id.NameEditText);
         emailText = findViewById(R.id.emailRegisterEditText);
         passwordText = findViewById(R.id.passwordRegisterEditText);
 
+        radioClicked = false; //false until radio button is triggered
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -47,6 +53,23 @@ public class Registration extends AppCompatActivity {
                 }
             }
         } ;
+
+        nameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                name = nameText.getText().toString();
+            }
+        });
 
         emailText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,9 +106,19 @@ public class Registration extends AppCompatActivity {
         });
     }
 
+    public void artistClick(View view){
+        radioClicked = true;
+        isBand = false;
+    }
+
+    public void bandClick(View view){
+        radioClicked = true;
+        isBand = true;
+    }
+
     public void SignUpClick(View view){
         passingView = view;
-        if (email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty() || name.isEmpty() || radioClicked == false) {
             Toast.makeText(Registration.this, "Unfinished Sign-up Fields",Toast.LENGTH_SHORT).show();
         }
         else {
@@ -97,13 +130,27 @@ public class Registration extends AppCompatActivity {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                     }
                     else {
-
                         Toast.makeText(Registration.this, "Register successful", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Intent myIntent = new Intent(passingView.getContext(),Registration.class);
-                        startActivity(myIntent);
-                        finish();
-                        return;
+                        DatabaseReference currentUserDb;
+                        String userId = user.getUid();
+                        if (isBand){
+                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child(name);
+                            currentUserDb.setValue(name);
+                            Intent myIntent = new Intent(passingView.getContext(),SwipeScreen.class);
+                            startActivity(myIntent);
+                            finish();
+                            return;
+                        }
+                        else {
+                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child(name);
+                            currentUserDb.setValue(name);
+                            Intent myIntent = new Intent(passingView.getContext(),SwipeScreen.class);
+                            startActivity(myIntent);
+                            finish();
+                            return;
+                        }
+
                     }
                 }
             });
