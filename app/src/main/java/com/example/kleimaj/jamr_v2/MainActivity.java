@@ -96,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){ //firebase login failed
                         Toast.makeText(MainActivity.this, "Sign-in Success",Toast.LENGTH_SHORT).show();
+                        Intent myIntent = new Intent(MainActivity.this,SwipeScreen.class);
+                        startActivity(myIntent);
+                        finish();
+                        return;
                     }
                     else {
                         Toast.makeText(MainActivity.this, "Sign-in Error",Toast.LENGTH_SHORT).show();

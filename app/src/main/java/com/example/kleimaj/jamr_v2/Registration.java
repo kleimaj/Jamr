@@ -102,6 +102,8 @@ public class Registration extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Intent myIntent = new Intent(passingView.getContext(),Registration.class);
                         startActivity(myIntent);
+                        finish();
+                        return;
                     }
                 }
             });
