@@ -25,14 +25,14 @@ public class SwipeScreen extends AppCompatActivity {
 
 
         al = new ArrayList<>(); //adding example profiles
-        al.add("php");
-        al.add("c");
-        al.add("python");
-        al.add("java");
-        al.add("html");
-        al.add("c++");
-        al.add("css");
-        al.add("javascript");
+        al.add("artist");
+        al.add("band");
+        al.add("artist");
+        al.add("band");
+        al.add("artist");
+        al.add("band");
+        al.add("artist");
+        al.add("band");
 
         arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
 
@@ -64,7 +64,7 @@ public class SwipeScreen extends AppCompatActivity {
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
-                al.add("XML ".concat(String.valueOf(i)));
+                al.add("Empty ".concat(String.valueOf(i)));
                 arrayAdapter.notifyDataSetChanged();
                 Log.d("LIST", "notified");
                 i++;
