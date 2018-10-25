@@ -42,31 +42,34 @@
             android:text="View your profile"
             android:textColorHint="#fff"/>
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle"
             android:layout_marginTop="320dp"
             android:layout_marginLeft="30dp"
-            android:id="@+id/InfoRoundButton"/>
+            android:id="@+id/InfoRoundButton"
+            android:src="@drawable/pen"/>
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle"
             android:layout_below="@+id/InfoRoundButton"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
-            android:id="@+id/MediaButton"/>
+            android:id="@+id/MediaButton"
+            android:src="@drawable/inspec"/>
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:layout_below="@+id/MediaButton"
-            android:id="@+id/SettingsButton"/>
+            android:id="@+id/SettingsButton"
+            android:src="@drawable/gear"/>
 
        <TextView
            android:layout_width="wrap_content"
