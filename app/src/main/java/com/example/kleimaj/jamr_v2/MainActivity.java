@@ -1,127 +1,65 @@
 package com.example.kleimaj.jamr_v2;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText email,password;
-    private String emailString,passwordString;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private TextView mTextMessage;
 
-    //register click fails, problem with firebase authstatelisteners ...
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                    switchToFragment1();
+                    break;
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_inbox);
+                    return true;
+                case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_me);
+                    switchToFragment3();
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Theme_AppCompat_NoActionBar);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance(); //must initialize firebase auth
-        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) { //must initialize authstatelistener
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //current logged in user, or null
-                if (user != null){
-                    //user is already logged in
-                    //TODO: create intent for swipe screen
-                    Toast.makeText(MainActivity.this, "signed-in",Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-
-        email = findViewById(R.id.emailEditText);
-        password = findViewById(R.id.passwordEditText);
-
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                emailString = email.getText().toString();
-            }
-        });
-
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                passwordString = password.getText().toString();
-            }
-        });
+        mTextMessage = (TextView) findViewById(R.id.message);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    public void SignInClick(View view){
-        if (emailString.isEmpty() || passwordString.isEmpty()) {
-            Toast.makeText(MainActivity.this, "Unfinished Sign-in Fields",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            //TODO: sign user in
-            mAuth.signInWithEmailAndPassword(emailString,passwordString).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){ //firebase login failed
-                        Toast.makeText(MainActivity.this, "Sign-in Success",Toast.LENGTH_SHORT).show();
-                        Intent myIntent = new Intent(MainActivity.this,SwipeScreen.class);
-                        startActivity(myIntent);
-                        finish();
-                        return;
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Sign-in Error",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
-    public void RegisterClick(View view){
-        Intent myIntent = new Intent(view.getContext(),Registration.class);
-        startActivity(myIntent);
+    public void switchToFragment1() {
+        FragmentManager fm = getSupportFragmentManager();
+// replace
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frame_container, SwipeScreen1.newInstance());
+        ft.commit();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(firebaseAuthStateListener);
+
+    public void switchToFragment3() {
+        FragmentManager fm = getSupportFragmentManager();
+// replace
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frame_container, MyInfor.newInstance());
+        ft.commit();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mAuth.removeAuthStateListener(firebaseAuthStateListener);
-    }
 }

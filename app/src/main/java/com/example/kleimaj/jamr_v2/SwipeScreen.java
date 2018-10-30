@@ -17,7 +17,6 @@ public class SwipeScreen extends AppCompatActivity {
     private int i;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +52,12 @@ public class SwipeScreen extends AppCompatActivity {
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-                Toast.makeText(SwipeScreen.this, "left", Toast.LENGTH_SHORT).show();//makeToast(MainActivity.this, "Left!");
+                Toast.makeText(SwipeScreen.this, "left", Toast.LENGTH_SHORT).show();//makeToast(StartUpActivity.this, "Left!");
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(SwipeScreen.this, "right", Toast.LENGTH_SHORT).show();//makeToast(MainActivity.this, "Right!");
+                Toast.makeText(SwipeScreen.this, "right", Toast.LENGTH_SHORT).show();//makeToast(StartUpActivity.this, "Right!");
             }
 
             @Override

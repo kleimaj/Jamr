@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kleimaj.jamr_v2.StartUpActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/jamrlogo"
+        android:id="@+id/imageView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textColor="#FFF"
+            android:layout_above="@id/emailEditText"
+            android:textStyle="bold"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="200dp"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:inputType="text"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/rounded_border_edittext"
+            android:hint="email"
+            android:paddingLeft="10dp"
+            android:textColorHint="#808080"
+            android:textColor="#808080"
+            android:id="@+id/emailEditText" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:inputType="text"
+            android:layout_alignLeft="@+id/emailEditText"
+            android:layout_alignStart="@+id/emailEditText"
+            android:layout_below="@+id/emailEditText"
+            android:layout_marginTop="17dp"
+            android:hint="password"
+            android:password="true"
+            android:paddingLeft="10dp"
+            android:textColorHint="#808080"
+            android:textColor="#808080"
+            android:background="@drawable/rounded_border_edittext"
+            android:id="@+id/passwordEditText" />
+
+        <Button
+            android:layout_width="205dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/passwordEditText"
+            android:layout_alignStart="@+id/passwordEditText"
+            android:layout_below="@+id/passwordEditText"
+            android:layout_marginTop="17dp"
+            android:hint="Sign In"
+            android:textColorHint="#fff"
+            android:background="@drawable/rounded_border_button"
+            android:id="@+id/editText3"
+            android:onClick="SignInClick"/>
+
+        <EditText
+            android:layout_width="205dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/editText3"
+            android:layout_alignStart="@+id/editText3"
+            android:layout_below="@+id/editText3"
+            android:layout_marginTop="17dp"
+            android:hint="  Continue with Google"
+            android:textColorHint="#fff"
+            android:background="@color/Transparent"
+            android:id="@+id/editText4" />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/editText4"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/editText4"
+            android:layout_marginBottom="22dp"
+            android:text="Register"
+            android:textColor="#FFF"
+            android:onClick="RegisterClick"
+            android:background="@drawable/rounded_border_button" />
+
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
