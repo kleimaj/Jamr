@@ -137,7 +137,7 @@ public class Registration extends AppCompatActivity {
                         if (isBand){
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child(name);
                             currentUserDb.setValue(name);
-                            Intent myIntent = new Intent(passingView.getContext(),SwipeScreen.class);
+                            Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
                             startActivity(myIntent);
                             finish();
                             return;
@@ -145,7 +145,7 @@ public class Registration extends AppCompatActivity {
                         else {
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child(name);
                             currentUserDb.setValue(name);
-                            Intent myIntent = new Intent(passingView.getContext(),SwipeScreen.class);
+                            Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
                             startActivity(myIntent);
                             finish();
                             return;
