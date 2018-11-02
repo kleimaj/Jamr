@@ -22,6 +22,15 @@
             app:civ_border_width="2dp"
             app:civ_border_color="#FF000000" />
 
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="240dp"
+            android:id="@+id/ProfilePictureButton"
+            android:src="@drawable/pen"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/InfoRoundButton"
             android:layout_marginLeft="100dp"
+            android:layout_marginTop="340dp"
             android:text="Edit your display name, genres, bio"
             android:textColor="#fff" />
 
@@ -103,6 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/MediaButton"
             android:layout_marginLeft="100dp"
+            android:layout_marginTop="410dp"
             android:text="Change your featured social media"
             android:textColor="#fff" />
 
@@ -121,6 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/SettingsButton"
             android:layout_marginLeft="100dp"
+            android:layout_marginTop="480dp"
             android:text="Update your search preferences"
             android:textColor="#fff" />
 
