@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
 // replace
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frame_container, MyInfor.newInstance());
+        ft.replace(R.id.frame_container, ProfileActivity.newInstance());//MyInfor.newInstance());
         ft.commit();
     }
 
