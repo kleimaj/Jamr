@@ -53,57 +53,6 @@ public class Registration extends AppCompatActivity {
                 }
             }
         } ;
-
-        nameText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                name = nameText.getText().toString();
-            }
-        });
-
-        emailText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                email = emailText.getText().toString();
-            }
-        });
-
-        passwordText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                password = passwordText.getText().toString();
-            }
-        });
     }
 
     public void artistClick(View view){
@@ -117,6 +66,9 @@ public class Registration extends AppCompatActivity {
     }
 
     public void SignUpClick(View view){
+        email = emailText.getText().toString();
+        password = passwordText.getText().toString();
+        name = nameText.getText().toString();
         passingView = view;
         if (email.isEmpty() || password.isEmpty() || name.isEmpty() || radioClicked == false) {
             Toast.makeText(Registration.this, "Unfinished Sign-up Fields",Toast.LENGTH_SHORT).show();
@@ -137,7 +89,7 @@ public class Registration extends AppCompatActivity {
                         if (isBand){
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child(name);
                             currentUserDb.setValue(name);
-                            Intent myIntent = new Intent(passingView.getContext(),SwipeScreen.class);
+                            Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
                             startActivity(myIntent);
                             finish();
                             return;
@@ -145,7 +97,7 @@ public class Registration extends AppCompatActivity {
                         else {
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child(name);
                             currentUserDb.setValue(name);
-                            Intent myIntent = new Intent(passingView.getContext(),SwipeScreen.class);
+                            Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
                             startActivity(myIntent);
                             finish();
                             return;

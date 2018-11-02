@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,8 +24,6 @@ public class StartUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
 
-    //register click fails, problem with firebase authstatelisteners ...
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +40,10 @@ public class StartUpActivity extends AppCompatActivity {
                     //user is already logged in
                     //TODO: create intent for swipe screen
                     Toast.makeText(StartUpActivity.this, "signed-in",Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
-                    startActivity(myIntent);
-                    finish();
-                    return;
+                    //Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
+                    //startActivity(myIntent);
+                    //finish();
+                    //return;
 
                 }
             }
