@@ -33,9 +33,4 @@ public class ProfileActivity extends Fragment {
         return inflater.inflate(R.layout.activity_profile, container, false);
     }
 
-    public void myInfoClick(View v) {
-        Log.v("pok", "view clicked");
-        Intent myIntent = new Intent(v.getContext(), MyInfoActivity.class);
-        this.startActivity(myIntent);
-    }
 }

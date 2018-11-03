@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MyInfoActivity extends AppCompatActivity {
 
-    public final static int minAge = 8;
+    public final static int minAge = 15;
     public final static int maxAge = 99;
     Spinner genderSpinner, ageSpinner;
     EditText nameEditText, bioEditText;
@@ -58,7 +58,6 @@ public class MyInfoActivity extends AppCompatActivity {
                 R.array.gender, android.R.layout.simple_spinner_dropdown_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSpinner.setAdapter(genderAdapter);
-        genderSpinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         genderSpinner.setOnItemSelectedListener(new SpinnerActivity());
 
         ArrayList<String> ageList = new ArrayList<String>();
