@@ -13,8 +13,8 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyInfoActivity extends AppCompatActivity {
 
@@ -27,15 +27,15 @@ public class MyInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_info);
-        genderSpinner = (Spinner) findViewById(R.id.spinner_gender);
-        ageSpinner = (Spinner) findViewById(R.id.spinner_age);
-        nameEditText = (EditText) findViewById(R.id.editText_name);
-        bioEditText = (EditText) findViewById(R.id.editText_bio);
-        identityMulti = (MultiAutoCompleteTextView) findViewById(R.id.multiComplete_identity);
-        genreMulti = (MultiAutoCompleteTextView) findViewById(R.id.multiComplete_genre);
+        setContentView(R.layout.activity_artist_info);
+        genderSpinner = findViewById(R.id.spinner_gender);
+        ageSpinner = findViewById(R.id.spinner_age);
+        nameEditText = findViewById(R.id.editText_name);
+        bioEditText = findViewById(R.id.editText_bio);
+        identityMulti = findViewById(R.id.multiComplete_identity);
+        genreMulti = findViewById(R.id.multiComplete_genre);
         initializeSpinners();
-
+        initializeMultiAutoCompletes();
         // set fields with current preferences
     }
 
@@ -50,6 +50,18 @@ public class MyInfoActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) { }
+    }
+
+    public void initializeMultiAutoCompletes() {
+        ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
+                R.array.genres, android.R.layout.simple_dropdown_item_1line);
+        genreMulti.setAdapter(genresAdapter);
+        genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+        ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
+                R.array.identities, android.R.layout.simple_dropdown_item_1line);
+        identityMulti.setAdapter(identityAdapter);
+        identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 
     public void initializeSpinners() {
@@ -96,5 +108,12 @@ public class MyInfoActivity extends AppCompatActivity {
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ageSpinner.setAdapter(ageAdapter);
         ageSpinner.setOnItemSelectedListener(new SpinnerActivity());
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(ageSpinner);
+            popupWindow.setHeight(700);
+        }
+        catch (Exception e) { }
     }
 }
