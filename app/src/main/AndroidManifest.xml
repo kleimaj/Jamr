@@ -17,12 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Registration" />
-        <activity android:name=".ProfileActivity" />
         <activity android:name=".MyInfoActivity" />
         <activity android:name=".SwipeScreen" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main">
+        </activity>
     </application>
 
 </manifest>

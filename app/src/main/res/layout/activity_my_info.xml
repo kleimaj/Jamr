@@ -18,30 +18,126 @@
             android:text="Basic Info"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:layout_margin="30dp"
-            android:id="@+id/BasicInfoText"
-            />
+            android:layout_margin="25dp"
+            android:id="@+id/BasicInfoText"/>
+
         <EditText
+            android:id="@+id/editText_name"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:inputType="text"
             android:layout_below="@+id/BasicInfoText"
             android:layout_marginTop="-20dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="25dp"
             android:hint="Name"
             android:paddingLeft="10dp"
             android:textColor="#808080"
             android:background="@drawable/rounded_border_edittext"/>
 
         <Spinner
+            android:id="@+id/spinner_gender"
+            android:hint="Gender"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:spinnerMode="dropdown"
             android:layout_below="@+id/BasicInfoText"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="25dp"
             android:background="@drawable/rounded_border_edittext">
         </Spinner>
+
+        <Spinner
+            android:id="@+id/spinner_age"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/BasicInfoText"
+            android:layout_toRightOf="@+id/spinner_gender"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/rounded_border_edittext">
+        </Spinner>
+
+        <TextView
+            android:id="@+id/text_MusicIdentity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner_age"
+            android:textColor="#fff"
+            android:text="Music Identity"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"/>
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/multiComplete_identity"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/text_MusicIdentity"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_border_edittext" />
+
+        <TextView
+            android:id="@+id/text_Genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/multiComplete_identity"
+            android:textColor="#fff"
+            android:text="Genre"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"/>
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/multiComplete_genre"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/text_Genre"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_border_edittext" />
+
+        <TextView
+            android:id="@+id/BioText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/multiComplete_genre"
+            android:textColor="#fff"
+            android:text="Bio"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp" />
+
+        <EditText
+            android:id="@+id/editText_bio"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:inputType="text"
+            android:layout_below="@+id/BioText"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="25dp"
+            android:hint="Say something"
+            android:gravity="top"
+            android:paddingLeft="10dp"
+            android:textColor="#808080"
+            android:background="@drawable/rounded_border_edittext"/>
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/editText_bio"
+            android:background="@drawable/rounded_border_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:textColor="#fff"
+            android:text="Save"
+            android:onClick="saveClick" />
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Jamr_V2</string>
+
     <string-array name="gender">
+        <item>Gender</item>
         <item>Male</item>
         <item>Female</item>
         <item>Non-Binary</item>
     </string-array>
+
     <string-array name="genres">
         <item>Rock</item>
         <item>Jazz</item>
@@ -116,6 +119,7 @@
         <item>Turn Table</item>
         <item>Club DJ</item>
     </string-array>
+
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">Home</string>
     <string name="title_inbox">Inbox</string>

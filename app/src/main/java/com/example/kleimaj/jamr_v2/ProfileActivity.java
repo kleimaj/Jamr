@@ -1,8 +1,10 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,5 +31,11 @@ public class ProfileActivity extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_profile, container, false);
+    }
+
+    public void myInfoClick(View v) {
+        Log.v("pok", "view clicked");
+        Intent myIntent = new Intent(v.getContext(), MyInfoActivity.class);
+        this.startActivity(myIntent);
     }
 }

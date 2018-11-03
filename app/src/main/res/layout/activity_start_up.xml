@@ -25,8 +25,7 @@
             android:textColor="#FFF"
             android:layout_above="@id/emailEditText"
             android:textStyle="bold"
-            android:layout_marginLeft="170dp"
-            android:layout_marginTop="200dp"
+            android:layout_centerHorizontal="true"
             android:textSize="20sp"/>
 
         <EditText
