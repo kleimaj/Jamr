@@ -21,8 +21,8 @@
         <activity android:name=".SwipeScreen" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main">
-        </activity>
+            android:label="@string/title_activity_main"></activity>
+        <activity android:name=".MySettings"></activity>
     </application>
 
 </manifest>
