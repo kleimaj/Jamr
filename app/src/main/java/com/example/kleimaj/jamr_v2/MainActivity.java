@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,11 +15,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private String picturePath;
     private static int RESULT_LOAD_IMAGE = 1;
+    DatabaseReference currentUserDb;
+    private FirebaseAuth mAuth;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -84,6 +96,18 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("picpath is not null");
                 ImageView imageView = (ImageView) findViewById(R.id.profile_image);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+                FirebaseUser user = mAuth.getCurrentUser();
+                String userId = user.getUid();
+                currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("image");
+                currentUserDb.setValue(imageString);
+
             }
         }
     }

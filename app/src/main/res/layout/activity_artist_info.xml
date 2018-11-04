@@ -116,7 +116,7 @@
         <EditText
             android:id="@+id/editText_bio"
             android:layout_width="300dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:lines="5"
             android:inputType="text"
             android:layout_below="@+id/BioText"
