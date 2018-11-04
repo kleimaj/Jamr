@@ -1,20 +1,31 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private ImageView imageView;
+    private String picturePath;
+    private static int RESULT_LOAD_IMAGE = 1;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,7 +57,35 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
         switchToFragment1();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            System.out.println("HALP request code: "+requestCode + " result code: " + resultCode);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == Activity.RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            if(picturePath != null) {
+                System.out.println("picpath is not null");
+                ImageView imageView = (ImageView) findViewById(R.id.profile_image);
+                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            }
+        }
     }
 
     public void switchToFragment1() {
@@ -70,5 +109,14 @@ public class MainActivity extends AppCompatActivity {
         Log.v("pok", "view clicked");
         Intent myIntent = new Intent(v.getContext(), MyInfoActivity.class);
         this.startActivity(myIntent);
+    }
+
+    public void imageClick(View v){
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        Log.v("pok", "View Clicked");
+        Intent i = new Intent(
+                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 }
