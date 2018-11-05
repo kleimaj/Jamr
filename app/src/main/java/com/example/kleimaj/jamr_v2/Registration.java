@@ -29,7 +29,7 @@ public class Registration extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private View passingView;
-    boolean isBand;
+    static boolean isBand;
     boolean radioClicked;
 
     private static final String TAG = "Registration";

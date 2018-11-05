@@ -23,11 +23,18 @@ public class MyInfoActivity extends AppCompatActivity {
     Spinner genderSpinner, ageSpinner;
     EditText nameEditText, bioEditText;
     MultiAutoCompleteTextView identityMulti, genreMulti;
+    DatabaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_artist_info);
+        if (Registration.isBand == false) {
+            setContentView(R.layout.activity_artist_info);
+        }
+        else {
+            setContentView(R.layout.activity_band_info);
+        }
+        db = new DatabaseManager();
         genderSpinner = findViewById(R.id.spinner_gender);
         ageSpinner = findViewById(R.id.spinner_age);
         nameEditText = findViewById(R.id.editText_name);
@@ -45,6 +52,7 @@ public class MyInfoActivity extends AppCompatActivity {
             String selectedGender = null;
             if (pos > 0) {
                 selectedGender = parent.getItemAtPosition(pos).toString();
+                db.setGender(selectedGender);
             }
         }
 
