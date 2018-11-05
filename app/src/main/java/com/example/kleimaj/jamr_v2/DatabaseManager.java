@@ -5,6 +5,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 /**
  * Created by kleimaj on 11/5/18.
  */
@@ -39,6 +41,9 @@ public class DatabaseManager {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("gender");
         currentUserDb.setValue(gender);
+    }
+
+    public static void setGenres(ArrayList<String> genres) {
 
     }
 

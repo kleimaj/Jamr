@@ -89,13 +89,11 @@ public class MyInfoActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_dropdown_item, ageList) {
             @Override
             public boolean isEnabled(int position) {
-                if(position == 0)
-                {
+                if(position == 0) {
                     // Disable the first item from Spinner
                     // First item will be use for hint
                     return false;
-                }
-                else {
+                } else {
                     return true;
                 }
             }

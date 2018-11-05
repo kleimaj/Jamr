@@ -74,6 +74,7 @@
         <MultiAutoCompleteTextView
             android:id="@+id/multiComplete_identity"
             android:layout_width="200dp"
+            android:hint="Add..."
             android:layout_height="40dp"
             android:layout_below="@+id/text_MusicIdentity"
             android:layout_marginLeft="25dp"
@@ -95,6 +96,7 @@
         <MultiAutoCompleteTextView
             android:id="@+id/multiComplete_genre"
             android:layout_width="200dp"
+            android:hint="Add..."
             android:layout_height="40dp"
             android:layout_below="@+id/text_Genre"
             android:layout_marginLeft="25dp"
@@ -116,9 +118,10 @@
         <EditText
             android:id="@+id/editText_bio"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:lines="5"
-            android:inputType="text"
+            android:isScrollContainer="true"
+            android:inputType="textMultiLine"
             android:layout_below="@+id/BioText"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="25dp"
@@ -139,7 +142,7 @@
             android:layout_marginTop="20dp"
             android:textColor="#fff"
             android:text="Save"
-            android:onClick="saveClick" />
+            android:onClick="saveArtistInfo" />
 
     </RelativeLayout>
 
