@@ -142,7 +142,7 @@
             android:layout_marginTop="20dp"
             android:textColor="#fff"
             android:text="Save"
-            android:onClick="saveArtistInfo" />
+            android:onClick="onSaveArtistInfo" />
 
     </RelativeLayout>
 

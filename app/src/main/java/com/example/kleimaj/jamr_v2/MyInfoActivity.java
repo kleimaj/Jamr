@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +26,9 @@ public class MyInfoActivity extends AppCompatActivity {
     MultiAutoCompleteTextView identityMulti, genreMulti;
     DatabaseManager db;
 
+    String selectedAge;
+    String selectedGender;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,16 +47,47 @@ public class MyInfoActivity extends AppCompatActivity {
         genreMulti = findViewById(R.id.multiComplete_genre);
         initializeSpinners();
         initializeMultiAutoCompletes();
-        // set fields with current preferences
+        // set fields with current preferences upon opening
+
+    }
+
+    public void onSaveArtistInfo(View v) {
+        // name
+        // gender, age
+        // genres
+        // identities
+        // bio
+        String name = nameEditText.getText().toString();
+        String bio = bioEditText.getText().toString();
+        // db.setGender(selectedGender);
+        // db.setArtistInfo()
+        // Toast "save success" or "error"
+    }
+
+    public void onSaveBandInfo(View v) {
+
+        // name
+        // genres
+        // bio
+        String name = nameEditText.getText().toString();
+        String bio = bioEditText.getText().toString();
+
+        // db.setBandInfo()
+
     }
 
     public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
-            String selectedGender = null;
             if (pos > 0) {
-                selectedGender = parent.getItemAtPosition(pos).toString();
-                db.setGender(selectedGender);
+                switch(parent.getId()) {
+                    case R.id.spinner_gender:
+                        selectedGender = parent.getItemAtPosition(pos).toString();
+                        break;
+                    case R.id.spinner_age:
+                        selectedAge = parent.getItemAtPosition(pos).toString();
+                        break;
+                }
             }
         }
 

@@ -43,9 +43,9 @@ public class DatabaseManager {
         currentUserDb.setValue(gender);
     }
 
-    public static void setGenres(ArrayList<String> genres) {
-
-    }
+//    public static void setArtistInfo() {
+//
+//    }
 
     public static boolean hasProfilePicture() {
         String userId = mAuth.getCurrentUser().getUid();
