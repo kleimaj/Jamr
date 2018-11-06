@@ -59,6 +59,8 @@ public class MyInfoActivity extends AppCompatActivity {
         // bio
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
+        String genres = genreMulti.getText().toString();
+        String[] genresArray = genres.split(", ");
         // db.setGender(selectedGender);
         // db.setArtistInfo()
         // Toast "save success" or "error"

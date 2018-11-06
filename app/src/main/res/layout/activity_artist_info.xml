@@ -74,7 +74,7 @@
         <MultiAutoCompleteTextView
             android:id="@+id/multiComplete_identity"
             android:layout_width="200dp"
-            android:hint="Add..."
+            android:hint=" Add..."
             android:layout_height="40dp"
             android:layout_below="@+id/text_MusicIdentity"
             android:layout_marginLeft="25dp"
@@ -96,7 +96,7 @@
         <MultiAutoCompleteTextView
             android:id="@+id/multiComplete_genre"
             android:layout_width="200dp"
-            android:hint="Add..."
+            android:hint=" Add..."
             android:layout_height="40dp"
             android:layout_below="@+id/text_Genre"
             android:layout_marginLeft="25dp"
