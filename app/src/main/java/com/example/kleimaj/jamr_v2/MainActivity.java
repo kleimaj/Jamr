@@ -46,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mTextMessage.setText(R.string.title_home);
-                    switchToFragmentSwipeScreen();
+                    switchToFragment1();
                     break;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_inbox);
                     return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_me);
-                    switchToFragmentProfile();
+                    switchToFragment3();
                     return true;
             }
             return false;
@@ -68,13 +68,12 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseManager();
 
 
-        // initialize();
+      //  initialize();
         mTextMessage = (TextView) findViewById(R.id.message);
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        switchToFragmentSwipeScreen();
+        switchToFragment1();
     }
 
     @Override
@@ -115,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("image");
                     currentUserDb.setValue(imageString);
                 }
+
             }
         }
     }
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void switchToFragmentSwipeScreen() {
+    public void switchToFragment1() {
         FragmentManager fm = getSupportFragmentManager();
 // replace
         FragmentTransaction ft = fm.beginTransaction();
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void switchToFragmentProfile() {
+    public void switchToFragment3() {
         //initialize();
         FragmentManager fm = getSupportFragmentManager();
 // replace
