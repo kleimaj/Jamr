@@ -141,12 +141,12 @@ public class MyInfoActivity extends AppCompatActivity {
         genreMulti.setAdapter(genresAdapter);
         genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        if(db.indicator == 1) {
-            ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
-                    R.array.identities, android.R.layout.simple_dropdown_item_1line);
-            identityMulti.setAdapter(identityAdapter);
-            identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        }
+
+        ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
+                R.array.identities, android.R.layout.simple_dropdown_item_1line);
+        identityMulti.setAdapter(identityAdapter);
+        identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
     }
 
     public void initializeSpinners() {
