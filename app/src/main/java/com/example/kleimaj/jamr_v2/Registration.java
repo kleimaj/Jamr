@@ -89,14 +89,17 @@ public class Registration extends AppCompatActivity {
                         if (isBand){
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child(name);
                             currentUserDb.setValue(name);
+                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("isBand");
+                            currentUserDb.setValue("true");
                             Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
                             startActivity(myIntent);
                             finish();
                             return;
-                        }
-                        else {
+                        }else{
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child(name);
                             currentUserDb.setValue(name);
+                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("isBand");
+                            currentUserDb.setValue("false");
                             Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
                             startActivity(myIntent);
                             finish();
