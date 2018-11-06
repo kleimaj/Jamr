@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,7 +27,6 @@ public class DatabaseManager {
     public static String gender;
     public static String name;
     public static int indicator = 0;
-    //public static Arraylist<String>
 
     public DatabaseManager() {
         mAuth = FirebaseAuth.getInstance();
@@ -73,6 +73,24 @@ public class DatabaseManager {
         currentUserDb.setValue(bio);
     }
 
+    public static void setArtistMusicIdentities(ArrayList<String> musicIdentities) {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("music identities");
+        currentUserDb.setValue(musicIdentities);
+    }
+
+    public static void setArtistGenres(ArrayList<String> genres) {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("genres");
+        currentUserDb.setValue(genres);
+    }
+
+    public static void setBandGenres(ArrayList<String> genres) {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("genres");
+        currentUserDb.setValue(genres);
+    }
+
     public boolean setArtistInfo(String name, String gender, String age, ArrayList<String> musicIdentities,
                                  ArrayList<String> genres, String bio) {
         try {
@@ -80,6 +98,8 @@ public class DatabaseManager {
             setArtistGender(gender);
             setArtistAge(age);
             setArtistBio(bio);
+            setArtistMusicIdentities(musicIdentities);
+            setArtistGenres(genres);
             return true;
         } catch (Exception e) {
             Log.v("artist save error", e.getMessage());
@@ -91,6 +111,7 @@ public class DatabaseManager {
         try {
             setBandName(name);
             setBandBio(bio);
+            setBandGenres(genres);
             return true;
         } catch (Exception e) {
             Log.v("band save error", e.getMessage());
