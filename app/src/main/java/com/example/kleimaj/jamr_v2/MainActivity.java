@@ -32,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
-    private ImageView imageView;
     private String picturePath;
     private static int RESULT_LOAD_IMAGE = 1;
     DatabaseReference currentUserDb;
@@ -67,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         db = new DatabaseManager();
-        db.isBand();
+
+
+      //  initialize();
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -78,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            System.out.println("HALP request code: "+requestCode + " result code: " + resultCode);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == Activity.RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
 
             if(picturePath != null) {
-                System.out.println("picpath is not null");
                 ImageView imageView = (ImageView) findViewById(R.id.profile_image);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
@@ -105,10 +104,30 @@ public class MainActivity extends AppCompatActivity {
 
                 FirebaseUser user = mAuth.getCurrentUser();
                 String userId = user.getUid();
-                currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("image");
-                currentUserDb.setValue(imageString);
+                db.isBand();
+                if(db.indicator == 1) {
+                    System.out.println("ARTIST ADDED TO DB");
+                    currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("image");
+                    currentUserDb.setValue(imageString);
+                }else if (db.indicator == 2){
+                    System.out.println("Fo Swizzle a band was added to the db");
+                    currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("image");
+                    currentUserDb.setValue(imageString);
+                }
 
             }
+        }
+    }
+
+    //THIS FUNCTION NEEDS WORK TO DISPLAY THE NEW USER INFORMATION WHEN THE USER SWITCHES ACTIVITIES
+    public void initialize(){
+        ImageView imageView = (ImageView) findViewById(R.id.profile_image);
+        String imageString = db.hasProfilePicture();
+        if(imageString != null){
+           /// System.out.println("Image String = " + imageString );
+            byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+            Bitmap decodeImage = BitmapFactory.decodeByteArray(imageBytes,0, imageBytes.length);
+            imageView.setImageBitmap(decodeImage);
         }
     }
 
@@ -122,11 +141,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void switchToFragment3() {
+        //initialize();
         FragmentManager fm = getSupportFragmentManager();
 // replace
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frame_container, ProfileActivity.newInstance());//MyInfor.newInstance());
         ft.commit();
+        //initialize();
     }
 
     public void myInfoClick(View v) {
