@@ -87,7 +87,7 @@ public class Registration extends AppCompatActivity {
                         DatabaseReference currentUserDb;
                         String userId = user.getUid();
                         if (isBand){
-                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child(name);
+                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("name");
                             currentUserDb.setValue(name);
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("isBand");
                             currentUserDb.setValue("true");
@@ -96,7 +96,7 @@ public class Registration extends AppCompatActivity {
                             finish();
                             return;
                         }else{
-                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child(name);
+                            currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("name");
                             currentUserDb.setValue(name);
                             currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("isBand");
                             currentUserDb.setValue("false");
