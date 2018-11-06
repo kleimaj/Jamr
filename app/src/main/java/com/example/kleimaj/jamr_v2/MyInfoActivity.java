@@ -57,12 +57,19 @@ public class MyInfoActivity extends AppCompatActivity {
         bioEditText = findViewById(R.id.editText_bio);
         identityMulti = findViewById(R.id.multiComplete_identity);
         genreMulti = findViewById(R.id.multiComplete_genre);
-        initializeSpinners();
+        db.isBand();
+        if(db.indicator == 1){
+            initializeSpinners();
+        }
         initializeMultiAutoCompletes();
         setFieldsWithCurrentVals();
     }
 
     public void onSaveArtistInfo(View v) {
+        if(db.indicator == 2){
+            onSaveBandInfo(v);
+            return;
+        }
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
         String genres = genreMulti.getText().toString();
@@ -129,10 +136,12 @@ public class MyInfoActivity extends AppCompatActivity {
         genreMulti.setAdapter(genresAdapter);
         genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.identities, android.R.layout.simple_dropdown_item_1line);
-        identityMulti.setAdapter(identityAdapter);
-        identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        if(db.indicator == 1) {
+            ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.identities, android.R.layout.simple_dropdown_item_1line);
+            identityMulti.setAdapter(identityAdapter);
+            identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        }
     }
 
     public void initializeSpinners() {
