@@ -39,20 +39,44 @@ public class DatabaseManager {
 
     public static void setBandName(String name) {
         String userId = mAuth.getCurrentUser().getUid();
-        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child(name);
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("name");
         currentUserDb.setValue(name);
+    }
+
+    public static void setBandBio(String bio) {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("bio");
+        currentUserDb.setValue(bio);
+    }
+
+    public static void setBandGenre(String genre) {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("genre");
+        currentUserDb.setValue(genre);
     }
 
     public static void setArtistName(String name) {
         String userId = mAuth.getCurrentUser().getUid();
-        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child(name);
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("name");
         currentUserDb.setValue(name);
+    }
+
+    public static void setArtistGenre(String genre) {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("genre");
+        currentUserDb.setValue(genre);
     }
 
     public static void setGender(String gender) {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("gender");
         currentUserDb.setValue(gender);
+    }
+
+    public static void setAge(String age) {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("age");
+        currentUserDb.setValue(age);
     }
 
 //    public static void setArtistInfo() {

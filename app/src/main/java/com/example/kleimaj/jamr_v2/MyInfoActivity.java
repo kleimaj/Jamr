@@ -2,6 +2,7 @@ package com.example.kleimaj.jamr_v2;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +15,17 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import static com.example.kleimaj.jamr_v2.DatabaseManager.indicator;
 
 public class MyInfoActivity extends AppCompatActivity {
 
@@ -25,6 +35,8 @@ public class MyInfoActivity extends AppCompatActivity {
     EditText nameEditText, bioEditText;
     MultiAutoCompleteTextView identityMulti, genreMulti;
     DatabaseManager db;
+    FirebaseAuth mAuth;
+    static DatabaseReference currentUserDb;
 
     String selectedAge;
     String selectedGender;
@@ -39,13 +51,18 @@ public class MyInfoActivity extends AppCompatActivity {
             setContentView(R.layout.activity_band_info);
         }
         db = new DatabaseManager();
+        mAuth = FirebaseAuth.getInstance();
         genderSpinner = findViewById(R.id.spinner_gender);
         ageSpinner = findViewById(R.id.spinner_age);
         nameEditText = findViewById(R.id.editText_name);
         bioEditText = findViewById(R.id.editText_bio);
-        identityMulti = findViewById(R.id.multiComplete_identity);
         genreMulti = findViewById(R.id.multiComplete_genre);
-        initializeSpinners();
+        db.isBand();
+        if(db.indicator == 1) {
+            identityMulti = findViewById(R.id.multiComplete_identity);
+            initializeSpinners();
+        }
+
         initializeMultiAutoCompletes();
         // set fields with current preferences upon opening
 
@@ -60,7 +77,14 @@ public class MyInfoActivity extends AppCompatActivity {
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
         String genres = genreMulti.getText().toString();
-        String[] genresArray = genres.split(", ");
+       // String[] genresArray = genres.split(", ");
+
+        String userId = mAuth.getCurrentUser().getUid();
+        db.setArtistName(name);
+        db.setGender(selectedGender);
+        db.setAge(selectedAge);
+        db.setArtistGenre(genres);
+
         // db.setGender(selectedGender);
         // db.setArtistInfo()
         // Toast "save success" or "error"
@@ -73,6 +97,13 @@ public class MyInfoActivity extends AppCompatActivity {
         // bio
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
+        String genres = genreMulti.getText().toString();
+        //String[] genresArray = genres.split(", ");
+
+        db.setBandName(name);
+        db.setBandBio(bio);
+        db.setBandGenre(genres);
+        //db.s
 
         // db.setBandInfo()
 
@@ -103,10 +134,12 @@ public class MyInfoActivity extends AppCompatActivity {
         genreMulti.setAdapter(genresAdapter);
         genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.identities, android.R.layout.simple_dropdown_item_1line);
-        identityMulti.setAdapter(identityAdapter);
-        identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        if(db.indicator == 1) {
+            ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.identities, android.R.layout.simple_dropdown_item_1line);
+            identityMulti.setAdapter(identityAdapter);
+            identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        }
     }
 
     public void initializeSpinners() {
