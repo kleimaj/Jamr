@@ -12,12 +12,12 @@
         <activity android:name=".StartUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Registration" />
-        <activity android:name=".MyInfoActivity" />
+        <activity android:name=".MyInfoActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".SwipeScreen" />
         <activity
             android:name=".MainActivity"

@@ -3,6 +3,7 @@ package com.example.kleimaj.jamr_v2;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,55 +38,55 @@ public class DatabaseManager {
         return mAuth.getCurrentUser();
     }
 
-    public static void setBandName(String name) {
+    public static void setBandName(String name) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("name");
         currentUserDb.setValue(name);
     }
 
-    public static void setArtistName(String name) {
+    public static void setArtistName(String name) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("name");
         currentUserDb.setValue(name);
     }
 
-    public static void setArtistGender(String gender) {
+    public static void setArtistGender(String gender) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("gender");
         currentUserDb.setValue(gender);
     }
 
-    public static void setArtistAge(String age) {
+    public static void setArtistAge(String age) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("age");
         currentUserDb.setValue(age);
     }
 
-    public static void setArtistBio(String bio) {
+    public static void setArtistBio(String bio) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("bio");
         currentUserDb.setValue(bio);
     }
 
-    public static void setBandBio(String bio) {
+    public static void setBandBio(String bio) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("bio");
         currentUserDb.setValue(bio);
     }
 
-    public static void setArtistMusicIdentities(ArrayList<String> musicIdentities) {
+    public static void setArtistMusicIdentities(ArrayList<String> musicIdentities) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("music identities");
         currentUserDb.setValue(musicIdentities);
     }
 
-    public static void setArtistGenres(ArrayList<String> genres) {
+    public static void setArtistGenres(ArrayList<String> genres) throws FirebaseException  {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("genres");
         currentUserDb.setValue(genres);
     }
 
-    public static void setBandGenres(ArrayList<String> genres) {
+    public static void setBandGenres(ArrayList<String> genres) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("genres");
         currentUserDb.setValue(genres);
