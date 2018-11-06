@@ -174,7 +174,7 @@ public class DatabaseManager {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.child("Band").child(userId).exists()){ // child("isBand").getValue().equals("true")){
+                if (dataSnapshot.child("Band").child(userId).exists()){
                     indicator = 2;
                     System.out.println(indicator + " THIS IS THE INDICATOR");
                     System.out.println("I AM DEFININTELY A BAND AND INDACTOR IS SET TO 2");
@@ -190,6 +190,7 @@ public class DatabaseManager {
 
             }
         });
+       // currentUserDb.onDataChange();
         //GLITCH: THIS WILL RUN BEFORE THE FUNCTION ABOVE hasPircture AND WE DO NOT KNOW WHY
         System.out.println(indicator + " THIS IS THE INDICATOR AFTER ALL THE GODDAMN BULLSHIT");
     }

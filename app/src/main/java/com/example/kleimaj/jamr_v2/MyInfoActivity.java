@@ -58,6 +58,11 @@ public class MyInfoActivity extends AppCompatActivity {
         identityMulti = findViewById(R.id.multiComplete_identity);
         genreMulti = findViewById(R.id.multiComplete_genre);
         db.isBand();
+
+        System.out.println(db.indicator);
+        System.out.println(db.indicator);
+        System.out.println(db.indicator);
+        System.out.println(db.indicator);
         if(db.indicator == 0){
             initializeSpinners();
         }
