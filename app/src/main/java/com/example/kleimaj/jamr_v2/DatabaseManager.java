@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -49,11 +50,21 @@ public class DatabaseManager {
 
     public static boolean hasProfilePicture() {
         String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference reference = currentUserDb.child("Users").child("");
+      //  Query imageQuery =
         return false;
     }
 
     public static boolean isBand() {
-        return false;
+
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId);
+        if(currentUserDb.getParent().getKey().equals("Artist")){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }
