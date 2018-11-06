@@ -88,7 +88,7 @@ public class StartUpActivity extends AppCompatActivity {
     }
 
     public void SignInClick(View view){
-        if (emailString.isEmpty() || passwordString.isEmpty()) {
+        if (emailString==null || passwordString==null) {
             Toast.makeText(StartUpActivity.this, "Unfinished Sign-in Fields",Toast.LENGTH_SHORT).show();
         }
         else {
