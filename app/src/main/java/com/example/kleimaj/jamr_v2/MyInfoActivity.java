@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyInfoActivity extends AppCompatActivity {
 
@@ -47,34 +49,48 @@ public class MyInfoActivity extends AppCompatActivity {
         genreMulti = findViewById(R.id.multiComplete_genre);
         initializeSpinners();
         initializeMultiAutoCompletes();
-        // set fields with current preferences upon opening
-
+        setFieldsWithCurrentVals();
     }
 
     public void onSaveArtistInfo(View v) {
-        // name
-        // gender, age
-        // genres
-        // identities
-        // bio
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
         String genres = genreMulti.getText().toString();
         String[] genresArray = genres.split(", ");
-        // db.setGender(selectedGender);
-        // db.setArtistInfo()
-        // Toast "save success" or "error"
+        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
+        String musicIdentities = identityMulti.getText().toString();
+        String[] musicIdentitiesArray = musicIdentities.split(", ");
+        ArrayList<String> musicIdentitiesArrayList = new ArrayList<String>(Arrays.asList(musicIdentitiesArray));
+
+        String success = "Save successful";
+        String failure = "Failure to save info";
+        if (db.setArtistInfo(name, selectedGender, selectedAge, musicIdentitiesArrayList, genresArrayList, bio)) {
+            Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+            this.finish();
+        } else {
+            Toast.makeText(this, failure, Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onSaveBandInfo(View v) {
-
-        // name
-        // genres
-        // bio
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
+        String genres = genreMulti.getText().toString();
+        String[] genresArray = genres.split(", ");
+        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
 
-        // db.setBandInfo()
+        // put in strings resource file
+        String success = "Save successful";
+        String failure = "Failure to save info";
+        if (db.setBandInfo(name, genresArrayList, bio)) {
+            Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+            this.finish();
+        } else {
+            Toast.makeText(this, failure, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void setFieldsWithCurrentVals() {
 
     }
 
@@ -110,7 +126,6 @@ public class MyInfoActivity extends AppCompatActivity {
     }
 
     public void initializeSpinners() {
-        // later on must apply hint
         ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(this,
                 R.array.gender, android.R.layout.simple_spinner_dropdown_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
