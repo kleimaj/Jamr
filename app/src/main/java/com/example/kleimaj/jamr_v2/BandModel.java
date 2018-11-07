@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by kleimaj on 10/20/18.
  */
 
-public class Band {
+public class BandModel {
 
     private String name;
     private String bio;
@@ -19,7 +19,7 @@ public class Band {
 
     /* Constructor*/
 
-    public Band(String name){
+    public BandModel(String name){
         this.name = name;
     }
 

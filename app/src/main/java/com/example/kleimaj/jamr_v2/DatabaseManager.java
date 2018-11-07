@@ -20,6 +20,7 @@ import java.util.ArrayList;
  */
 
 public class DatabaseManager {
+
     private static FirebaseAuth mAuth;
     static DatabaseReference currentUserDb;
     static FirebaseDatabase database;
@@ -31,7 +32,6 @@ public class DatabaseManager {
 
     public DatabaseManager() {
         mAuth = FirebaseAuth.getInstance();
-
     }
 
     public static FirebaseUser getUser() {
@@ -144,7 +144,6 @@ public class DatabaseManager {
 
         } else if (indicator == 2){
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("image");
-
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -194,5 +193,4 @@ public class DatabaseManager {
         //GLITCH: THIS WILL RUN BEFORE THE FUNCTION ABOVE hasPircture AND WE DO NOT KNOW WHY
         System.out.println(indicator + " THIS IS THE INDICATOR AFTER ALL THE GODDAMN BULLSHIT");
     }
-
 }

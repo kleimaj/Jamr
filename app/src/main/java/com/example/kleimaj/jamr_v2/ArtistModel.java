@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by kleimaj on 10/20/18.
  */
 
-public class Artist {
+public class ArtistModel {
     private String name;
     private String bio;
     private String gender;
@@ -17,14 +17,14 @@ public class Artist {
 
     /*Constructors*/
 
-    public Artist(String name){ //for testing
+    public ArtistModel(String name){ //for testing
         this.name = name;
         age = -1;
         genres = new ArrayList<String>();
         identities = new ArrayList<String>();
     }
 
-    public Artist(String name, String gender) { //for testing
+    public ArtistModel(String name, String gender) { //for testing
         this.name = name;
         this.gender = gender;
         age = -1;
@@ -32,7 +32,7 @@ public class Artist {
         identities = new ArrayList<String>();
     }
 
-    public Artist(String name, String gender, int age){ //for actual use
+    public ArtistModel(String name, String gender, int age){ //for actual use
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -67,9 +67,11 @@ public class Artist {
     public String getBio() {
         return bio;
     }
+
     public String getGender(){
         return gender;
     }
+
     public int getAge(){
         return age;
     }

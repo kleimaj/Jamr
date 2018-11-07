@@ -47,7 +47,7 @@ public class SwipeScreen1 extends Fragment {
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
 
 
-        for(Profile profile : Utils.loadProfiles(this.getActivity().getApplicationContext())){
+        for(ProfileModel profile : Utils.loadProfiles(this.getActivity().getApplicationContext())){
             mSwipeView.addView(new TinderCard(mContext, profile, mSwipeView));
         }
 
