@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
@@ -34,8 +35,9 @@ public class MyInfoActivity extends AppCompatActivity {
     public final static int minAge = 15;
     public final static int maxAge = 99;
     Spinner genderSpinner, ageSpinner;
-    EditText nameEditText, bioEditText;
-    MultiAutoCompleteTextView identityMulti, genreMulti;
+    EditText nameEditText, bioEditText, bandNameEditText, bandBioEditText;
+    MultiAutoCompleteTextView identityMulti, genreMulti, bandGenreMulti;
+    Button artistSave, bandSave;
     DatabaseManager db;
 
     String selectedAge;
@@ -44,22 +46,44 @@ public class MyInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Registration.isBand == false) {
+        /*if (Registration.isBand == false) {
             setContentView(R.layout.activity_artist_info);
         }
         else {
             setContentView(R.layout.activity_band_info);
-        }
+        }*/
         db = new DatabaseManager();
-        genderSpinner = findViewById(R.id.spinner_gender);
+
+        if (db.indicator == 1) { //if an artist
+            System.out.println("Am an Artist!!!!");
+            setContentView(R.layout.activity_artist_info);
+            genderSpinner = findViewById(R.id.spinner_gender);
+            ageSpinner = findViewById(R.id.spinner_age);
+            nameEditText = findViewById(R.id.editText_name);
+            bioEditText = findViewById(R.id.editText_bio);
+            identityMulti = findViewById(R.id.multiComplete_identity);
+            genreMulti = findViewById(R.id.multiComplete_genre);
+            artistSave = findViewById(R.id.saveButton);
+            initializeSpinners();
+            initializeMultiAutoCompletes(1);
+        }
+        else if (db.indicator == 2){ //it's a band
+            System.out.println("IM A BAND!!!!!");
+            setContentView(R.layout.activity_band_info);
+            bandNameEditText = findViewById(R.id.editText_name_band);
+            bandBioEditText = findViewById(R.id.editText_bio_band);
+            bandSave = findViewById(R.id.saveButtonBand);
+            initializeMultiAutoCompletes(2);
+        }
+        /*genderSpinner = findViewById(R.id.spinner_gender);
         ageSpinner = findViewById(R.id.spinner_age);
         nameEditText = findViewById(R.id.editText_name);
         bioEditText = findViewById(R.id.editText_bio);
         identityMulti = findViewById(R.id.multiComplete_identity);
-        genreMulti = findViewById(R.id.multiComplete_genre);
-        db.isBand();
+        genreMulti = findViewById(R.id.multiComplete_genre);*/
+        //db.isBand();
 
-        System.out.println(db.indicator);
+       /* System.out.println(db.indicator);
         System.out.println(db.indicator);
         System.out.println(db.indicator);
         System.out.println(db.indicator);
@@ -67,7 +91,7 @@ public class MyInfoActivity extends AppCompatActivity {
             initializeSpinners();
         }
         initializeMultiAutoCompletes();
-        setFieldsWithCurrentVals();
+        setFieldsWithCurrentVals();*/
     }
 
     public void onSaveArtistInfo(View v) {
@@ -95,15 +119,20 @@ public class MyInfoActivity extends AppCompatActivity {
     }
 
     public void onSaveBandInfo(View v) {
-        String name = nameEditText.getText().toString();
-        String bio = bioEditText.getText().toString();
-        String genres = genreMulti.getText().toString();
+        System.out.println("IN SAVEBANDINFO!!!");
+        String name = bandNameEditText.getText().toString();
+        String bio = bandBioEditText.getText().toString();
+        System.out.println("GOT HERE!!!");
+        String genres = bandGenreMulti.getText().toString();
+        System.out.println("NOT HERE!");
         String[] genresArray = genres.split(", ");
+        System.out.println("BUT heRE!!!@!");
         ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
 
         // put in strings resource file
         String success = "Save successful";
         String failure = "Failure to save info";
+        System.out.println("PROBLEM LIES IN DATABASE CLASS!");
         if (db.setBandInfo(name, genresArrayList, bio)) {
             Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
             this.finish();
@@ -135,17 +164,31 @@ public class MyInfoActivity extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> parent) { }
     }
 
-    public void initializeMultiAutoCompletes() {
-        ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
-                R.array.genres, android.R.layout.simple_dropdown_item_1line);
-        genreMulti.setAdapter(genresAdapter);
-        genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+    public void initializeMultiAutoCompletes(int indicator) {
+        if (indicator == 2) { //for bands
+            bandGenreMulti = findViewById(R.id.multiComplete_genre_band);
 
+            System.out.println("inside function!");
+            ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.genres, android.R.layout.simple_dropdown_item_1line);
+            System.out.println("LAST LINE WORKED!");
+            bandGenreMulti.setAdapter(genresAdapter);
+            bandGenreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.identities, android.R.layout.simple_dropdown_item_1line);
-        identityMulti.setAdapter(identityAdapter);
-        identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+            System.out.println("fine here");
+        }
+        else if (indicator == 1) { //for artists
+            ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.genres, android.R.layout.simple_dropdown_item_1line);
+            genreMulti.setAdapter(genresAdapter);
+            genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+            ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.identities, android.R.layout.simple_dropdown_item_1line);
+            identityMulti.setAdapter(identityAdapter);
+            identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        }
+        System.out.println("success");
 
     }
 
