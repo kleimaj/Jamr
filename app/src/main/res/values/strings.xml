@@ -136,6 +136,11 @@
     <string name="artist">Artist</string>
     <string name="sign_up">sign up</string>
     <string name="profile_picture">Profile Picture</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="reg_password_empty">You must enter your password to register</string>
+    <string name="reg_email_empty">You must enter your email to register</string>
+    <string name="reg_name_empty">You must enter a name to register</string>
+    <string name="reg_email_invalid">Please enter a valid email</string>
 
 
 </resources>

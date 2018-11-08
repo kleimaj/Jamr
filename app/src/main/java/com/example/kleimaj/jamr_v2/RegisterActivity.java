@@ -1,12 +1,17 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private View passingView;
+    private RadioGroup radioGroup;
     static boolean isBand;
     boolean radioClicked;
 
@@ -36,9 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
         mDisplayName = findViewById(R.id.reg_display_name);
         mEmail = findViewById(R.id.reg_email);
         mPassword = findViewById(R.id.reg_password);
+        radioGroup = findViewById(R.id.reg_select_radioGroup);
 
-
-        radioClicked = false; //false until radio button is triggered
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -53,12 +58,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void artistClick(View view){
-        radioClicked = true;
         isBand = false;
     }
 
     public void bandClick(View view){
-        radioClicked = true;
         isBand = true;
     }
 
@@ -67,56 +70,97 @@ public class RegisterActivity extends AppCompatActivity {
         password = mPassword.getEditText().getText().toString();
         name = mDisplayName.getEditText().getText().toString();
         passingView = view;
-        Toast.makeText(RegisterActivity.this,
-                email + password + name,Toast.LENGTH_SHORT).show();
-        if (email.isEmpty() || password.isEmpty() || name.isEmpty() || !radioClicked) {
+
+        // check if radio button is checked or not
+        if (radioGroup.getCheckedRadioButtonId() == -1) {
             Toast.makeText(RegisterActivity.this,
-                    "Unfinished Sign-up Fields",Toast.LENGTH_SHORT).show();
+                    "Please Select Artist or Band",Toast.LENGTH_SHORT).show();
         }
         else {
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()) { //registration failed
-                        Toast.makeText(RegisterActivity.this, "Unable to register",
-                                Toast.LENGTH_SHORT).show();
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                    }
-                    else {
-                        Toast.makeText(RegisterActivity.this, "Register successful",
-                                Toast.LENGTH_SHORT).show();
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        DatabaseReference currentUserDb;
-                        // TODO: this might produce nullpointerexception
-                        String userId = user.getUid();
-                        if (isBand){
-                            currentUserDb = FirebaseDatabase.getInstance().getReference()
-                                    .child("Users").child("Band").child(userId).child("name");
-                            currentUserDb.setValue(name);
-                            currentUserDb = FirebaseDatabase.getInstance().getReference()
-                                    .child("Users").child("Band").child(userId).child("isBand");
-                            currentUserDb.setValue("true");
-                            Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
-                            startActivity(myIntent);
-                            finish();
-                        }else{
-                            currentUserDb = FirebaseDatabase.getInstance().getReference().
-                                    child("Users").child("Artist").child(userId).child("name");
-                            currentUserDb.setValue(name);
-                            currentUserDb = FirebaseDatabase.getInstance().getReference().
-                                    child("Users").child("Artist").child(userId).child("isBand");
-                            currentUserDb.setValue("false");
-                            Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
-                            startActivity(myIntent);
-                            finish();
-                        }
+            // one of the radio buttons is checked
+            // check for valid data
+            if (checkDataEntered()){
+                registerUserToDB();
+            }
 
-                    }
-                }
-            });
         }
     }
+
+    // sign up the user
+    protected void registerUserToDB(){
+        // TODO
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) { //registration failed
+                            Toast.makeText(RegisterActivity.this,
+                                    task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        }
+                        else {
+                            Toast.makeText(RegisterActivity.this, "Register successful",
+                                    Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            DatabaseReference currentUserDb;
+                            // TODO: this might produce nullpointerexception
+                            String userId = user.getUid();
+                            if (isBand){
+                                currentUserDb = FirebaseDatabase.getInstance().getReference()
+                                        .child("Users").child("Band").child(userId).child("name");
+                                currentUserDb.setValue(name);
+                                currentUserDb = FirebaseDatabase.getInstance().getReference()
+                                        .child("Users").child("Band").child(userId).child("isBand");
+                                currentUserDb.setValue("true");
+                                Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
+                                startActivity(myIntent);
+                                finish();
+                            }else{
+                                currentUserDb = FirebaseDatabase.getInstance().getReference().
+                                        child("Users").child("Artist").child(userId).child("name");
+                                currentUserDb.setValue(name);
+                                currentUserDb = FirebaseDatabase.getInstance().getReference().
+                                        child("Users").child("Artist").child(userId).child("isBand");
+                                currentUserDb.setValue("false");
+                                Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
+                                startActivity(myIntent);
+                                finish();
+                            }
+
+                        }
+                    }
+                });
+    }
+
+
+    // Check for empty name/ email / password
+    protected boolean checkDataEntered(){
+        if (name.isEmpty()){
+            Toast t = Toast.makeText(this, R.string.reg_name_empty, Toast
+                    .LENGTH_SHORT);
+            t.show();
+            return false;
+        }
+        if (email.isEmpty()){
+            Toast t = Toast.makeText(this, R.string.reg_email_empty, Toast
+                    .LENGTH_SHORT);
+            t.show();
+            return false;
+        }
+        if (password.isEmpty()){
+            Toast t = Toast.makeText(this, R.string.reg_password_empty, Toast
+                    .LENGTH_SHORT);
+            t.show();
+            // TODO:
+            // check for good password
+            return false;
+        }
+        return true;
+
+    }
+
 
     @Override
     protected void onStart() {
