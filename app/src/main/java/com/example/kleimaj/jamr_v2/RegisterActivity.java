@@ -1,5 +1,6 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -31,7 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
     private View passingView;
     private RadioGroup radioGroup;
     static boolean isBand;
-    boolean radioClicked;
+
+    // Progress Dialog
+    private ProgressDialog mRegProgress;
 
     private static final String TAG = "RegisterActivity";
 
@@ -45,6 +48,12 @@ public class RegisterActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.reg_select_radioGroup);
 
         mAuth = FirebaseAuth.getInstance();
+
+        mRegProgress = new ProgressDialog(this);
+
+        // TODO
+        // This need to be cleaned up
+        // Need a Have a count button to go back to main page
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -80,6 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
             // one of the radio buttons is checked
             // check for valid data
             if (checkDataEntered()){
+                mRegProgress.setTitle("Registering User");
+                mRegProgress.setMessage("Please wait while we create your account!");
+                mRegProgress.setCanceledOnTouchOutside(false);
+                mRegProgress.show();
                 registerUserToDB();
             }
 
@@ -95,12 +108,14 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) { //registration failed
+                            mRegProgress.dismiss();
                             Toast.makeText(RegisterActivity.this,
                                     task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         }
                         else {
+                            mRegProgress.dismiss();
                             Toast.makeText(RegisterActivity.this, "Register successful",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();

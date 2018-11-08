@@ -39,9 +39,9 @@ public class StartUpActivity extends AppCompatActivity {
                     //user is already logged in
                     //TODO: create intent for swipe screen
                     Toast.makeText(StartUpActivity.this, "signed-in",Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
-                    startActivity(myIntent);
-                    finish();
+//                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
+//                    startActivity(myIntent);
+//                    finish();
 
 
                 }
