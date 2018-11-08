@@ -31,7 +31,6 @@ import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
     private String picturePath;
     private static int RESULT_LOAD_IMAGE = 1;
     DatabaseReference currentUserDb;
@@ -45,14 +44,11 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
                     switchToFragment1();
                     break;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_inbox);
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_me);
                     switchToFragment3();
                     return true;
             }
@@ -70,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
 
       //  initialize();
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
