@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -101,7 +100,6 @@ public class StartUpActivity extends AppCompatActivity {
                         Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
                         startActivity(myIntent);
                         finish();
-                        return;
                     }
                     else {
                         Toast.makeText(StartUpActivity.this, "Sign-in Error",Toast.LENGTH_SHORT).show();
@@ -111,7 +109,7 @@ public class StartUpActivity extends AppCompatActivity {
         }
     }
     public void RegisterClick(View view){
-        Intent myIntent = new Intent(view.getContext(),Registration.class);
+        Intent myIntent = new Intent(view.getContext(),RegisterActivity.class);
         startActivity(myIntent);
     }
 

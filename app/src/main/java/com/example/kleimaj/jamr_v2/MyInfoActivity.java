@@ -46,7 +46,7 @@ public class MyInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (Registration.isBand == false) {
+        /*if (RegisterActivity.isBand == false) {
             setContentView(R.layout.activity_artist_info);
         }
         else {

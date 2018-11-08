@@ -4,114 +4,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.kleimaj.jamr_v2.Registration">
+    android:background="@drawable/gradient"
+    tools:context="com.example.kleimaj.jamr_v2.RegisterActivity">
 
-    <RelativeLayout
-        style="@style/ActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/gradient">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/reg_display_name"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/reg_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image">
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/jamrlogo"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/imageView2" />
-
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="140dp"
-            android:src="@drawable/anon"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000"/>
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="270dp"
-            android:background="@drawable/rounded_border_edittext"
-            android:hint="name"
-            android:paddingLeft="10dp"
-            android:id="@+id/NameEditText" />
-
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:layout_alignLeft="@+id/NameEditText"
-            android:layout_alignStart="@+id/NameEditText"
-            android:layout_below="@+id/NameEditText"
-            android:layout_marginTop="17dp"
-            android:hint="email"
-            android:paddingLeft="10dp"
-            android:background="@drawable/rounded_border_edittext"
-            android:id="@+id/emailRegisterEditText" />
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:layout_alignLeft="@+id/emailRegisterEditText"
-            android:layout_alignStart="@+id/emailRegisterEditText"
-            android:layout_below="@+id/emailRegisterEditText"
-            android:layout_marginTop="17dp"
-            android:hint="password"
-            android:password="true"
-            android:paddingLeft="10dp"
-            android:background="@drawable/rounded_border_edittext"
-            android:id="@+id/passwordRegisterEditText"/>
-
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/radioGroup1"
-            android:layout_width="200dp"
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="420dp"
-            android:layout_marginLeft="90dp"
-            android:padding="20dp" >
+            android:hint="@string/DisplayName" />
+    </android.support.design.widget.TextInputLayout>
 
-            <RadioButton
-                android:id="@+id/artistRadio"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:textColor="#fff"
-                android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
-                android:gravity="center_horizontal|bottom"
-                android:onClick="artistClick"
-                android:text="Artist" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/reg_email"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/reg_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_display_name">
 
-            <RadioButton
-                android:id="@+id/bandRadio"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:textColor="#fff"
-                android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
-                android:gravity="center_horizontal|bottom"
-                android:onClick="bandClick"
-                android:text="Band" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/emailRegisterEditText"
+            android:layout_width="match_parent"
+            android:inputType="textEmailAddress"
+            android:layout_height="44dp"
+            android:hint="@string/email" />
+    </android.support.design.widget.TextInputLayout>
 
-        </RadioGroup>
-        
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_border_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="510dp"
-            android:textColor="#fff"
-            android:text="sign up"
-            android:onClick="SignUpClick"/>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/reg_password"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_email">
 
-    </RelativeLayout>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/passwordRegisterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="@string/password" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_border_button"
+        android:onClick="SignUpClick"
+        android:text="@string/sign_up"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup1" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="186dp"
+        android:layout_height="101dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_password">
+
+        <RadioButton
+            android:id="@+id/artistRadio"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_horizontal|bottom"
+            android:onClick="artistClick"
+            android:text="@string/artist"
+            android:textColor="#fff" />
+
+        <RadioButton
+            android:id="@+id/bandRadio"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_horizontal|bottom"
+            android:onClick="bandClick"
+            android:text="@string/band"
+            android:textColor="#fff" />
+
+    </RadioGroup>
+
+
+    <ImageView
+        android:contentDescription="@string/profile_picture"
+        android:id="@+id/imageView2"
+        android:layout_width="206dp"
+        android:layout_height="195dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/jamrlogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="103dp"
+        android:layout_height="96dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="156dp"
+        android:src="@drawable/anon"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

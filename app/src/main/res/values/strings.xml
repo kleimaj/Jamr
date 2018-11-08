@@ -129,6 +129,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_user_info">my_user_info</string>
+    <string name="DisplayName">Display Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="band">Band</string>
+    <string name="artist">Artist</string>
+    <string name="sign_up">sign up</string>
+    <string name="profile_picture">Profile Picture</string>
 
 
 </resources>
