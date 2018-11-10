@@ -112,6 +112,7 @@ public class StartUpActivity extends AppCompatActivity {
     public void RegisterClick(View view){
         Intent myIntent = new Intent(view.getContext(),RegisterActivity.class);
         startActivity(myIntent);
+        finish();
     }
 
     @Override

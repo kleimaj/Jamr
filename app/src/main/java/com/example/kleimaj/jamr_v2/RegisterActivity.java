@@ -27,14 +27,13 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private String display_name, email,password;
+    private String display_name, email, password;
     private TextInputLayout mDisplayName, mEmail, mPassword;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private View passingView;
     private RadioGroup radioGroup;
-    private DatabaseReference mArtistDb;
-    private DatabaseReference mBandDb;
+    private DatabaseReference mDatabase;
     static boolean isBand;
 
     // Progress Dialog
@@ -64,35 +63,34 @@ public class RegisterActivity extends AppCompatActivity {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
                     Toast.makeText(RegisterActivity.this,
-                            "Already signed-in",Toast.LENGTH_SHORT).show();
+                      "Already signed-in", Toast.LENGTH_SHORT).show();
                 }
             }
-        } ;
+        };
     }
 
-    public void artistClick(View view){
+    public void artistClick(View view) {
         isBand = false;
     }
 
-    public void bandClick(View view){
+    public void bandClick(View view) {
         isBand = true;
     }
 
-    public void SignUpClick(View view){
+    public void SignUpClick(View view) {
         email = mEmail.getEditText().getText().toString();
         password = mPassword.getEditText().getText().toString();
         display_name = mDisplayName.getEditText().getText().toString();
         passingView = view;
 
         // check if radio button is checked or not
-        if (radioGroup.getCheckedRadioButtonId() == -1) {
+        if (radioGroup.getCheckedRadioButtonId() == - 1) {
             Toast.makeText(RegisterActivity.this,
-                    "Please Select Artist or Band",Toast.LENGTH_SHORT).show();
-        }
-        else {
+              "Please Select Artist or Band", Toast.LENGTH_SHORT).show();
+        } else {
             // one of the radio buttons is checked
             // check for valid data
-            if (checkDataEntered()){
+            if (checkDataEntered()) {
                 mRegProgress.setTitle("Registering User");
                 mRegProgress.setMessage("Please wait while we create your account!");
                 mRegProgress.setCanceledOnTouchOutside(false);
@@ -104,77 +102,65 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // sign up the user
-    protected void registerUserToDB(){
+    protected void registerUserToDB() {
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) { //registration failed
-                            mRegProgress.dismiss();
-                            Toast.makeText(RegisterActivity.this,
-                                    task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        }
-                        else {
-                            Toast.makeText(RegisterActivity.this, "Register successful",
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String userId = user.getUid();
+          .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+              @Override
+              public void onComplete(@NonNull Task<AuthResult> task) {
+                  if (! task.isSuccessful()) { //registration failed
+                      mRegProgress.dismiss();
+                      Toast.makeText(RegisterActivity.this,
+                        task.getException().getMessage(),
+                        Toast.LENGTH_SHORT).show();
+                      Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                  } else {
+                      Toast.makeText(RegisterActivity.this, "Register successful",
+                        Toast.LENGTH_SHORT).show();
+                      FirebaseUser user = mAuth.getCurrentUser();
+                      String userId = user.getUid();
 
-                            if (isBand){
-                                mBandDb = FirebaseDatabase.getInstance().getReference().child
-                                        ("Users").child("Band").child(userId);
-                                setDBValue(mBandDb);
-                            }else{
-                                mArtistDb = FirebaseDatabase.getInstance().getReference
-                                        ().child("Users").child("Artist").child(userId);
-                                setDBValue(mArtistDb);
-                            }
-                        }
-                    }
-                });
+                      mDatabase = FirebaseDatabase.getInstance().getReference
+                        ().child("Users").child(userId);
+                      HashMap<String, String> userMap = new HashMap<>();
+                      userMap.put("name", display_name);
+                      userMap.put("image", "default");
+                      userMap.put("thumb_image", "default");
+                      userMap.put("isBand", String.valueOf(isBand));
+
+                      mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                          @Override
+                          public void onComplete(@NonNull Task<Void> task) {
+                              if (task.isSuccessful()) {
+                                  mRegProgress.dismiss();
+                                  Intent myIntent = new Intent(passingView.getContext(),
+                                    MainActivity.class);
+                                  startActivity(myIntent);
+                              }
+                          }
+                      });
+                  }
+              }
+          });
     }
-
-    // Set the Database Value
-    protected void setDBValue(DatabaseReference mDatabase){
-        HashMap<String, String> userMap = new HashMap<>();
-        userMap.put("name", display_name);
-        userMap.put("image", "default");
-        userMap.put("thumb_image", "default");
-        mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    mRegProgress.dismiss();
-                    Intent myIntent = new Intent(passingView.getContext(),
-                            MainActivity.class);
-                    startActivity(myIntent);
-                    finish();
-                }
-            }
-        });
-    }
-
 
     // Check for empty name/ email / password
-    protected boolean checkDataEntered(){
-        if (display_name.isEmpty()){
+    protected boolean checkDataEntered() {
+        if (display_name.isEmpty()) {
             Toast t = Toast.makeText(this, R.string.reg_name_empty, Toast
-                    .LENGTH_SHORT);
+              .LENGTH_SHORT);
             t.show();
             return false;
         }
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             Toast t = Toast.makeText(this, R.string.reg_email_empty, Toast
-                    .LENGTH_SHORT);
+              .LENGTH_SHORT);
             t.show();
             return false;
         }
-        if (password.isEmpty()){
+        if (password.isEmpty()) {
             Toast t = Toast.makeText(this, R.string.reg_password_empty, Toast
-                    .LENGTH_SHORT);
+              .LENGTH_SHORT);
             t.show();
             // TODO:
             // check for good password
