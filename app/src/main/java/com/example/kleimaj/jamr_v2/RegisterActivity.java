@@ -23,14 +23,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class RegisterActivity extends AppCompatActivity {
 
-    private String name, email,password;
+    private String display_name, email,password;
     private TextInputLayout mDisplayName, mEmail, mPassword;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private View passingView;
     private RadioGroup radioGroup;
+    private DatabaseReference mArtistDb;
+    private DatabaseReference mBandDb;
     static boolean isBand;
 
     // Progress Dialog
@@ -77,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void SignUpClick(View view){
         email = mEmail.getEditText().getText().toString();
         password = mPassword.getEditText().getText().toString();
-        name = mDisplayName.getEditText().getText().toString();
+        display_name = mDisplayName.getEditText().getText().toString();
         passingView = view;
 
         // check if radio button is checked or not
@@ -101,7 +105,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     // sign up the user
     protected void registerUserToDB(){
-        // TODO
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -115,44 +118,49 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         }
                         else {
-                            mRegProgress.dismiss();
                             Toast.makeText(RegisterActivity.this, "Register successful",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            DatabaseReference currentUserDb;
-                            // TODO: this might produce nullpointerexception
                             String userId = user.getUid();
-                            if (isBand){
-                                currentUserDb = FirebaseDatabase.getInstance().getReference()
-                                        .child("Users").child("Band").child(userId).child("name");
-                                currentUserDb.setValue(name);
-                                currentUserDb = FirebaseDatabase.getInstance().getReference()
-                                        .child("Users").child("Band").child(userId).child("isBand");
-                                currentUserDb.setValue("true");
-                                Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
-                                startActivity(myIntent);
-                                finish();
-                            }else{
-                                currentUserDb = FirebaseDatabase.getInstance().getReference().
-                                        child("Users").child("Artist").child(userId).child("name");
-                                currentUserDb.setValue(name);
-                                currentUserDb = FirebaseDatabase.getInstance().getReference().
-                                        child("Users").child("Artist").child(userId).child("isBand");
-                                currentUserDb.setValue("false");
-                                Intent myIntent = new Intent(passingView.getContext(),MainActivity.class);
-                                startActivity(myIntent);
-                                finish();
-                            }
 
+                            if (isBand){
+                                mBandDb = FirebaseDatabase.getInstance().getReference().child
+                                        ("Users").child("Band").child(userId);
+                                setDBValue(mBandDb);
+                            }else{
+                                mArtistDb = FirebaseDatabase.getInstance().getReference
+                                        ().child("Users").child("Artist").child(userId);
+                                setDBValue(mArtistDb);
+                            }
                         }
                     }
                 });
     }
 
+    // Set the Database Value
+    protected void setDBValue(DatabaseReference mDatabase){
+        HashMap<String, String> userMap = new HashMap<>();
+        userMap.put("name", display_name);
+        userMap.put("image", "default");
+        userMap.put("thumb_image", "default");
+        mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    mRegProgress.dismiss();
+                    Intent myIntent = new Intent(passingView.getContext(),
+                            MainActivity.class);
+                    startActivity(myIntent);
+                    finish();
+                }
+            }
+        });
+    }
+
 
     // Check for empty name/ email / password
     protected boolean checkDataEntered(){
-        if (name.isEmpty()){
+        if (display_name.isEmpty()){
             Toast t = Toast.makeText(this, R.string.reg_name_empty, Toast
                     .LENGTH_SHORT);
             t.show();

@@ -92,6 +92,7 @@ public class StartUpActivity extends AppCompatActivity {
         }
         else {
             //TODO: sign user in
+            //Need to tell user what is the error is.
             mAuth.signInWithEmailAndPassword(emailString,passwordString).addOnCompleteListener(StartUpActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
