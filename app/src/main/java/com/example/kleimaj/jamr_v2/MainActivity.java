@@ -32,7 +32,7 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
-    private String picturePath;
+    private static String picturePath;
     private static int RESULT_LOAD_IMAGE = 1;
     DatabaseReference currentUserDb;
     private FirebaseAuth mAuth;
@@ -164,5 +164,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
+
+    public static String returnPicturePath(){
+        return picturePath;
     }
 }

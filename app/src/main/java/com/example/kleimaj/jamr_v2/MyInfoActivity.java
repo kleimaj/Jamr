@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,6 +146,41 @@ public class MyInfoActivity extends AppCompatActivity {
 
     public void setFieldsWithCurrentVals() {
 
+    }
+
+    public void writeBandInfoToFile(){
+        Context context = getApplicationContext();
+        try {
+            FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+            StringBuilder text = new StringBuilder();
+            text.append(bandNameEditText.getText().toString() + " \n");
+            text.append(bandBioEditText.getText().toString() + " \n");
+            text.append(bandGenreMulti.getText().toString() + " \n");
+            text.append(MainActivity.returnPicturePath() + " \n");
+            output.write(text.toString().getBytes());
+            output.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeAristInfoToFile(){
+        Context context = getApplicationContext();
+        try {
+            FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+            StringBuilder text = new StringBuilder();
+            text.append(nameEditText.getText().toString() + " \n");
+            text.append(bioEditText.getText().toString() + " \n");
+            text.append(genreMulti.getText().toString() + " \n");
+            text.append(identityMulti.getText().toString() + " \n");
+            text.append(MainActivity.returnPicturePath() + " \n");
+            output.write(text.toString().getBytes());
+            output.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener {
