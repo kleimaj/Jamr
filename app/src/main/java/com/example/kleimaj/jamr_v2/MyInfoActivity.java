@@ -115,6 +115,7 @@ public class MyInfoActivity extends AppCompatActivity {
         String failure = "Failure to save info";
         if (db.setArtistInfo(name, selectedGender, selectedAge, musicIdentitiesArrayList, genresArrayList, bio)) {
             Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+            writeAristInfoToFile();
             this.finish();
         } else {
             Toast.makeText(this, failure, Toast.LENGTH_LONG).show();
@@ -138,6 +139,7 @@ public class MyInfoActivity extends AppCompatActivity {
         System.out.println("PROBLEM LIES IN DATABASE CLASS!");
         if (db.setBandInfo(name, genresArrayList, bio)) {
             Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+            writeBandInfoToFile();
             this.finish();
         } else {
             Toast.makeText(this, failure, Toast.LENGTH_LONG).show();
