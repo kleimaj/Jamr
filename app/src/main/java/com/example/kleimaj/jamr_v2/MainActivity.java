@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -159,5 +160,81 @@ public class MainActivity extends AppCompatActivity {
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
+
+
+    /* FUNCTIONS FOR MATCHING ALGORITHM */
+
+    //use for users who have full preferences, algo works for unfilled preferences --
+    // (i.e if maxAge is set to 0, if gender is null, arraylists are empty)
+    public static ArrayList<ArtistModel> getArtists(ArrayList<String> genres, ArrayList<String>
+      identities, String gender, int maxAge) {
+        //arraylist of all artists from another function
+        ArrayList<ArtistModel> usersFromDatabase = new ArrayList<ArtistModel>(); //should be full
+
+        ArrayList<ArtistModel> returnedUsers = new ArrayList<ArtistModel>();
+
+        for (int i = 0; i < usersFromDatabase.size(); i++) {
+            ArtistModel currentUser = usersFromDatabase.get(i);
+            if (matchingAge(maxAge,currentUser.getAge()) &&
+                matchingGender(gender, currentUser.getGender()) &&
+                matchingIdentities(identities,currentUser.getIdentities()) &&
+                matchingGenres(genres, currentUser.getGenres())) {
+
+                returnedUsers.add(currentUser);
+            }
+        }
+        return returnedUsers;
+    }
+    //if userIdentities contains AT LEAST ONE identity in identityPreferences, return true
+    public static boolean matchingIdentities(ArrayList<String> identityPreferences,
+                                             ArrayList<String> userIdentities) {
+        //if this user has no preferences, they will see every user
+        if (identityPreferences.size() == 0) {
+            return true;
+        }
+        for (int i = 0; i < identityPreferences.size(); i++) {
+            String thisIdentity = identityPreferences.get(i);
+            if (userIdentities.contains(thisIdentity)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean matchingGenres(ArrayList<String> genrePreferences,
+                                         ArrayList<String> userGenres) {
+        if (genrePreferences.size() == 0) {
+            return true;
+        }
+        for (int i = 0; i < genrePreferences.size(); i++) {
+            String thisGenre = genrePreferences.get(i);
+            if (userGenres.contains(thisGenre)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean matchingGender(String genderPreference, String userGender) {
+        if (genderPreference.isEmpty()) {
+            return true;
+        }
+        if (userGender.equals(genderPreference)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean matchingAge(int agePref, int userAge) {
+        if (agePref == 0) {
+            return true;
+        }
+        else if (agePref >= userAge) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
