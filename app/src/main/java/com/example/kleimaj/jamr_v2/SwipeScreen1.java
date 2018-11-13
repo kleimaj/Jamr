@@ -35,7 +35,7 @@ public class SwipeScreen1 extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mSwipeView = (SwipePlaceHolderView)getView().findViewById(R.id.swipeView);
+        mSwipeView = getView().findViewById(R.id.swipeView);
         mContext = getActivity().getApplicationContext();
 
         mSwipeView.getBuilder()
