@@ -1,5 +1,6 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -16,6 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class StartUpActivity extends AppCompatActivity {
 
@@ -69,6 +75,32 @@ public class StartUpActivity extends AppCompatActivity {
                         Toast.makeText(StartUpActivity.this, "Sign-in Success",Toast.LENGTH_SHORT).show();
                         //here we need to read from local file, store name and isBand in
                         // MainActivity.currentUser
+
+                        Context context = getApplicationContext();
+                        BufferedReader reader = null;
+                        StringBuilder text = new StringBuilder();
+                        //Try Catch block to open/read files from directory and put into view
+                        try {
+                            FileInputStream stream = context.openFileInput("profileInfo.txt");
+                            InputStreamReader streamReader = new InputStreamReader(stream);
+                            reader = new BufferedReader(streamReader);
+
+                            String line;
+                            String numRating;
+                            while((line = reader.readLine()) !=null){
+                                text.append(line);
+                                text.append('\n');
+                            }
+                            reader.close();
+                            stream.close();
+                            streamReader.close();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        System.out.println(text.toString());
+
                         Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
                         startActivity(myIntent);
                         finish();

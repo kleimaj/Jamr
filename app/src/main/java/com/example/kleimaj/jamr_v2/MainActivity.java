@@ -2,6 +2,7 @@ package com.example.kleimaj.jamr_v2;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -27,7 +28,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -254,11 +259,10 @@ public class MainActivity extends AppCompatActivity {
     public String readUserFile(boolean isBand){
         Context context = getApplicationContext();
         BufferedReader reader = null;
-
+        StringBuilder text = new StringBuilder();
         //Try Catch block to open/read files from directory and put into view
         try {
             FileInputStream stream = context.openFileInput("profileInfo.txt");
-            StringBuilder text = new StringBuilder();
             InputStreamReader streamReader = new InputStreamReader(stream);
             reader = new BufferedReader(streamReader);
 
@@ -272,10 +276,9 @@ public class MainActivity extends AppCompatActivity {
             stream.close();
             streamReader.close();
 
-            return text;
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return text.toString();
     }
 }

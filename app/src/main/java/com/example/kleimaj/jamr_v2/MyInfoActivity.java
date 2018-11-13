@@ -78,23 +78,6 @@ public class MyInfoActivity extends AppCompatActivity {
             bandSave = findViewById(R.id.saveButtonBand);
             initializeMultiAutoCompletes(2);
         }
-        /*genderSpinner = findViewById(R.id.spinner_gender);
-        ageSpinner = findViewById(R.id.spinner_age);
-        nameEditText = findViewById(R.id.editText_name);
-        bioEditText = findViewById(R.id.editText_bio);
-        identityMulti = findViewById(R.id.multiComplete_identity);
-        genreMulti = findViewById(R.id.multiComplete_genre);*/
-        //db.isBand();
-
-       /* System.out.println(db.indicator);
-        System.out.println(db.indicator);
-        System.out.println(db.indicator);
-        System.out.println(db.indicator);
-        if(db.indicator == 0){
-            initializeSpinners();
-        }
-        initializeMultiAutoCompletes();
-        setFieldsWithCurrentVals();*/
     }
 
     public void onSaveArtistInfo(View v) {
@@ -153,7 +136,8 @@ public class MyInfoActivity extends AppCompatActivity {
     public void writeBandInfoToFile(){
         Context context = getApplicationContext();
         try {
-            FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+            FileOutputStream output = context.openFileOutput("bioInfo.txt", Context
+              .MODE_PRIVATE);
             StringBuilder text = new StringBuilder();
             text.append(bandNameEditText.getText().toString() + " \n");
             text.append(bandBioEditText.getText().toString() + " \n");
@@ -170,7 +154,7 @@ public class MyInfoActivity extends AppCompatActivity {
     public void writeAristInfoToFile(){
         Context context = getApplicationContext();
         try {
-            FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+            FileOutputStream output = context.openFileOutput("bioInfo.txt", Context.MODE_PRIVATE);
             StringBuilder text = new StringBuilder();
             text.append(nameEditText.getText().toString() + " \n");
             text.append(bioEditText.getText().toString() + " \n");
