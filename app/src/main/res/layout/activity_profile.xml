@@ -81,7 +81,8 @@
             android:layout_marginTop="20dp"
             android:layout_below="@+id/MediaButton"
             android:id="@+id/SettingsButton"
-            android:src="@drawable/gear"/>
+            android:src="@drawable/gear"
+            android:onClick="mySettingsClick"/>
 
        <TextView
            android:layout_width="wrap_content"

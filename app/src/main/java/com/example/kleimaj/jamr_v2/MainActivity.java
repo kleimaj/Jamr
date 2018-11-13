@@ -150,8 +150,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void myInfoClick(View v) {
-        Log.v("pok", "view clicked");
         Intent myIntent = new Intent(v.getContext(), MyInfoActivity.class);
+        this.startActivity(myIntent);
+    }
+
+    public void mySettingsClick(View v) {
+        Intent myIntent = new Intent(v.getContext(), MySettingsActivity.class);
         this.startActivity(myIntent);
     }
 
