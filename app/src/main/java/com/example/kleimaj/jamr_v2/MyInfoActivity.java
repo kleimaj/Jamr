@@ -57,8 +57,8 @@ public class MyInfoActivity extends AppCompatActivity {
         }*/
         db = new DatabaseManager();
 
-        if (db.indicator == 1) { //if an artist
-            System.out.println("Am an Artist!!!!");
+        if (!MainActivity.currentUser.isBand()) {//db.indicator == 1) { //if an artist
+            //System.out.println("Am an Artist!!!!");
             setContentView(R.layout.activity_artist_info);
             genderSpinner = findViewById(R.id.spinner_gender);
             ageSpinner = findViewById(R.id.spinner_age);
@@ -70,7 +70,7 @@ public class MyInfoActivity extends AppCompatActivity {
             initializeSpinners();
             initializeMultiAutoCompletes(1);
         }
-        else if (db.indicator == 2){ //it's a band
+        else if (MainActivity.currentUser.isBand()) {//db.indicator == 2){ //it's a band
             System.out.println("IM A BAND!!!!!");
             setContentView(R.layout.activity_band_info);
             bandNameEditText = findViewById(R.id.editText_name_band);
@@ -228,7 +228,7 @@ public class MyInfoActivity extends AppCompatActivity {
             identityMulti.setAdapter(identityAdapter);
             identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         }
-        System.out.println("success");
+        //System.out.println("success");
 
     }
 

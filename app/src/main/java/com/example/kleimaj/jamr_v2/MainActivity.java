@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     private static String picturePath;
     private static int RESULT_LOAD_IMAGE = 1;
+    public static ArtistModel currentUser;
     DatabaseReference currentUserDb;
     private FirebaseAuth mAuth;
     DatabaseManager db;

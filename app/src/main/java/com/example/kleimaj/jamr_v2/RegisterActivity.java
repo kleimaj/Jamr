@@ -103,7 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     // sign up the user
     protected void registerUserToDB() {
-        //make a singleton artistmodel or bandmodel
+        //make a singleton artistmodel
+        MainActivity.currentUser = new ArtistModel(display_name);
+        MainActivity.currentUser.setBand(isBand);
 
         mAuth.createUserWithEmailAndPassword(email, password)
           .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
