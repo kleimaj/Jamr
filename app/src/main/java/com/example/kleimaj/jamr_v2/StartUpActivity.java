@@ -2,6 +2,7 @@ package com.example.kleimaj.jamr_v2;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class StartUpActivity extends AppCompatActivity {
 
-    private EditText email,password;
+    private TextInputLayout email,password;
     private String emailString,passwordString;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
@@ -50,43 +51,11 @@ public class StartUpActivity extends AppCompatActivity {
 
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
-
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                emailString = email.getText().toString();
-            }
-        });
-
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                passwordString = password.getText().toString();
-            }
-        });
     }
 
     public void SignInClick(View view){
+        emailString = email.getEditText().getText().toString();
+        passwordString = password.getEditText().getText().toString();
         if (emailString==null || passwordString==null) {
             Toast.makeText(StartUpActivity.this, "Unfinished Sign-in Fields",Toast.LENGTH_SHORT).show();
         }
@@ -112,7 +81,7 @@ public class StartUpActivity extends AppCompatActivity {
     public void RegisterClick(View view){
         Intent myIntent = new Intent(view.getContext(),RegisterActivity.class);
         startActivity(myIntent);
-        finish();
+       // finish();
     }
 
     @Override

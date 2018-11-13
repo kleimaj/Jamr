@@ -4,96 +4,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.kleimaj.jamr_v2.StartUpActivity">
+    tools:context="com.example.kleimaj.jamr_v2.StartUpActivity"
+    android:background="@drawable/gradient">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/gradient">
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/jamrlogo"
-        android:id="@+id/imageView" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:textColor="#FFF"
-            android:layout_above="@id/emailEditText"
-            android:textStyle="bold"
+        <ImageView
+            android:id="@+id/sig_logo"
+            android:layout_width="400dp"
+            android:layout_height="123dp"
             android:layout_centerHorizontal="true"
-            android:textSize="20sp"/>
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/jamrlogo"
+            app:layout_constraintBottom_toTopOf="@+id/sig_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+    <TextView
+        android:id="@+id/sig_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textColor="#FFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/emailEditText"
+        app:layout_constraintTop_toBottomOf="@id/sig_logo"
+        tools:layout_editor_absoluteY="163dp" />
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="200dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/rounded_border_edittext"
-            android:hint="email"
+            android:theme="@style/TextLabel"
             android:paddingLeft="10dp"
-            android:textColorHint="#808080"
-            android:textColor="#808080"
-            android:id="@+id/emailEditText" />
+            android:id="@+id/emailEditText"
+            app:layout_constraintTop_toBottomOf="@id/sig_login"
+            app:layout_constraintBottom_toTopOf="@id/passwordEditText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:textColor="#fff" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:inputType="text"
-            android:layout_alignLeft="@+id/emailEditText"
-            android:layout_alignStart="@+id/emailEditText"
-            android:layout_below="@+id/emailEditText"
-            android:layout_marginTop="17dp"
-            android:hint="password"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:theme="@style/TextLabel"
+        app:layout_constraintBottom_toTopOf="@+id/editText3"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
             android:password="true"
-            android:paddingLeft="10dp"
-            android:textColorHint="#808080"
-            android:textColor="#808080"
-            android:background="@drawable/rounded_border_edittext"
-            android:id="@+id/passwordEditText" />
+            android:textColor="#fff" />
+    </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:layout_width="205dp"
-            android:layout_height="40dp"
-            android:layout_alignLeft="@+id/passwordEditText"
-            android:layout_alignStart="@+id/passwordEditText"
-            android:layout_below="@+id/passwordEditText"
-            android:layout_marginTop="17dp"
-            android:hint="Sign In"
-            android:textColorHint="#fff"
-            android:background="@drawable/rounded_border_button"
-            android:id="@+id/editText3"
-            android:onClick="SignInClick"/>
+    <Button
+        android:id="@+id/editText3"
+        android:layout_width="205dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/passwordEditText"
+        android:layout_alignStart="@+id/passwordEditText"
+        android:layout_below="@+id/passwordEditText"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_border_button"
+        android:hint="Sign In"
+        android:onClick="SignInClick"
+        android:textColorHint="#fff"
+        app:layout_constraintBottom_toTopOf="@+id/RegisterButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
-        <EditText
-            android:layout_width="205dp"
-            android:layout_height="40dp"
-            android:layout_alignLeft="@+id/editText3"
-            android:layout_alignStart="@+id/editText3"
-            android:layout_below="@+id/editText3"
-            android:layout_marginTop="17dp"
-            android:hint="  Continue with Google"
-            android:textColorHint="#fff"
-            android:background="@color/Transparent"
-            android:id="@+id/editText4" />
+    <Button
+        android:id="@+id/RegisterButton"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_border_button"
+        android:onClick="RegisterClick"
+        android:text="Register"
+        android:textColor="#FFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_alignLeft="@+id/editText4"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/editText4"
-            android:layout_marginBottom="22dp"
-            android:text="Register"
-            android:textColor="#FFF"
-            android:onClick="RegisterClick"
-            android:background="@drawable/rounded_border_button" />
-
-
-    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
