@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -106,6 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
         //make a singleton artistmodel
         MainActivity.currentUser = new ArtistModel(display_name);
         MainActivity.currentUser.setBand(isBand);
+        saveContents(); //writes to local file
 
         mAuth.createUserWithEmailAndPassword(email, password)
           .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -145,6 +149,21 @@ public class RegisterActivity extends AppCompatActivity {
                   }
               }
           });
+    }
+    //writes name and isBand to file, to be used on login
+    protected void saveContents() {
+        Context context = getApplicationContext();
+        try {
+            FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+            StringBuilder text = new StringBuilder();
+            text.append(display_name + " \n");
+            text.append(isBand + " \n");
+            output.write(text.toString().getBytes());
+            output.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Check for empty name/ email / password

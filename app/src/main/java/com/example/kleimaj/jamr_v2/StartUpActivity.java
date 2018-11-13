@@ -67,6 +67,8 @@ public class StartUpActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){ //firebase login failed
                         Toast.makeText(StartUpActivity.this, "Sign-in Success",Toast.LENGTH_SHORT).show();
+                        //here we need to read from local file, store name and isBand in
+                        // MainActivity.currentUser
                         Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
                         startActivity(myIntent);
                         finish();
