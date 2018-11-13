@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseManager();
         db.isBand();
 
+        TextView display = (TextView) findViewById(R.id.ArtistName);
+        //must load data from local file first... still need to figure that out
+        //display.setText(currentUser.getName());
 
       //  initialize();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = mAuth.getCurrentUser();
                 String userId = user.getUid();
                 db.isBand();
+                //need to change, no more Artist/Band branches in realtime database
                 if(db.indicator == 1) {
                     System.out.println("ARTIST ADDED TO DB");
                     currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("image");
