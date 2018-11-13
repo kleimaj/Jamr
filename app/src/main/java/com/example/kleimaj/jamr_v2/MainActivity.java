@@ -250,4 +250,32 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    public String readUserFile(boolean isBand){
+        Context context = getApplicationContext();
+        BufferedReader reader = null;
+
+        //Try Catch block to open/read files from directory and put into view
+        try {
+            FileInputStream stream = context.openFileInput("profileInfo.txt");
+            StringBuilder text = new StringBuilder();
+            InputStreamReader streamReader = new InputStreamReader(stream);
+            reader = new BufferedReader(streamReader);
+
+            String line;
+            String numRating;
+            while((line = reader.readLine()) !=null){
+                text.append(line);
+                text.append('\n');
+            }
+            reader.close();
+            stream.close();
+            streamReader.close();
+
+            return text;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
