@@ -48,6 +48,7 @@ public class MyInfoActivity extends AppCompatActivity {
 
     String selectedAge;
     String selectedGender;
+    String bioInfoText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,10 @@ public class MyInfoActivity extends AppCompatActivity {
             artistSave = findViewById(R.id.saveButton);
             initializeSpinners();
             initializeMultiAutoCompletes(1);
+            bioInfoText = readUserFile();
+            if(bioInfoText != null){
+                setArtistInfo(bioInfoText);
+            }
         }
         else if (MainActivity.currentUser.isBand()) {//db.indicator == 2){ //it's a band
             System.out.println("IM A BAND!!!!!");
@@ -80,7 +85,29 @@ public class MyInfoActivity extends AppCompatActivity {
             bandBioEditText = findViewById(R.id.editText_bio_band);
             bandSave = findViewById(R.id.saveButtonBand);
             initializeMultiAutoCompletes(2);
+            bioInfoText = readUserFile();
+            if(bioInfoText != null){
+                setBandInfo(bioInfoText);
+            }
         }
+    }
+
+    private void setArtistInfo(String text) {
+        String[] lines = text.split("\n");
+        nameEditText.setText(lines[0]);
+        //ageSpinner.set text?
+        // Set Gender
+        //Set Identities
+        //Set Genres
+        bioEditText.setText(lines[5]);
+    }
+
+    private void setBandInfo(String text){
+        String[] lines = text.split("\n");
+        bandNameEditText.setText(lines[0]);
+        //Set band Genres
+        bandBioEditText.setText(lines[2]);
+
     }
 
     public void onSaveArtistInfo(View v) {
