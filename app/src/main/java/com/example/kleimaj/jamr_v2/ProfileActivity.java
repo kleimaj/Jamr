@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,8 +38,8 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_profile, container, false);
-        TextView display = view.findViewById(R.id.ArtistName);
-        display.setText(MainActivity.currentUser.getName());
+        setDisplayName(view);
+        setImage(view);
         ImageButton  settingButton = view.findViewById(R.id.SettingsButton);
         settingButton.setOnClickListener(this);
 
@@ -65,9 +66,21 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 
     public void setImage(View v) {
         String image = MainActivity.currentUser.getImage();
-        //convert base64 to bitmap
-        byte[] decodedBytes = Base64.decode(image,0);
+        System.out.println("HERE ... IMAGE IS "+image);
+        if (image!=null) {
+            if (!image.isEmpty()) {
+                //convert base64 to bitmap
+                byte[] decodedBytes = Base64.decode(image, 0); //flag maybe Base64.DEFAULT
+                ImageView imageView = (ImageView) v.findViewById(R.id.profile_image);
+                imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes
+                  .length));
+            }
+        }
+    }
 
+    public void setDisplayName(View v) {
+        TextView display = v.findViewById(R.id.ArtistName);
+        display.setText(MainActivity.currentUser.getName());
     }
 
 }

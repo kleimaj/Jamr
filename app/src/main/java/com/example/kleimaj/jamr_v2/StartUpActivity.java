@@ -99,8 +99,8 @@ public class StartUpActivity extends AppCompatActivity {
                                 else if (count == 1) {
                                     isBand = line;
                                 }
-                                else if (count == 2) {
-                                    image = image;
+                                else if (count >= 2) {
+                                    image += line;
                                 }
                                 count++;
                             }

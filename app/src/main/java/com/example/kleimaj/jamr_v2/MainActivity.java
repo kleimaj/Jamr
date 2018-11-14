@@ -109,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+                //stores image string in user model
+                MainActivity.currentUser.setImage(imageString);
                 //store imageString locally?
                 Context context = getApplicationContext();
                 try {
@@ -122,20 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                /*FirebaseUser user = mAuth.getCurrentUser();
-                String userId = user.getUid();
-                db.isBand();
-                //need to change, no more Artist/Band branches in realtime database
-                if(db.indicator == 1) {
-                    System.out.println("ARTIST ADDED TO DB");
-                    currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Artist").child(userId).child("image");
-                    currentUserDb.setValue(imageString);
-                }else if (db.indicator == 2){
-                    System.out.println("Fo Swizzle a band was added to the db");
-                    currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("image");
-                    currentUserDb.setValue(imageString);
-                }*/
-
             }
         }
     }
