@@ -78,7 +78,10 @@ public class StartUpActivity extends AppCompatActivity {
 
                         Context context = getApplicationContext();
                         BufferedReader reader = null;
-                        StringBuilder text = new StringBuilder();
+                       // StringBuilder text = new StringBuilder();
+                        String name = "";
+                        String isBand = "";
+                        String image = "";
                         //Try Catch block to open/read files from directory and put into view
                         try {
                             FileInputStream stream = context.openFileInput("profileInfo.txt");
@@ -86,10 +89,20 @@ public class StartUpActivity extends AppCompatActivity {
                             reader = new BufferedReader(streamReader);
 
                             String line;
-                            String numRating;
+                            int count = 0;
                             while((line = reader.readLine()) !=null){
-                                text.append(line);
-                                text.append('\n');
+                                //text.append(line);
+                                //text.append('\n');
+                                if (count == 0) {
+                                    name = line;
+                                }
+                                else if (count == 1) {
+                                    isBand = line;
+                                }
+                                else if (count == 2) {
+                                    image = image;
+                                }
+                                count++;
                             }
                             reader.close();
                             stream.close();
@@ -98,8 +111,9 @@ public class StartUpActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-                        System.out.println(text.toString());
+                        MainActivity.currentUser = new ArtistModel(name);
+                        MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
+                        MainActivity.currentUser.setImage(image);
 
                         Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
                         startActivity(myIntent);

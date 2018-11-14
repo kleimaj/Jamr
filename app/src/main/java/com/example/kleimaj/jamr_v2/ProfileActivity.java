@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ProfileActivity extends Fragment {
 
@@ -23,6 +25,7 @@ public class ProfileActivity extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //changeDisplay(MainActivity.currentUser.getName());
         //setContentView(R.layout.activity_profile);
     }
 
@@ -30,7 +33,10 @@ public class ProfileActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_profile, container, false);
+        View view = inflater.inflate(R.layout.activity_profile, container, false);
+        TextView display = view.findViewById(R.id.ArtistName);
+        display.setText(MainActivity.currentUser.getName());
+        return view;
     }
 
 }

@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -72,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseManager();
         db.isBand();
 
-        TextView display = (TextView) findViewById(R.id.ArtistName);
+        //can't find display??
+        //TextView display = (TextView) findViewById(R.id.ArtistName);
         //must load data from local file first... still need to figure that out
-        //display.setText(currentUser.getName());
-
+       // display.setText(currentUser.getName());
       //  initialize();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -108,8 +109,20 @@ public class MainActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-                FirebaseUser user = mAuth.getCurrentUser();
+                //store imageString locally?
+                Context context = getApplicationContext();
+                try {
+                    FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+                    StringBuilder text = new StringBuilder();
+                    text.append(currentUser.getName() + " \n");
+                    text.append(currentUser.isBand() + " \n");
+                    text.append(imageString + " \n");
+                    output.write(text.toString().getBytes());
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                /*FirebaseUser user = mAuth.getCurrentUser();
                 String userId = user.getUid();
                 db.isBand();
                 //need to change, no more Artist/Band branches in realtime database
@@ -121,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("Fo Swizzle a band was added to the db");
                     currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Band").child(userId).child("image");
                     currentUserDb.setValue(imageString);
-                }
+                }*/
 
             }
         }

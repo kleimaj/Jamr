@@ -12,6 +12,7 @@ public class ArtistModel {
     private String bio;
     private String gender;
     private int age;
+    private String image;
     private boolean isBand;
     private ArrayList<String> identities; //e.g. Producer, Guitarist, Vocalist
     private ArrayList<String> genres; //can switch to a String[] if need be
@@ -49,6 +50,8 @@ public class ArtistModel {
 
     public void setBand(boolean bool) { isBand = bool;}
 
+    public void setImage(String image) { this.image = image; }
+
     public void setGender(String gender){
         this.gender = gender;
     }
@@ -74,6 +77,8 @@ public class ArtistModel {
     public String getGender(){
         return gender;
     }
+
+    public String getImage() { return image; }
 
     public boolean isBand() {return isBand; }
 
