@@ -171,16 +171,6 @@ public class MainActivity extends AppCompatActivity {
         //initialize();
     }
 
-    public void myInfoClick(View v) {
-        Intent myIntent = new Intent(v.getContext(), MyInfoActivity.class);
-        this.startActivity(myIntent);
-    }
-
-    public void mySettingsClick(View v) {
-        Intent myIntent = new Intent(v.getContext(), MySettingsActivity.class);
-        this.startActivity(myIntent);
-    }
-
     public void imageClick(View v){
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         Log.v("pok", "View Clicked");
