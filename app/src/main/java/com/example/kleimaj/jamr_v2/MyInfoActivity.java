@@ -50,6 +50,7 @@ public class MyInfoActivity extends AppCompatActivity {
     String selectedGender;
     String bioInfoText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class MyInfoActivity extends AppCompatActivity {
         }*/
         db = new DatabaseManager();
 
-        if (!MainActivity.currentUser.isBand()) {//if an artist
+        if (!MainActivity.currentUser.isBand()) { //if an artist
             //System.out.println("Am an Artist!!!!");
             setContentView(R.layout.activity_artist_info);
             genderSpinner = findViewById(R.id.spinner_gender);
@@ -78,8 +79,8 @@ public class MyInfoActivity extends AppCompatActivity {
                 setArtistInfo(bioInfoText);
             }
         }
-        else if (MainActivity.currentUser.isBand()) {//db.indicator == 2){ //it's a band
-            System.out.println("IM A BAND!!!!!");
+        else if (MainActivity.currentUser.isBand()) { //it's a band
+            //System.out.println("IM A BAND!!!!!");
             setContentView(R.layout.activity_band_info);
             bandNameEditText = findViewById(R.id.editText_name_band);
             bandBioEditText = findViewById(R.id.editText_bio_band);
@@ -94,7 +95,7 @@ public class MyInfoActivity extends AppCompatActivity {
 
     private void setArtistInfo(String text) {
         String[] lines = text.split("\n");
-        nameEditText.setText(lines[0]);
+        nameEditText.setText(MainActivity.currentUser.getName());
         //ageSpinner.set text?
         // Set Gender
         //Set Identities
@@ -104,7 +105,7 @@ public class MyInfoActivity extends AppCompatActivity {
 
     private void setBandInfo(String text){
         String[] lines = text.split("\n");
-        bandNameEditText.setText(lines[0]);
+        bandNameEditText.setText(MainActivity.currentUser.getName());
         //Set band Genres
         bandBioEditText.setText(lines[2]);
 
@@ -163,38 +164,94 @@ public class MyInfoActivity extends AppCompatActivity {
 
     }
 
+    /* ProfileInfo.txt stores:
+      name
+      isBand
+      image
+
+   bioInfo.txt for bands stores:
+      genres
+      bio
+ */
     public void writeBandInfoToFile(){
         Context context = getApplicationContext();
         try {
+            //for bio and genres
             FileOutputStream output = context.openFileOutput("bioInfo.txt", Context
               .MODE_PRIVATE);
-            StringBuilder text = new StringBuilder();
-            text.append(bandNameEditText.getText().toString() + " \n");
-            text.append(bandBioEditText.getText().toString() + " \n");
-            text.append(bandGenreMulti.getText().toString() + " \n");
-            text.append(MainActivity.returnPicturePath() + " \n");
-            output.write(text.toString().getBytes());
+
+            //for name
+            FileOutputStream output2 = context.openFileOutput("profileInfo.txt", Context
+              .MODE_PRIVATE);
+            StringBuilder bioText = new StringBuilder();
+            StringBuilder profileText = new StringBuilder();
+            //text.append(bandNameEditText.getText().toString() + " \n");
+            bioText.append(bandGenreMulti.getText().toString() + " \n");
+            bioText.append(bandBioEditText.getText().toString() + " \n");
+            output.write(bioText.toString().getBytes());
             output.close();
+            //check if name is null, if user didn't edit name, don't write
+            //if user changed name, write to file profileInfo.txt
+            String newName = bandNameEditText.getText().toString();
+            if (newName.equals(MainActivity.currentUser.getName())) {
+                output2.close();
+            }
+            else {
+                MainActivity.currentUser.setName(newName);
+                profileText.append(newName+ " \n");
+                profileText.append(MainActivity.currentUser.isBand() + " \n");
+                profileText.append(MainActivity.currentUser.getImage() + " \n");
+                output2.write(profileText.toString().getBytes());
+                output2.close();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    /* ProfileInfo.txt stores:
+          name
+          isBand
+          image
 
+       bioInfo.txt for artists stores:
+          genres
+          bio
+          age
+          gender
+          identities
+     */
     public void writeAristInfoToFile(){
         Context context = getApplicationContext();
         try {
             FileOutputStream output = context.openFileOutput("bioInfo.txt", Context.MODE_PRIVATE);
+            FileOutputStream output2 = context.openFileOutput("profileInfo.txt", Context
+              .MODE_PRIVATE);
+
             StringBuilder text = new StringBuilder();
-            text.append(nameEditText.getText().toString() + " \n");
+            StringBuilder profileText = new StringBuilder();
+            //text.append(nameEditText.getText().toString() + " \n");
+            text.append(genreMulti.getText().toString() + " \n");
+            text.append(bioEditText.getText().toString() + " \n");
             text.append(selectedAge + " \n");
             text.append(selectedGender + " \n");
             text.append(identityMulti.getText().toString() + " \n");
-            text.append(genreMulti.getText().toString() + " \n");
-            text.append(bioEditText.getText().toString() + " \n");
-            text.append(MainActivity.returnPicturePath() + " \n");
+            //text.append(MainActivity.returnPicturePath() + " \n");
             output.write(text.toString().getBytes());
             output.close();
+
+            String newName = nameEditText.getText().toString();
+            if (newName.equals(MainActivity.currentUser.getName())) {
+                output2.close();
+            }
+            else {
+                MainActivity.currentUser.setName(newName);
+                profileText.append(newName+ " \n");
+                profileText.append(MainActivity.currentUser.isBand() + " \n");
+                profileText.append(MainActivity.currentUser.getImage() + " \n");
+                output2.write(profileText.toString().getBytes());
+                output2.close();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -298,7 +355,17 @@ public class MyInfoActivity extends AppCompatActivity {
         catch (Exception e) { }
     }
 
+    /* bioInfo.txt for bands stores:
+        genres
+        bio
 
+       bioInfo.txt for artists stores:
+          genres
+          bio
+          age
+          gender
+          identities
+     */
     public String readUserFile(){
         Context context = getApplicationContext();
         BufferedReader reader = null;
@@ -308,12 +375,27 @@ public class MyInfoActivity extends AppCompatActivity {
             FileInputStream stream = context.openFileInput("bioInfo.txt");
             InputStreamReader streamReader = new InputStreamReader(stream);
             reader = new BufferedReader(streamReader);
-
             String line;
-            String numRating;
+            int count = 0;
             while((line = reader.readLine()) !=null){
                 text.append(line);
                 text.append('\n');
+                if (count == 0) { //it's the genre
+
+                }
+                else if (count == 1) { //it's the bio
+
+                }
+                else if (count == 2) { //it's the age
+
+                }
+                else if (count == 3) { //it's the gender
+
+                }
+                else if (count == 4) { //it's the identity
+
+                }
+                count++;
             }
             reader.close();
             stream.close();

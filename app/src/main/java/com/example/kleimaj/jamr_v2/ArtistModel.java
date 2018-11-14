@@ -50,6 +50,8 @@ public class ArtistModel {
 
     public void setBand(boolean bool) { isBand = bool;}
 
+    public void setName(String name) { this.name = name; }
+
     public void setImage(String image) { this.image = image; }
 
     public void setGender(String gender){
