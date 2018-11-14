@@ -25,8 +25,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +60,7 @@ public class MyInfoActivity extends AppCompatActivity {
         }*/
         db = new DatabaseManager();
 
-        if (!MainActivity.currentUser.isBand()) {//db.indicator == 1) { //if an artist
+        if (!MainActivity.currentUser.isBand()) {//if an artist
             //System.out.println("Am an Artist!!!!");
             setContentView(R.layout.activity_artist_info);
             genderSpinner = findViewById(R.id.spinner_gender);
@@ -81,7 +84,7 @@ public class MyInfoActivity extends AppCompatActivity {
     }
 
     public void onSaveArtistInfo(View v) {
-        if(db.indicator == 2){
+        if(MainActivity.currentUser.isBand()){
             onSaveBandInfo(v);
             return;
         }
@@ -157,9 +160,11 @@ public class MyInfoActivity extends AppCompatActivity {
             FileOutputStream output = context.openFileOutput("bioInfo.txt", Context.MODE_PRIVATE);
             StringBuilder text = new StringBuilder();
             text.append(nameEditText.getText().toString() + " \n");
-            text.append(bioEditText.getText().toString() + " \n");
-            text.append(genreMulti.getText().toString() + " \n");
+            text.append(selectedAge + " \n");
+            text.append(selectedGender + " \n");
             text.append(identityMulti.getText().toString() + " \n");
+            text.append(genreMulti.getText().toString() + " \n");
+            text.append(bioEditText.getText().toString() + " \n");
             text.append(MainActivity.returnPicturePath() + " \n");
             output.write(text.toString().getBytes());
             output.close();
@@ -189,7 +194,7 @@ public class MyInfoActivity extends AppCompatActivity {
     }
 
     public void initializeMultiAutoCompletes(int indicator) {
-        if (indicator == 2) { //for bands
+        if (MainActivity.currentUser.isBand()) { //for bands
             bandGenreMulti = findViewById(R.id.multiComplete_genre_band);
 
             System.out.println("inside function!");
@@ -201,7 +206,7 @@ public class MyInfoActivity extends AppCompatActivity {
 
             System.out.println("fine here");
         }
-        else if (indicator == 1) { //for artists
+        else if (!MainActivity.currentUser.isBand()) { //for artists
             ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
                     R.array.genres, android.R.layout.simple_dropdown_item_1line);
             genreMulti.setAdapter(genresAdapter);
@@ -264,5 +269,32 @@ public class MyInfoActivity extends AppCompatActivity {
             popupWindow.setHeight(700);
         }
         catch (Exception e) { }
+    }
+
+
+    public String readUserFile(){
+        Context context = getApplicationContext();
+        BufferedReader reader = null;
+        StringBuilder text = new StringBuilder();
+        //Try Catch block to open/read files from directory and put into view
+        try {
+            FileInputStream stream = context.openFileInput("bioInfo.txt");
+            InputStreamReader streamReader = new InputStreamReader(stream);
+            reader = new BufferedReader(streamReader);
+
+            String line;
+            String numRating;
+            while((line = reader.readLine()) !=null){
+                text.append(line);
+                text.append('\n');
+            }
+            reader.close();
+            stream.close();
+            streamReader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
     }
 }
