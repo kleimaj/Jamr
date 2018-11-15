@@ -75,9 +75,6 @@ public class MyInfoActivity extends AppCompatActivity {
             initializeSpinners();
             initializeMultiAutoCompletes(1);
             bioInfoText = readUserFile();
-            System.out.println(bioInfoText + "PLEASE OH GOD GOD GOD GO D");
-            System.out.println(bioInfoText + "PLEASE OH GOD GOD GOD GO D");
-            System.out.println(bioInfoText + "PLEASE OH GOD GOD GOD GO D");
             if(bioInfoText != null){
                 setArtistInfo(bioInfoText);
             }

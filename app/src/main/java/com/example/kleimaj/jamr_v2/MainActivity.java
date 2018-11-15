@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
                     switchToFragment1();
                     break;
                 case R.id.navigation_dashboard:
+                    Toast.makeText(MainActivity.this,
+                            "Messaging Coming Soon!", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_notifications:
                     switchToFragment3();
@@ -140,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frame_container, SwipeScreen1.newInstance());
         ft.commit();
+    }
+
+    public void switchToFragment2(){
+
     }
 
 
@@ -252,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
             reader = new BufferedReader(streamReader);
 
             String line;
-            String numRating;
             while((line = reader.readLine()) !=null){
                 text.append(line);
                 text.append('\n');
