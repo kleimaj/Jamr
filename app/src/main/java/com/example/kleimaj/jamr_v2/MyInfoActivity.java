@@ -75,6 +75,9 @@ public class MyInfoActivity extends AppCompatActivity {
             initializeSpinners();
             initializeMultiAutoCompletes(1);
             bioInfoText = readUserFile();
+            System.out.println(bioInfoText + "PLEASE OH GOD GOD GOD GO D");
+            System.out.println(bioInfoText + "PLEASE OH GOD GOD GOD GO D");
+            System.out.println(bioInfoText + "PLEASE OH GOD GOD GOD GO D");
             if(bioInfoText != null){
                 setArtistInfo(bioInfoText);
             }
@@ -87,7 +90,7 @@ public class MyInfoActivity extends AppCompatActivity {
             bandSave = findViewById(R.id.saveButtonBand);
             initializeMultiAutoCompletes(2);
             bioInfoText = readUserFile();
-            if(bioInfoText != null){
+            if(!bioInfoText.equals(null)){
                 setBandInfo(bioInfoText);
             }
         }
@@ -98,16 +101,17 @@ public class MyInfoActivity extends AppCompatActivity {
         nameEditText.setText(MainActivity.currentUser.getName());
         //ageSpinner.set text?
         // Set Gender
-        //Set Identities
-        //Set Genres
-        bioEditText.setText(lines[5]);
+        ageSpinner.setSelection(0);
+        identityMulti.setText(lines[4]);
+        bioEditText.setText(lines[1]);
+        genreMulti.setText(lines[0]);
     }
 
     private void setBandInfo(String text){
         String[] lines = text.split("\n");
         bandNameEditText.setText(MainActivity.currentUser.getName());
-        //Set band Genres
-        bandBioEditText.setText(lines[2]);
+       bandGenreMulti.setText(lines[0]);
+        bandBioEditText.setText(lines[1]);
 
     }
 
@@ -366,6 +370,45 @@ public class MyInfoActivity extends AppCompatActivity {
           gender
           identities
      */
+
+    public String readUserFile(){
+        Context context = getApplicationContext();
+        BufferedReader reader = null;
+        StringBuilder text = new StringBuilder();
+        boolean success = false;
+        //Try Catch block to open/read files from directory and put into view
+        try {
+            FileInputStream stream = context.openFileInput("bioInfo.txt");
+            InputStreamReader streamReader = new InputStreamReader(stream);
+            reader = new BufferedReader(streamReader);
+
+            String line;
+            String numRating;
+            while((line = reader.readLine()) !=null){
+                text.append(line);
+                text.append('\n');
+            }
+            reader.close();
+            stream.close();
+            streamReader.close();
+            success = true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(success){
+            return text.toString();
+        }else{
+            return null;
+        }
+
+    }
+
+
+    /*
+
+
+
     public String readUserFile(){
         Context context = getApplicationContext();
         BufferedReader reader = null;
@@ -406,4 +449,6 @@ public class MyInfoActivity extends AppCompatActivity {
         }
         return text.toString();
     }
+
+    */
 }
