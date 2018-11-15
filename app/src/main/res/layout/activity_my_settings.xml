@@ -11,9 +11,8 @@
         android:id="@+id/set_text_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="92dp"
         android:layout_marginTop="8dp"
         android:text="Age"
         android:textColor="#fff"
@@ -39,8 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/set_seek_age"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/set_text_age"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.433" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/set_seek_age"
@@ -56,6 +54,7 @@
         android:progress="35"
         app:layout_constraintBottom_toTopOf="@+id/set_text_distance"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/set_text_age" />
 
@@ -74,15 +73,14 @@
         app:layout_constraintBottom_toTopOf="@+id/set_seek_distance"
         app:layout_constraintEnd_toStartOf="@+id/set_text_distanceVal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/set_seek_age"  />
+        app:layout_constraintTop_toBottomOf="@+id/set_seek_age" />
 
     <TextView
         android:id="@+id/set_text_distanceVal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="64dp"
         android:layout_marginTop="8dp"
         android:text="10"
         android:textColor="#fff"
@@ -91,8 +89,7 @@
         app:layout_constraintBottom_toTopOf="@+id/set_seek_distance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/set_text_distance"
-        app:layout_constraintTop_toBottomOf="@+id/set_seek_age"
-        app:layout_constraintVertical_bias="0.576" />
+        app:layout_constraintTop_toBottomOf="@+id/set_seek_age" />
 
     <SeekBar
         android:id="@+id/set_seek_distance"
@@ -109,20 +106,20 @@
         app:layout_constraintBottom_toBottomOf="@+id/set_text_gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/set_text_distance"
-        app:layout_constraintTop_toEndOf="@+id/set_seek_age" />
+        app:layout_constraintTop_toBottomOf="@+id/set_text_distanceVal" />
 
     <TextView
         android:id="@+id/set_text_gender"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="29dp"
+        android:layout_marginBottom="13dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Gender"
         android:textColor="#fff"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTop="@+id/set_spinner_gender"
+        app:layout_constraintBottom_toTopOf="@+id/set_spinner_gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/set_seek_distance" />
@@ -139,7 +136,6 @@
         android:background="@drawable/rounded_border_edittext"
         android:hint="Gender"
         android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toTop="@+id/set_text_identity"
         app:layout_constraintBottom_toTopOf="@+id/set_text_identity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -157,42 +153,61 @@
         android:textColor="#fff"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTop="@+id/set_multiComplete_identity"
+        app:layout_constraintBottom_toTopOf="@+id/set_multiComplete_identity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/set_spinner_gender"/>
+        app:layout_constraintTop_toBottomOf="@+id/set_spinner_gender" />
 
     <MultiAutoCompleteTextView
         android:id="@+id/set_multiComplete_identity"
         android:layout_width="200dp"
         android:layout_height="30dp"
         android:layout_below="@+id/set_text_identity"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_border_edittext"
         android:hint=" Add..."
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="328dp" />
+        app:layout_constraintBottom_toTopOf="@+id/set_text_genre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/set_text_identity" />
 
     <TextView
         android:id="@+id/set_text_genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/set_multiComplete_identity"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Genre"
         android:textColor="#fff"
         android:textSize="20dp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="380dp" />
+        app:layout_constraintBottom_toTopOf="@+id/set_multiComplete_genre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/set_multiComplete_identity"
+        app:layout_constraintVertical_bias="1.0" />
 
     <MultiAutoCompleteTextView
         android:id="@+id/set_multiComplete_genre"
         android:layout_width="200dp"
         android:layout_height="30dp"
         android:layout_below="@+id/set_text_genre"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_border_edittext"
         android:hint=" Add..."
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="407dp" />
+        app:layout_constraintBottom_toTopOf="@+id/set_saveButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/set_text_genre" />
 
     <Button
         android:id="@+id/set_saveButton"
@@ -200,12 +215,18 @@
         android:layout_height="40dp"
         android:layout_below="@+id/set_multiComplete_genre"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="37dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rounded_border_button"
         android:onClick="onSaveInfo"
         android:text="Save"
         android:textColor="#fff"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="466dp" />
+        app:layout_constraintBottom_toTopOf="@+id/set_text_logOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/set_multiComplete_genre" />
 
     <TextView
         android:id="@+id/set_text_logOut"
@@ -213,12 +234,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/set_saveButton"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         android:onClick="onLogOut"
         android:text="Log Out"
         android:textColor="#fff"
         android:textSize="15dp"
-        tools:layout_editor_absoluteX="166dp"
-        tools:layout_editor_absoluteY="517dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/set_saveButton" />
 
 </android.support.constraint.ConstraintLayout>
