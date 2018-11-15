@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         db = new DatabaseManager();
-        db.isBand();
 
         //can't find display??
         //TextView display = (TextView) findViewById(R.id.ArtistName);
@@ -109,7 +109,12 @@ public class MainActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
+                //store image in firebase
+                try {
+                    db.setImage(imageString);
+                }catch (FirebaseException e) {
+                    e.printStackTrace();
+                }
                 //stores image string in user model
                 MainActivity.currentUser.setImage(imageString);
                 //store imageString locally?
@@ -126,18 +131,6 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    //THIS FUNCTION NEEDS WORK TO DISPLAY THE NEW USER INFORMATION WHEN THE USER SWITCHES ACTIVITIES
-    public void initialize(){
-        ImageView imageView = (ImageView) findViewById(R.id.profile_image);
-        String imageString = db.hasProfilePicture();
-        if(imageString != null){
-           /// System.out.println("Image String = " + imageString );
-            byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-            Bitmap decodeImage = BitmapFactory.decodeByteArray(imageBytes,0, imageBytes.length);
-            imageView.setImageBitmap(decodeImage);
         }
     }
 
