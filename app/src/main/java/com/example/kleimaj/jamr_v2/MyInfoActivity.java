@@ -78,6 +78,9 @@ public class MyInfoActivity extends AppCompatActivity {
             if(bioInfoText != null){
                 setArtistInfo(bioInfoText);
             }
+            else {
+                nameEditText.setText(MainActivity.currentUser.getName());
+            }
         }
         else if (MainActivity.currentUser.isBand()) { //it's a band
             //System.out.println("IM A BAND!!!!!");
@@ -90,6 +93,9 @@ public class MyInfoActivity extends AppCompatActivity {
             if(!bioInfoText.equals(null)){
                 setBandInfo(bioInfoText);
             }
+            else {
+                bandNameEditText.setText(MainActivity.currentUser.getName());
+            }
         }
     }
 
@@ -97,7 +103,7 @@ public class MyInfoActivity extends AppCompatActivity {
         String[] lines = text.split("\n");
         nameEditText.setText(MainActivity.currentUser.getName());
         //ageSpinner.set text?
-        // Set Gender
+        // Set Gender and age dont work
         ageSpinner.setSelection(0);
         identityMulti.setText(lines[4]);
         bioEditText.setText(lines[1]);
@@ -161,10 +167,6 @@ public class MyInfoActivity extends AppCompatActivity {
         }
     }
 
-    public void setFieldsWithCurrentVals() {
-
-    }
-
     /* ProfileInfo.txt stores:
       name
       isBand
@@ -175,14 +177,15 @@ public class MyInfoActivity extends AppCompatActivity {
       bio
  */
     public void writeBandInfoToFile(){
+        String UID = MainActivity.currentUser.getUID();
         Context context = getApplicationContext();
         try {
             //for bio and genres
-            FileOutputStream output = context.openFileOutput("bioInfo.txt", Context
+            FileOutputStream output = context.openFileOutput(UID+"bioInfo.txt", Context
               .MODE_PRIVATE);
 
             //for name
-            FileOutputStream output2 = context.openFileOutput("profileInfo.txt", Context
+            FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt", Context
               .MODE_PRIVATE);
             StringBuilder bioText = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
@@ -224,9 +227,11 @@ public class MyInfoActivity extends AppCompatActivity {
      */
     public void writeAristInfoToFile(){
         Context context = getApplicationContext();
+        String UID = MainActivity.currentUser.getUID();
         try {
-            FileOutputStream output = context.openFileOutput("bioInfo.txt", Context.MODE_PRIVATE);
-            FileOutputStream output2 = context.openFileOutput("profileInfo.txt", Context
+            FileOutputStream output = context.openFileOutput(UID+"bioInfo.txt", Context
+              .MODE_PRIVATE);
+            FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt", Context
               .MODE_PRIVATE);
 
             StringBuilder text = new StringBuilder();
@@ -373,9 +378,10 @@ public class MyInfoActivity extends AppCompatActivity {
         BufferedReader reader = null;
         StringBuilder text = new StringBuilder();
         boolean success = false;
+        String UID = MainActivity.currentUser.getUID();
         //Try Catch block to open/read files from directory and put into view
         try {
-            FileInputStream stream = context.openFileInput("bioInfo.txt");
+            FileInputStream stream = context.openFileInput(UID+"bioInfo.txt");
             InputStreamReader streamReader = new InputStreamReader(stream);
             reader = new BufferedReader(streamReader);
 

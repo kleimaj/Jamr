@@ -121,9 +121,12 @@ public class MainActivity extends AppCompatActivity {
                 //stores image string in user model
                 MainActivity.currentUser.setImage(imageString);
                 //store imageString locally?
+                String userId = mAuth.getCurrentUser().getUid();
                 Context context = getApplicationContext();
                 try {
-                    FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+                    FileOutputStream output = context.openFileOutput(userId+"profileInfo.txt",
+                      Context
+                      .MODE_PRIVATE);
                     StringBuilder text = new StringBuilder();
                     text.append(currentUser.getName() + " \n");
                     text.append(currentUser.isBand() + " \n");
@@ -252,9 +255,10 @@ public class MainActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         BufferedReader reader = null;
         StringBuilder text = new StringBuilder();
+        String userId = mAuth.getCurrentUser().getUid();
         //Try Catch block to open/read files from directory and put into view
         try {
-            FileInputStream stream = context.openFileInput("profileInfo.txt");
+            FileInputStream stream = context.openFileInput(userId+"profileInfo.txt");
             InputStreamReader streamReader = new InputStreamReader(stream);
             reader = new BufferedReader(streamReader);
 

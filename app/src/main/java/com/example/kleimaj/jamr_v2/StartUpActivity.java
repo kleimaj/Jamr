@@ -82,9 +82,11 @@ public class StartUpActivity extends AppCompatActivity {
                         String name = "";
                         String isBand = "";
                         String image = "";
+                        String userId = mAuth.getCurrentUser().getUid();
                         //Try Catch block to open/read files from directory and put into view
                         try {
-                            FileInputStream stream = context.openFileInput("profileInfo.txt");
+                            FileInputStream stream = context.openFileInput(userId+"profileInfo" +
+                              ".txt");
                             InputStreamReader streamReader = new InputStreamReader(stream);
                             reader = new BufferedReader(streamReader);
 

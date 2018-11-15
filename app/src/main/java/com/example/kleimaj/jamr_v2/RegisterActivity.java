@@ -131,7 +131,6 @@ public class RegisterActivity extends AppCompatActivity {
                         ().child("Users").child(userId);
                       HashMap<String, String> userMap = new HashMap<>();
                       userMap.put("name", display_name);
-                      userMap.put("image", "default");
                       userMap.put("thumb_image", "default");
                       userMap.put("isBand", String.valueOf(isBand));
 
@@ -153,8 +152,10 @@ public class RegisterActivity extends AppCompatActivity {
     //writes name and isBand to file, to be used on login
     protected void saveContents() {
         Context context = getApplicationContext();
+        String userId = mAuth.getCurrentUser().getUid();
         try {
-            FileOutputStream output = context.openFileOutput("profileInfo.txt", Context.MODE_PRIVATE);
+            FileOutputStream output = context.openFileOutput(userId+"profileInfo.txt", Context
+              .MODE_PRIVATE);
             StringBuilder text = new StringBuilder();
             text.append(display_name + " \n");
             text.append(isBand + " \n");
