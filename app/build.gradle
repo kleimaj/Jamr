@@ -18,6 +18,12 @@ android {
         }
     }
 
+
+    aaptOptions
+            {
+                cruncherEnabled = false
+            }
+
     //  This line is added to solve this build issue
     //  Conflict with dependency 'com.android.support:support-annotations' in project ':app'.
     //  Resolved versions for app (26.1.0) and test app (27.1.1) differ
@@ -37,9 +43,8 @@ dependencies {
 
     // firebase library
     //noinspection GradleCompatible
-    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-database:16.0.4'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
 
 
 
@@ -47,6 +52,8 @@ dependencies {
 
     // material design library
     implementation 'com.android.support:design:26.1.0'
+
+
 
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
@@ -57,5 +64,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // profile image crop
+    api 'com.theartofdev.edmodo:android-image-cropper:2.5.+'
+
+    // cache image
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
 }
 apply plugin: 'com.google.gms.google-services'

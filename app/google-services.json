@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "689630199042-gk60b3u04n4nofk9pah489a1ncjae9ui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kleimaj.jamr_v2",
+            "certificate_hash": "ddda69572d02db06678e13ded7275ca4e3e8cd96"
+          }
+        },
+        {
           "client_id": "689630199042-o8t6s4dmmr95l7k34o29vgff75tgaqv7.apps.googleusercontent.com",
           "client_type": 3
         }
