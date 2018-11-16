@@ -29,6 +29,7 @@ public class StartUpActivity extends AppCompatActivity {
     private String emailString,passwordString;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    static String UID = "";
 
 
     @Override
@@ -41,8 +42,10 @@ public class StartUpActivity extends AppCompatActivity {
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) { //must initialize authstatelistener
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //current logged in user, or null
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //current logged in user, or null
                 if (user != null){
+                    UID = user.getUid();
                     //user is already logged in
                     //TODO: create intent for swipe screen
                     Context context = getApplicationContext();
@@ -86,9 +89,9 @@ public class StartUpActivity extends AppCompatActivity {
                     MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
                     MainActivity.currentUser.setImage(image);
 //
-                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
-                    startActivity(myIntent);
-                    finish();
+//                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
+//                    startActivity(myIntent);
+//                    finish();
 
 
                 }
@@ -100,6 +103,7 @@ public class StartUpActivity extends AppCompatActivity {
     }
 
     public void SignInClick(View view){
+        System.out.println("Inside SignIn");
         emailString = email.getEditText().getText().toString();
         passwordString = password.getEditText().getText().toString();
         if (emailString.isEmpty() || passwordString.isEmpty()) {
@@ -115,28 +119,31 @@ public class StartUpActivity extends AppCompatActivity {
                         Toast.makeText(StartUpActivity.this, "Sign-in Success",Toast.LENGTH_SHORT).show();
                         //here we need to read from local file, store name and isBand in
                         // MainActivity.currentUser
-
+                        System.out.println("Sign in Success, about to read file");
                         Context context = getApplicationContext();
                         BufferedReader reader = null;
                        // StringBuilder text = new StringBuilder();
                         String name = "";
                         String isBand = "";
                         String image = "";
-                        String userId = mAuth.getCurrentUser().getUid();
                         //Try Catch block to open/read files from directory and put into view
                         try {
-                            FileInputStream stream = context.openFileInput(userId+"profileInfo" +
+                            System.out.println("USER ID IS : "+UID);
+                            FileInputStream stream = context.openFileInput(UID+"profileInfo" +
                               ".txt");
                             InputStreamReader streamReader = new InputStreamReader(stream);
                             reader = new BufferedReader(streamReader);
 
                             String line;
                             int count = 0;
+                            System.out.println("ABOUT TO READ!!!");
                             while((line = reader.readLine()) !=null){
                                 //text.append(line);
                                 //text.append('\n');
                                 if (count == 0) {
                                     name = line;
+                                    System.out.println("PARSING THE FILE, HERE'S THE NAME!! : " +
+                                      ""+line);
                                 }
                                 else if (count == 1) {
                                     isBand = line;
@@ -154,8 +161,17 @@ public class StartUpActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         MainActivity.currentUser = new ArtistModel(name);
-                        MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
+                        isBand = isBand.trim();
+                        if (isBand.equals("true")) {
+                            System.out.println("HERE!!!");
+                            MainActivity.currentUser.setBand(true);
+                        }
+                        else {
+                            MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
+                        }
                         MainActivity.currentUser.setImage(image);
+                        System.out.println("THE FILE !!!!!!!! WWWWWWWWWWWWWW");
+                        System.out.println("MAIn BOOL IS : "+MainActivity.currentUser.isBand());
 
                         Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
                         startActivity(myIntent);

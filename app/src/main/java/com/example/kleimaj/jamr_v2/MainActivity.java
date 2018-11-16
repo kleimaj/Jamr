@@ -76,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = new DatabaseManager();
 
+        if (RegisterActivity.justRegistered) {
+            //save contents to local file
+            saveContents();
+        }
+        else { //they're signing in
+
+        }
+
         //can't find display??
         //TextView display = (TextView) findViewById(R.id.ArtistName);
         //must load data from local file first... still need to figure that out
@@ -189,6 +197,22 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             return false;
+        }
+    }
+
+    protected void saveContents() {
+        Context context = getApplicationContext();
+        try {
+            FileOutputStream output = context.openFileOutput(RegisterActivity.userId+"profileInfo.txt", Context
+              .MODE_PRIVATE);
+            StringBuilder text = new StringBuilder();
+            text.append(RegisterActivity.display_name + " \n");
+            text.append(RegisterActivity.isBand + " \n");
+            output.write(text.toString().getBytes());
+            output.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
