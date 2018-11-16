@@ -85,10 +85,10 @@ public class StartUpActivity extends AppCompatActivity {
                     MainActivity.currentUser = new ArtistModel(name);
                     MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
                     MainActivity.currentUser.setImage(image);
-
-                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
-                    startActivity(myIntent);
-                    finish();
+//
+//                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
+//                    startActivity(myIntent);
+//                    finish();
 
 
                 }
