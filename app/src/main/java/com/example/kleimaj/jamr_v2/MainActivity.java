@@ -87,58 +87,6 @@ public class MainActivity extends AppCompatActivity {
         switchToFragment1();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == Activity.RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            if(picturePath != null) {
-                ImageView imageView = (ImageView) findViewById(R.id.profile_image);
-                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageBytes = baos.toByteArray();
-                String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                //store image in firebase
-                try {
-                    db.setImage(imageString);
-                }catch (FirebaseException e) {
-                    e.printStackTrace();
-                }
-                //stores image string in user model
-                MainActivity.currentUser.setImage(imageString);
-                //store imageString locally?
-                String userId = mAuth.getCurrentUser().getUid();
-                Context context = getApplicationContext();
-                try {
-                    FileOutputStream output = context.openFileOutput(userId+"profileInfo.txt",
-                      Context
-                      .MODE_PRIVATE);
-                    StringBuilder text = new StringBuilder();
-                    text.append(currentUser.getName() + " \n");
-                    text.append(currentUser.isBand() + " \n");
-                    text.append(imageString + " \n");
-                    output.write(text.toString().getBytes());
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     public void switchToFragment1() {
         FragmentManager fm = getSupportFragmentManager();
@@ -163,14 +111,7 @@ public class MainActivity extends AppCompatActivity {
         //initialize();
     }
 
-    public void imageClick(View v){
-        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        Log.v("pok", "View Clicked");
-        Intent i = new Intent(
-                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
-    }
     public static String returnPicturePath() {
         return picturePath;
     }

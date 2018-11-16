@@ -1,7 +1,9 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ProfileActivity extends Fragment implements View.OnClickListener {
+    private static int RESULT_LOAD_IMAGE = 1;
 
     public ProfileActivity() {
         // Required empty public constructor
@@ -38,13 +41,16 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_profile, container, false);
-        setDisplayName(view);
-        setImage(view);
-        ImageButton  settingButton = view.findViewById(R.id.SettingsButton);
-        settingButton.setOnClickListener(this);
-
-        ImageButton infoRoundButton = view.findViewById(R.id.InfoRoundButton);
-        infoRoundButton.setOnClickListener(this);
+//        setDisplayName(view);
+//        setImage(view);
+//        ImageButton  settingButton = view.findViewById(R.id.SettingsButton);
+//        settingButton.setOnClickListener(this);
+//
+//        ImageButton infoRoundButton = view.findViewById(R.id.InfoRoundButton);
+//        infoRoundButton.setOnClickListener(this);
+//
+//        ImageButton profilePictureButton = view.findViewById(R.id.ProfilePictureButton);
+//        profilePictureButton.setOnClickListener(this);
 
         return view;
     }
@@ -52,35 +58,43 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 
     // onlick method for buttoms
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.InfoRoundButton:
-                Intent infoIntent = new Intent(v.getContext(), MyInfoActivity.class);
-                this.startActivity(infoIntent);
-                break;
-            case R.id.SettingsButton:
-                Intent settingIntent = new Intent(v.getContext(), MySettingsActivity.class);
-                this.startActivity(settingIntent);
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.InfoRoundButton:
+//                Intent infoIntent = new Intent(v.getContext(), MyInfoActivity.class);
+//                this.startActivity(infoIntent);
+//                break;
+//            case R.id.SettingsButton:
+//                Intent settingIntent = new Intent(v.getContext(), MySettingsActivity.class);
+//                this.startActivity(settingIntent);
+//                break;
+//            case R.id.ProfilePictureButton:
+//                String[] permissionsList = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+//                            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+//                requestPermissions(permissionsList, 1);
+//                Log.v("pok", "View Clicked");
+//                Intent i = new Intent(
+//                        Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(i, RESULT_LOAD_IMAGE);
+//        }
     }
 
-    public void setImage(View v) {
-        String image = MainActivity.currentUser.getImage();
-        System.out.println("HERE ... IMAGE IS "+image);
-        if (image!=null) {
-            if (!image.isEmpty()) {
-                //convert base64 to bitmap
-                byte[] decodedBytes = Base64.decode(image, 0); //flag maybe Base64.DEFAULT
-                ImageView imageView = (ImageView) v.findViewById(R.id.profile_image);
-                imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes
-                  .length));
-            }
-        }
-    }
-
-    public void setDisplayName(View v) {
-        TextView display = v.findViewById(R.id.ArtistName);
-        display.setText(MainActivity.currentUser.getName());
-    }
+//    public void setImage(View v) {
+//        String image = MainActivity.currentUser.getImage();
+//        System.out.println("HERE ... IMAGE IS "+image);
+//        if (image!=null) {
+//            if (!image.isEmpty()) {
+//                //convert base64 to bitmap
+//                byte[] decodedBytes = Base64.decode(image, 0); //flag maybe Base64.DEFAULT
+//                ImageView imageView = (ImageView) v.findViewById(R.id.profile_image);
+//                imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes
+//                  .length));
+//            }
+//        }
+//    }
+//
+//    public void setDisplayName(View v) {
+//        TextView display = v.findViewById(R.id.ArtistName);
+//        display.setText(MainActivity.currentUser.getName());
+//    }
 
 }
