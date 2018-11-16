@@ -17,8 +17,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends Fragment implements View.OnClickListener {
     private static int RESULT_LOAD_IMAGE = 1;
+
+    private DatabaseReference mUserDatabase;
+    private FirebaseUser mCurrentUser;
+
+    // Adnroid Layout
+    private CircleImageView mDisplayImage;
+    private TextView mName;
+    private TextView mStatus;
 
     public ProfileActivity() {
         // Required empty public constructor
@@ -43,8 +56,11 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.activity_profile, container, false);
 //        setDisplayName(view);
 //        setImage(view);
-//        ImageButton  settingButton = view.findViewById(R.id.SettingsButton);
-//        settingButton.setOnClickListener(this);
+        Button  settingButton = view.findViewById(R.id.profile_setting_button);
+        settingButton.setOnClickListener(this);
+
+        Button  collectionButton = view.findViewById(R.id.profile_collection_button);
+        collectionButton.setOnClickListener(this);
 //
 //        ImageButton infoRoundButton = view.findViewById(R.id.InfoRoundButton);
 //        infoRoundButton.setOnClickListener(this);
@@ -58,15 +74,15 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 
     // onlick method for buttoms
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.InfoRoundButton:
-//                Intent infoIntent = new Intent(v.getContext(), MyInfoActivity.class);
-//                this.startActivity(infoIntent);
-//                break;
-//            case R.id.SettingsButton:
-//                Intent settingIntent = new Intent(v.getContext(), MySettingsActivity.class);
-//                this.startActivity(settingIntent);
-//                break;
+        switch (v.getId()) {
+            case R.id.profile_collection_button:
+                Intent infoIntent = new Intent(v.getContext(), MyInfoActivity.class);
+                this.startActivity(infoIntent);
+                break;
+            case R.id.profile_setting_button:
+                Intent settingIntent = new Intent(v.getContext(), MySettingsActivity.class);
+                this.startActivity(settingIntent);
+                break;
 //            case R.id.ProfilePictureButton:
 //                String[] permissionsList = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
 //                            Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -75,7 +91,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 //                Intent i = new Intent(
 //                        Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                startActivityForResult(i, RESULT_LOAD_IMAGE);
-//        }
+        }
     }
 
 //    public void setImage(View v) {
