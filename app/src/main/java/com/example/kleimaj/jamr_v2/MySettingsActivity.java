@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseException;
+
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,11 +63,32 @@ public class MySettingsActivity extends AppCompatActivity {
         initializeMultiAutoCompletes();
         initializeSeekBars();
 
+        String fileInput = readUserFile();
+
+        if (fileInput!=null) { //adjust widgets
+            String[] lines = fileInput.split("\n");
+            //age
+            String age = lines[0];
+            age = age.trim();
+            int intAge = Integer.parseInt(age);
+            ageSeek.setProgress(intAge);
+
+            //gender
+            String gender = lines[1];
+
+            //identity
+            String identity = lines[2];
+            identityMulti.setText(identity);
+            //genre
+            String genre = lines[3];
+            genreMulti.setText(genre);
+        }
         maxAge = ageSeek.getProgress();
         ageRange.setText(minAge + " - " + maxAge);
 
         distance = distanceSeek.getProgress();
         distanceText.setText(Integer.toString(distance));
+
     }
 
     public void initializeSeekBars() {
@@ -140,12 +169,75 @@ public class MySettingsActivity extends AppCompatActivity {
         String musicIdentities = identityMulti.getText().toString();
         String[] musicIdentitiesArray = musicIdentities.split(", ");
         ArrayList<String> musicIdentitiesArrayList = new ArrayList<String>(Arrays.asList(musicIdentitiesArray));
-
         String success = "Save successful";
-        Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+        try {
+            db.setPrefAge(maxAge);
+            db.setPrefGender(preferredGender);
+            db.setPrefIdentity(musicIdentitiesArrayList);
+            db.setPrefGenre(genresArrayList);
 
-        // saveSettings()
-        this.finish();
+            Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+            saveSettingsToFile();
+            this.finish();
+        }
+        catch (FirebaseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveSettingsToFile() {
+        Context context = getApplicationContext();
+        String UID = MainActivity.currentUser.getUID();
+        try {
+            //for bio and genres
+            FileOutputStream output = context.openFileOutput(UID + "Preferences.txt", Context
+              .MODE_PRIVATE);
+
+            //for name
+            StringBuilder preferenceText = new StringBuilder();
+            preferenceText.append(maxAge + " \n");
+            preferenceText.append(preferredGender + " \n");
+            preferenceText.append(identityMulti.getText().toString() + " \n");
+            preferenceText.append(genreMulti.getText().toString() + " \n");
+            output.write(preferenceText.toString().getBytes());
+            output.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String readUserFile(){
+        Context context = getApplicationContext();
+        BufferedReader reader = null;
+        StringBuilder text = new StringBuilder();
+        boolean success = false;
+        String UID = MainActivity.currentUser.getUID();
+        //Try Catch block to open/read files from directory and put into view
+        try {
+            FileInputStream stream = context.openFileInput(UID + "Preferences.txt");
+            InputStreamReader streamReader = new InputStreamReader(stream);
+            reader = new BufferedReader(streamReader);
+
+            String line;
+            while((line = reader.readLine()) !=null){
+                text.append(line);
+                text.append('\n');
+            }
+            reader.close();
+            stream.close();
+            streamReader.close();
+            success = true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(success){
+            return text.toString();
+        }else{
+            return null;
+        }
+
     }
 
     public void onLogOut(View v) {

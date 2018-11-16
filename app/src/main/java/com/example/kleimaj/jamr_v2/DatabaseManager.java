@@ -99,7 +99,7 @@ public class DatabaseManager {
         currentUserDb.setValue(identity);
     }
 
-    public static void setGenre(ArrayList<String> genre) throws FirebaseException {
+    public static void setPrefGenre(ArrayList<String> genre) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
         currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child
           (userId).child("pref_genre");
