@@ -38,7 +38,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
     // Adnroid Layout
     private CircleImageView mDisplayImage;
     private TextView mName;
-    private TextView mStatus;
+    private TextView mIdentity;
 
     public ProfileActivity() {
         // Required empty public constructor
@@ -69,6 +69,8 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 
         mName = view.findViewById(R.id.ArtistName);
 
+        mIdentity = view.findViewById(R.id.profile_identity);
+
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -79,7 +81,13 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                         .toString();
                 String thumb_image = dataSnapshot.child("thumb_image")
                         .getValue().toString();
+                String identity = dataSnapshot.child("music_identity")
+                        .getValue().toString()
+                        .replace("[", "")  //remove the right bracket
+                        .replace("]", "")  //remove the left bracket
+                        .trim();
                 mName.setText(name);
+                mIdentity.setText(identity);
             }
 
             @Override

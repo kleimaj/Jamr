@@ -96,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ArtistName">
 
         <TextView
-            android:id="@+id/tvText"
+            android:id="@+id/profile_identity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -109,7 +109,7 @@
             android:layout_height="1dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:layout_toLeftOf="@id/tvText"
+            android:layout_toLeftOf="@id/profile_identity"
             android:background="#e8e9e3ec" />
 
         <View
@@ -117,7 +117,7 @@
             android:layout_height="1dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:layout_toRightOf="@id/tvText"
+            android:layout_toRightOf="@id/profile_identity"
             android:background="#d5baf3" />
 
     </RelativeLayout>
