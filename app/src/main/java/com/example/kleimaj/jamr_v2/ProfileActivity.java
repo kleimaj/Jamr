@@ -53,6 +53,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
@@ -60,6 +61,35 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_profile, container, false);
+
+        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String current_uid = mCurrentUser.getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child
+                ("Users").child(current_uid);
+
+        mName = view.findViewById(R.id.ArtistName);
+
+        mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Toast.makeText(getActivity(), dataSnapshot.toString(), Toast
+                        .LENGTH_SHORT).show();
+                String name = dataSnapshot.child("name").getValue().toString();
+                String image = dataSnapshot.child("image").getValue()
+                        .toString();
+                String thumb_image = dataSnapshot.child("thumb_image")
+                        .getValue().toString();
+                mName.setText(name);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         Button  settingButton = view.findViewById(R.id.profile_setting_button);
         settingButton.setOnClickListener(this);
 
