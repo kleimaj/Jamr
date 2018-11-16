@@ -30,14 +30,16 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private String display_name, email, password;
     private TextInputLayout mDisplayName, mEmail, mPassword;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private View passingView;
     private RadioGroup radioGroup;
     private DatabaseReference mDatabase;
+    static String userId = "";
+    static String display_name, email, password;
     static boolean isBand;
+    static boolean justRegistered = false;
 
     // Progress Dialog
     private ProgressDialog mRegProgress;
@@ -63,11 +65,11 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
                     Toast.makeText(RegisterActivity.this,
                       "Already signed-in", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         };
     }
@@ -109,7 +111,6 @@ public class RegisterActivity extends AppCompatActivity {
         //make a singleton artistmodel
         MainActivity.currentUser = new ArtistModel(display_name);
         MainActivity.currentUser.setBand(isBand);
-        saveContents(); //writes to local file
 
         mAuth.createUserWithEmailAndPassword(email, password)
           .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -125,8 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
                       Toast.makeText(RegisterActivity.this, "Register successful",
                         Toast.LENGTH_SHORT).show();
                       FirebaseUser user = mAuth.getCurrentUser();
-                      String userId = user.getUid();
-
+                      userId = user.getUid();
                       mDatabase = FirebaseDatabase.getInstance().getReference
                         ().child("Users").child(userId);
                       HashMap<String, String> userMap = new HashMap<>();
@@ -148,11 +148,12 @@ public class RegisterActivity extends AppCompatActivity {
                   }
               }
           });
+        justRegistered = true;
+        //saveContents(); //writes to local file
     }
     //writes name and isBand to file, to be used on login
     protected void saveContents() {
         Context context = getApplicationContext();
-        String userId = mAuth.getCurrentUser().getUid();
         try {
             FileOutputStream output = context.openFileOutput(userId+"profileInfo.txt", Context
               .MODE_PRIVATE);

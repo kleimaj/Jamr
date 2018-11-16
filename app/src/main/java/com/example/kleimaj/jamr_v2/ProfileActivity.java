@@ -67,8 +67,9 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
     public void setImage(View v) {
         String image = MainActivity.currentUser.getImage();
         System.out.println("HERE ... IMAGE IS "+image);
-        if (image!=null) {
+        if (image != null ||!image.equals("null")) {
             if (!image.isEmpty()) {
+                System.out.println("HERE!!!!!!");
                 //convert base64 to bitmap
                 byte[] decodedBytes = Base64.decode(image, 0); //flag maybe Base64.DEFAULT
                 ImageView imageView = (ImageView) v.findViewById(R.id.profile_image);
@@ -79,6 +80,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
     }
 
     public void setDisplayName(View v) {
+        System.out.println("IN SETDISPLAYNAME ... NAME IS "+MainActivity.currentUser.getName());
         TextView display = v.findViewById(R.id.ArtistName);
         display.setText(MainActivity.currentUser.getName());
     }

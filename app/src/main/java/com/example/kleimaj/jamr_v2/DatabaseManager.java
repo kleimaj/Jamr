@@ -77,6 +77,36 @@ public class DatabaseManager {
         currentUserDb.setValue(imageString);
     }
 
+    //acts as max age
+    public static void setPrefAge(int age) throws FirebaseException {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child
+          (userId).child("pref_age");
+        currentUserDb.setValue(age);
+    }
+
+    public static void setPrefGender(String gender) throws FirebaseException {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child
+          (userId).child("pref_gender");
+        currentUserDb.setValue(gender);
+    }
+
+    public static void setPrefIdentity(ArrayList<String> identity) throws FirebaseException {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child
+          (userId).child("pref_identity");
+        currentUserDb.setValue(identity);
+    }
+
+    public static void setGenre(ArrayList<String> genre) throws FirebaseException {
+        String userId = mAuth.getCurrentUser().getUid();
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child
+          (userId).child("pref_genre");
+        currentUserDb.setValue(genre);
+    }
+
+
     public boolean setArtistInfo(String name, String gender, String age, ArrayList<String> musicIdentities,
                                  ArrayList<String> genres, String bio) {
         try {
@@ -91,6 +121,10 @@ public class DatabaseManager {
             Log.v("artist save error", e.getMessage());
             return false;
         }
+    }
+
+    public void logout() {
+        mAuth.getInstance().signOut();
     }
 
     public boolean setBandInfo(String name, ArrayList<String> genres, String bio) {

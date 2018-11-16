@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,11 +36,13 @@ public class MySettingsActivity extends AppCompatActivity {
     int maxAge;
     int distance;
     String preferredGender;
+    DatabaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_settings);
+        db = new DatabaseManager();
 
         ageSeek = findViewById(R.id.set_seek_age);
         distanceSeek = findViewById(R.id.set_seek_distance);
@@ -130,10 +133,6 @@ public class MySettingsActivity extends AppCompatActivity {
         genderSpinner.setOnItemSelectedListener(new MySettingsActivity.SpinnerActivity());
     }
 
-    public void saveSettings() {
-
-    }
-
     public void onSaveInfo(View v) {
         String genres = genreMulti.getText().toString();
         String[] genresArray = genres.split(", ");
@@ -150,6 +149,9 @@ public class MySettingsActivity extends AppCompatActivity {
     }
 
     public void onLogOut(View v) {
-
+        db.logout();
+        Intent myIntent = new Intent(MySettingsActivity.this, StartUpActivity.class);
+        startActivity(myIntent);
+        finish();
     }
 }

@@ -83,16 +83,16 @@ public class MyInfoActivity extends AppCompatActivity {
             }
         }
         else if (MainActivity.currentUser.isBand()) { //it's a band
-            //System.out.println("IM A BAND!!!!!");
             setContentView(R.layout.activity_band_info);
             bandNameEditText = findViewById(R.id.editText_name_band);
             bandBioEditText = findViewById(R.id.editText_bio_band);
             bandSave = findViewById(R.id.saveButtonBand);
             initializeMultiAutoCompletes(2);
             bioInfoText = readUserFile();
-            if(!bioInfoText.equals(null)){
+            if (bioInfoText!=null) {
                 setBandInfo(bioInfoText);
             }
+
             else {
                 bandNameEditText.setText(MainActivity.currentUser.getName());
             }
@@ -144,20 +144,15 @@ public class MyInfoActivity extends AppCompatActivity {
     }
 
     public void onSaveBandInfo(View v) {
-        System.out.println("IN SAVEBANDINFO!!!");
         String name = bandNameEditText.getText().toString();
         String bio = bandBioEditText.getText().toString();
-        System.out.println("GOT HERE!!!");
         String genres = bandGenreMulti.getText().toString();
-        System.out.println("NOT HERE!");
         String[] genresArray = genres.split(", ");
-        System.out.println("BUT heRE!!!@!");
         ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
 
         // put in strings resource file
         String success = "Save successful";
         String failure = "Failure to save info";
-        System.out.println("PROBLEM LIES IN DATABASE CLASS!");
         if (db.setBandInfo(name, genresArrayList, bio)) {
             Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
             writeBandInfoToFile();
@@ -177,16 +172,14 @@ public class MyInfoActivity extends AppCompatActivity {
       bio
  */
     public void writeBandInfoToFile(){
-        String UID = MainActivity.currentUser.getUID();
         Context context = getApplicationContext();
+        String UID = MainActivity.currentUser.getUID();
         try {
             //for bio and genres
             FileOutputStream output = context.openFileOutput(UID+"bioInfo.txt", Context
               .MODE_PRIVATE);
 
             //for name
-            FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt", Context
-              .MODE_PRIVATE);
             StringBuilder bioText = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
             //text.append(bandNameEditText.getText().toString() + " \n");
@@ -198,13 +191,16 @@ public class MyInfoActivity extends AppCompatActivity {
             //if user changed name, write to file profileInfo.txt
             String newName = bandNameEditText.getText().toString();
             if (newName.equals(MainActivity.currentUser.getName())) {
-                output2.close();
             }
             else {
+                FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt",               Context.MODE_PRIVATE);
                 MainActivity.currentUser.setName(newName);
                 profileText.append(newName+ " \n");
                 profileText.append(MainActivity.currentUser.isBand() + " \n");
-                profileText.append(MainActivity.currentUser.getImage() + " \n");
+                //dont enter image to file if null
+                if (!MainActivity.currentUser.getImage().isEmpty()) {
+                    profileText.append(MainActivity.currentUser.getImage() + " \n");
+                }
                 output2.write(profileText.toString().getBytes());
                 output2.close();
             }
@@ -231,8 +227,6 @@ public class MyInfoActivity extends AppCompatActivity {
         try {
             FileOutputStream output = context.openFileOutput(UID+"bioInfo.txt", Context
               .MODE_PRIVATE);
-            FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt", Context
-              .MODE_PRIVATE);
 
             StringBuilder text = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
@@ -248,13 +242,16 @@ public class MyInfoActivity extends AppCompatActivity {
 
             String newName = nameEditText.getText().toString();
             if (newName.equals(MainActivity.currentUser.getName())) {
-                output2.close();
             }
             else {
+                FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt",               Context.MODE_PRIVATE);
                 MainActivity.currentUser.setName(newName);
                 profileText.append(newName+ " \n");
                 profileText.append(MainActivity.currentUser.isBand() + " \n");
-                profileText.append(MainActivity.currentUser.getImage() + " \n");
+                //dont enter image to file if null
+                if (!MainActivity.currentUser.getImage().isEmpty()) {
+                    profileText.append(MainActivity.currentUser.getImage() + " \n");
+                }
                 output2.write(profileText.toString().getBytes());
                 output2.close();
             }

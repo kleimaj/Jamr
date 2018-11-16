@@ -11,11 +11,11 @@ import java.util.ArrayList;
  */
 
 public class ArtistModel {
-    private String name;
-    private String bio;
-    private String gender;
+    private String name ="";
+    private String bio = "";
+    private String gender = "";
     private int age;
-    private String image;
+    private String image = "";
     private boolean isBand;
     private ArrayList<String> identities; //e.g. Producer, Guitarist, Vocalist
     private ArrayList<String> genres; //can switch to a String[] if need be
