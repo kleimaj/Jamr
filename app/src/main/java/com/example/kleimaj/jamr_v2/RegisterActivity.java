@@ -134,6 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
                       userMap.put("thumb_image", "default");
                       userMap.put("image", "default");
                       userMap.put("isBand", String.valueOf(isBand));
+                      userMap.put("music_identity", "[.]");
 
                       mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                           @Override

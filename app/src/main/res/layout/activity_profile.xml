@@ -110,7 +110,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toLeftOf="@id/profile_identity"
-            android:background="#e8e9e3ec" />
+            android:background="#d5baf3" />
 
         <View
             android:layout_width="match_parent"

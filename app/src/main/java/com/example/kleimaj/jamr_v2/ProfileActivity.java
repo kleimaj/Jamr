@@ -1,23 +1,16 @@
 package com.example.kleimaj.jamr_v2;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +32,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -110,11 +100,16 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                         .getValue().toString()
                         .replace("[", "")  //remove the right bracket
                         .replace("]", "")  //remove the left bracket
-                        .trim();
+                        .trim()
+                        .replaceAll(",$", ""); // remove the last comma
+
                 mName.setText(name);
                 mIdentity.setText(identity);
 
-                Picasso.get().load(image).into(mDisplayImage);
+                // display the default avatar if no image uploaded
+                if (!image.equals("default")){
+                    Picasso.get().load(image).into(mDisplayImage);
+                }
             }
 
             @Override
@@ -162,6 +157,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 //    https://stackoverflow.com/questions/38457826/image-crop-not-working-in-fragment
 //    https://code.tutsplus.com/tutorials/image-upload-to-firebase-in-android-application--cms-29934
 
+    // Upload the image to Firebase Storage
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -189,7 +185,8 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         String downloadUrl = uri.toString();
-                                        mUserDatabase.child("image").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        mUserDatabase.child("image").setValue(downloadUrl)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 // dismiss the dialog after everything is complete
