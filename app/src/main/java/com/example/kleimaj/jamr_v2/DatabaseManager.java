@@ -60,7 +60,7 @@ public class DatabaseManager {
 
     public static void setMusicIdentities(ArrayList<String> musicIdentities) throws FirebaseException {
         String userId = mAuth.getCurrentUser().getUid();
-        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("music identities");
+        currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("music_identity");
         currentUserDb.setValue(musicIdentities);
     }
 

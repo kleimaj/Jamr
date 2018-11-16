@@ -48,7 +48,47 @@ public class StartUpActivity extends AppCompatActivity {
                     UID = user.getUid();
                     //user is already logged in
                     //TODO: create intent for swipe screen
-                    Toast.makeText(StartUpActivity.this, "signed-in",Toast.LENGTH_SHORT).show();
+                    Context context = getApplicationContext();
+                    BufferedReader reader = null;
+                    // StringBuilder text = new StringBuilder();
+                    String name = "";
+                    String isBand = "";
+                    String image = "";
+                    String userId = mAuth.getCurrentUser().getUid();
+                    //Try Catch block to open/read files from directory and put into view
+                    try {
+                        FileInputStream stream = context.openFileInput(userId+"profileInfo" +
+                                ".txt");
+                        InputStreamReader streamReader = new InputStreamReader(stream);
+                        reader = new BufferedReader(streamReader);
+
+                        String line;
+                        int count = 0;
+                        while((line = reader.readLine()) !=null){
+                            //text.append(line);
+                            //text.append('\n');
+                            if (count == 0) {
+                                name = line;
+                            }
+                            else if (count == 1) {
+                                isBand = line;
+                            }
+                            else if (count >= 2) {
+                                image += line;
+                            }
+                            count++;
+                        }
+                        reader.close();
+                        stream.close();
+                        streamReader.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    MainActivity.currentUser = new ArtistModel(name);
+                    MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
+                    MainActivity.currentUser.setImage(image);
+//
 //                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
 //                    startActivity(myIntent);
 //                    finish();

@@ -132,7 +132,9 @@ public class RegisterActivity extends AppCompatActivity {
                       HashMap<String, String> userMap = new HashMap<>();
                       userMap.put("name", display_name);
                       userMap.put("thumb_image", "default");
+                      userMap.put("image", "default");
                       userMap.put("isBand", String.valueOf(isBand));
+                      userMap.put("music_identity", "[.]");
 
                       mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                           @Override
