@@ -4,143 +4,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@color/white"
     tools:context="com.example.kleimaj.jamr_v2.ProfileActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image_circle">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:src="@drawable/anon"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000" />
-
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/circle"
-            android:layout_marginTop="150dp"
-            android:layout_marginLeft="240dp"
-            android:id="@+id/ProfilePictureButton"
-            android:src="@drawable/pen"
-            android:onClick="imageClick"/>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/profile_collection_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Artist"
-            android:textSize="40sp"
-            android:layout_below="@+id/profile_image"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:textColor="#fff"
-            android:id="@+id/ArtistName"/>
+            android:layout_marginTop="30dp"
+            android:background="#27ffffff"
+            android:drawableLeft="@drawable/ic_collectoin_24dp"
+            android:drawablePadding="15dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/profile_collection_text"></Button>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:layout_below="@+id/ArtistName"
-            android:layout_marginTop="-5dp"
-            android:layout_centerHorizontal="true"
-            android:text="View your profile"
-            android:textColorHint="#fff"/>
-
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/circle"
-            android:layout_marginTop="320dp"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
-            android:id="@+id/InfoRoundButton"
-            android:src="@drawable/pen"
-            android:onClick="myInfoClick"/>
+            android:layout_marginRight="30dp"
+            android:background="#e8e9e3ec" />
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/circle"
-            android:layout_below="@+id/InfoRoundButton"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/MediaButton"
-            android:src="@drawable/inspec"/>
+        <Button
+            android:id="@+id/profile_setting_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="#27ffffff"
+            android:drawableLeft="@drawable/ic_setting_24dp"
+            android:drawablePadding="15dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/profile_setting_text"></Button>
+    </LinearLayout>
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/circle"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/MediaButton"
-            android:id="@+id/SettingsButton"
-            android:src="@drawable/gear"
-            android:onClick="mySettingsClick"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image_circle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/default_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_alignTop="@id/InfoRoundButton"
-           android:layout_marginLeft="100dp"
-           android:textStyle="bold"
-           android:textSize="15dp"
-           android:textColor="#fff"
-           android:text="My Info"/>
+
+    <TextView
+        android:id="@+id/ArtistName"
+        android:layout_width="101dp"
+        android:layout_height="36dp"
+        android:layout_below="@+id/profile_image_circle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:autoSizeMaxTextSize="100sp"
+        android:autoSizeMinTextSize="16sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center_horizontal"
+        android:text="Shin Chan"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image_circle" />
+
+    <RelativeLayout
+        android:id="@+id/profile_line_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ArtistName">
 
         <TextView
+            android:id="@+id/profile_identity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/InfoRoundButton"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="340dp"
-            android:text="Edit your display name, genres, bio"
-            android:textColor="#fff" />
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Guitarist, Pianist" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/MediaButton"
-            android:layout_marginLeft="100dp"
-            android:textStyle="bold"
-            android:textSize="15dp"
-            android:textColor="#fff"
-            android:text="My Media"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toLeftOf="@id/profile_identity"
+            android:background="#d5baf3" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/MediaButton"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="410dp"
-            android:text="Change your featured social media"
-            android:textColor="#fff" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/SettingsButton"
-            android:layout_marginLeft="100dp"
-            android:textStyle="bold"
-            android:textSize="15dp"
-            android:textColor="#fff"
-            android:text="My Settings"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/SettingsButton"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="480dp"
-            android:text="Update your search preferences"
-            android:textColor="#fff" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_toRightOf="@id/profile_identity"
+            android:background="#d5baf3" />
 
     </RelativeLayout>
 
+
 </android.support.constraint.ConstraintLayout>
+

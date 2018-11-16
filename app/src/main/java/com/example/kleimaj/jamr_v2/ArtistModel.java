@@ -1,5 +1,8 @@
 package com.example.kleimaj.jamr_v2;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -8,14 +11,15 @@ import java.util.ArrayList;
  */
 
 public class ArtistModel {
-    private String name;
-    private String bio;
-    private String gender;
+    private String name ="";
+    private String bio = "";
+    private String gender = "";
     private int age;
-    private String image;
+    private String image = "";
     private boolean isBand;
     private ArrayList<String> identities; //e.g. Producer, Guitarist, Vocalist
     private ArrayList<String> genres; //can switch to a String[] if need be
+    private FirebaseAuth mAuth;
 
     /*Constructors*/
 
@@ -49,6 +53,8 @@ public class ArtistModel {
     }
 
     public void setBand(boolean bool) { isBand = bool;}
+
+    public void setName(String name) { this.name = name; }
 
     public void setImage(String image) { this.image = image; }
 
@@ -92,5 +98,12 @@ public class ArtistModel {
 
     public ArrayList<String> getGenres() {
         return genres;
+    }
+
+    public String getUID() {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String userId = user.getUid();
+        return  userId;
     }
 }
