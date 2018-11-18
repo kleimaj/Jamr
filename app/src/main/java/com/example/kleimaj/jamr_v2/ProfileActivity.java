@@ -2,6 +2,7 @@ package com.example.kleimaj.jamr_v2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -33,7 +34,14 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -50,6 +58,9 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
     // Storage Firebase
     private FirebaseStorage storage;
     private StorageReference mImageStorage;
+
+    // Thumbnail bitmap
+    private Bitmap thumb_bitmap;
 
 
     public ProfileActivity() {
@@ -107,8 +118,8 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                 mIdentity.setText(identity);
 
                 // display the default avatar if no image uploaded
-                if (!image.equals("default")){
-                    Picasso.get().load(image).into(mDisplayImage);
+                if (!image.equals("default")) {
+                    Picasso.get().load(image).placeholder(R.drawable.default_avatar).into(mDisplayImage);
                 }
             }
 
@@ -120,10 +131,10 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 
 
         // click listerer
-        Button  settingButton = view.findViewById(R.id.profile_setting_button);
+        Button settingButton = view.findViewById(R.id.profile_setting_button);
         settingButton.setOnClickListener(this);
 
-        Button  collectionButton = view.findViewById(R.id.profile_collection_button);
+        Button collectionButton = view.findViewById(R.id.profile_collection_button);
         collectionButton.setOnClickListener(this);
 
         CircleImageView profileImage = view.findViewById(R.id.profile_image_circle);
@@ -147,7 +158,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
             case R.id.profile_image_circle:
 
                 Intent intent = CropImage.activity()
-                        .setAspectRatio(1,1)
+                        .setAspectRatio(1, 1)
                         .getIntent(getContext());
 
                 startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -170,7 +181,29 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                 progressDialog.show();
 
                 final Uri resultUri = result.getUri();
+
+                File thumb_filePath = new File(resultUri.getPath());
+
                 String current_user_id = mCurrentUser.getUid();
+
+                try {
+                    thumb_bitmap = new Compressor(getActivity())
+                            .setMaxHeight(200)
+                            .setMaxWidth(200)
+                            .setQuality(75)
+                            .compressToBitmap(thumb_filePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                final byte[] thumb_byte = baos.toByteArray();
+
+                final StorageReference thumb_filepath = mImageStorage.
+                        child("profile_images")
+                        .child("thumbs").child(current_user_id + ".jpg");
+
 
                 final StorageReference ref = mImageStorage.child("profile_images")
                         .child(current_user_id + ".jpg");
@@ -184,16 +217,66 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                                 ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        String downloadUrl = uri.toString();
-                                        mUserDatabase.child("image").setValue(downloadUrl)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                // dismiss the dialog after everything is complete
-                                                progressDialog.dismiss();
-                                                Toast.makeText(getActivity(),
-                                                        "Uploaded", Toast.LENGTH_SHORT).show();
+                                        final String downloadUrl = uri.toString();
 
+                                        UploadTask uploadTask = thumb_filepath.putBytes(thumb_byte);
+
+                                        Task<Uri> urlTask = uploadTask
+                                                .continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                                            @Override
+                                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                                if (!task.isSuccessful()) {
+                                                    throw task.getException();
+                                                }
+                                                // Continue with the task to get the download URL
+                                                return ref.getDownloadUrl();
+                                            }
+                                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Uri> task) {
+                                                if (task.isSuccessful()) {
+
+                                                    // Here we successfully
+                                                    // fetched
+                                                    // image_download_url
+                                                    // and
+                                                    // thumb_download_url
+                                                    String thumb_downloadUri =
+                                                            task.getResult().toString();
+
+                                                    Map update_hashMap = new
+                                                            HashMap();
+
+                                                    update_hashMap.put
+                                                            ("image",
+                                                                    downloadUrl);
+                                                    update_hashMap.put
+                                                            ("thumb_image",
+                                                                    thumb_downloadUri);
+                                                    mUserDatabase.updateChildren
+                                                            (update_hashMap)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    // dismiss the dialog after everything is complete
+                                                                    progressDialog.dismiss();
+                                                                    Toast.makeText(getActivity(),
+                                                                            "Uploaded", Toast.LENGTH_SHORT).show();
+
+                                                                }
+                                                            });
+
+
+
+                                                } else {
+                                                    // Handle failures
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText
+                                                            (getActivity(),
+                                                                    "Store " +
+                                                                            "URL Failed",
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                         });
                                     }
@@ -204,16 +287,16 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getActivity(), "Failed "+e.getMessage(),
+                                Toast.makeText(getActivity(), "Failed " + e.getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                            .getTotalByteCount());
-                                progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount());
+                                progressDialog.setMessage("Uploaded " + (int) progress + "%");
                             }
                         });
 

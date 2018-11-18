@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -15,8 +16,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -58,6 +62,10 @@ public class FeedFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        // -----------------------------------------------------------------
+        // ----------------------  MAGIC  ----------------------------------
+        // https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md -----
+        // ------------------------------------------------------------------------------
         // Get the Query From db.
         query = FirebaseDatabase.getInstance()
                 .getReference()
@@ -81,9 +89,10 @@ public class FeedFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(FeedsViewHolder holder, int position, Users model) {
-                // Bind the Chat object to the ChatHolder
+                // Bind the User object to the FeedsViewHolder
                 holder.setName(model.getName());
                 holder.setMusicIdentity(model.getMusic_identity());
+                holder.setThumbImage(model.getThumb_image());
             }
         };
 
@@ -111,6 +120,13 @@ public class FeedFragment extends Fragment {
                     .replace("]", "")
                     .trim()
                     .replaceAll(",$", ""));
+        }
+
+        public void setThumbImage(String thumbImage){
+            CircleImageView userThumbImage = mView.findViewById(R.id
+                    .feed_user_image);
+            Picasso.get().load(thumbImage).placeholder(R.drawable.default_avatar)
+                    .into(userThumbImage);
         }
     }
 
