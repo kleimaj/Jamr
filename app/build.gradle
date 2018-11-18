@@ -45,6 +45,10 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-database:16.0.4'
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
+
+    implementation 'com.firebaseui:firebase-ui:4.2.1'
 
 
 
@@ -71,7 +75,6 @@ dependencies {
     // cache image
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    implementation 'com.google.firebase:firebase-storage:16.0.4'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
+
 }
 apply plugin: 'com.google.gms.google-services'

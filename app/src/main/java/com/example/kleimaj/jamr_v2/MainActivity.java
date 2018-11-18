@@ -47,10 +47,15 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     switchToFragment3();
                     return true;
+                case R.id.navigation_feed:
+                    switchToFragmentFeed();
+                    return true;
             }
             return false;
         }
     };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
         switchToFragment1();
     }
 
+    // Switch to Fragment Feed
+    private void switchToFragmentFeed() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frame_container, FeedFragment.newInstance());
+        ft.commit();
+    }
 
     public void switchToFragment1() {
         FragmentManager fm = getSupportFragmentManager();

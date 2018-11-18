@@ -144,6 +144,8 @@
     <string name="reg_create_account_title">Registering User</string>
     <string name="profile_setting_text">Setting</string>
     <string name="profile_collection_text">Collection</string>
+    <string name="title_feed">Feed</string>
+    <string name="user_music_identity">User Music Identity</string>
 
 
 </resources>
