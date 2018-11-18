@@ -17,7 +17,7 @@ public class SwipeScreen1 extends Fragment {
     private Context mContext;
 
     public SwipeScreen1() {
-        // required empty public consturctor
+        // required empty public constructor
     }
 
     public static SwipeScreen1 newInstance() {

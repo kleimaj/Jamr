@@ -2,14 +2,11 @@ package com.example.kleimaj.jamr_v2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,7 +50,7 @@ public class StartUpActivity extends AppCompatActivity {
                     // StringBuilder text = new StringBuilder();
                     String name = "";
                     String isBand = "";
-                    String image = "";
+                    StringBuilder image = new StringBuilder();
                     String userId = mAuth.getCurrentUser().getUid();
                     //Try Catch block to open/read files from directory and put into view
                     try {
@@ -74,7 +71,7 @@ public class StartUpActivity extends AppCompatActivity {
                                 isBand = line;
                             }
                             else if (count >= 2) {
-                                image += line;
+                                image.append(line);
                             }
                             count++;
                         }
@@ -87,7 +84,7 @@ public class StartUpActivity extends AppCompatActivity {
                     }
                     MainActivity.currentUser = new ArtistModel(name);
                     MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
-                    MainActivity.currentUser.setImage(image);
+                    MainActivity.currentUser.setImage(image.toString());
 //
 //                    Intent myIntent = new Intent(StartUpActivity.this, MainActivity.class);
 //                    startActivity(myIntent);

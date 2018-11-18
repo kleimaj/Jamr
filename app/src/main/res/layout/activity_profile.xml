@@ -27,7 +27,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="@string/profile_collection_text"></Button>
+            android:text="@string/profile_collection_text" />
 
         <View
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="@string/profile_setting_text"></Button>
+            android:text="@string/profile_setting_text" />
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView

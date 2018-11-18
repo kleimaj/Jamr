@@ -3,34 +3,27 @@ package com.example.kleimaj.jamr_v2;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.MultiAutoCompleteTextView;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseException;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static com.example.kleimaj.jamr_v2.MyInfoActivity.minAge;
 
 public class MySettingsActivity extends AppCompatActivity {
 
@@ -150,7 +143,7 @@ public class MySettingsActivity extends AppCompatActivity {
     }
 
     public void initializeSpinner() {
-        ArrayList<String> genderList = new ArrayList<String>();
+        ArrayList<String> genderList = new ArrayList<>();
         genderList.add("Any");
         genderList.add("Male");
         genderList.add("Female");
@@ -194,12 +187,11 @@ public class MySettingsActivity extends AppCompatActivity {
               .MODE_PRIVATE);
 
             //for name
-            StringBuilder preferenceText = new StringBuilder();
-            preferenceText.append(maxAge + " \n");
-            preferenceText.append(preferredGender + " \n");
-            preferenceText.append(identityMulti.getText().toString() + " \n");
-            preferenceText.append(genreMulti.getText().toString() + " \n");
-            output.write(preferenceText.toString().getBytes());
+            String preferenceText = String.valueOf(maxAge) + " \n" +
+                    preferredGender + " \n" +
+                    identityMulti.getText().toString() + " \n" +
+                    genreMulti.getText().toString() + " \n";
+            output.write(preferenceText.getBytes());
             output.close();
         }
         catch (IOException e) {

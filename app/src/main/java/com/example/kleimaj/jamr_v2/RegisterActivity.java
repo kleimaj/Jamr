@@ -159,10 +159,9 @@ public class RegisterActivity extends AppCompatActivity {
         try {
             FileOutputStream output = context.openFileOutput(userId+"profileInfo.txt", Context
               .MODE_PRIVATE);
-            StringBuilder text = new StringBuilder();
-            text.append(display_name + " \n");
-            text.append(isBand + " \n");
-            output.write(text.toString().getBytes());
+            String text = display_name + " \n" +
+                    isBand + " \n";
+            output.write(text.getBytes());
             output.close();
 
         } catch (IOException e) {

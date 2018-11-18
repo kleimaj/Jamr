@@ -26,24 +26,24 @@ public class ArtistModel {
     public ArtistModel(String name){ //for testing
         this.name = name;
         age = -1;
-        genres = new ArrayList<String>();
-        identities = new ArrayList<String>();
+        genres = new ArrayList<>();
+        identities = new ArrayList<>();
     }
 
     public ArtistModel(String name, String gender) { //for testing
         this.name = name;
         this.gender = gender;
         age = -1;
-        genres = new ArrayList<String>();
-        identities = new ArrayList<String>();
+        genres = new ArrayList<>();
+        identities = new ArrayList<>();
     }
 
     public ArtistModel(String name, String gender, int age){ //for actual use
         this.name = name;
         this.gender = gender;
         this.age = age;
-        genres = new ArrayList<String>();
-        identities = new ArrayList<String>();
+        genres = new ArrayList<>();
+        identities = new ArrayList<>();
     }
 
     /*Setters*/
@@ -63,7 +63,7 @@ public class ArtistModel {
     }
 
     public void setGenres(ArrayList<String> genres){
-        this.genres = new ArrayList<String>(genres);
+        this.genres = new ArrayList<>(genres);
     }
 
     public void setIdentities(ArrayList<String> identities){

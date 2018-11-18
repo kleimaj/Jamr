@@ -1,37 +1,20 @@
 package com.example.kleimaj.jamr_v2;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -56,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     switchToFragment1();
-                    break;
+                    return true;
                 case R.id.navigation_dashboard:
                     Toast.makeText(MainActivity.this,
                             "Messaging Coming Soon!", Toast.LENGTH_SHORT).show();
@@ -89,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         //must load data from local file first... still need to figure that out
        // display.setText(currentUser.getName());
       //  initialize();
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         switchToFragment1();
@@ -98,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchToFragment1() {
         FragmentManager fm = getSupportFragmentManager();
-// replace
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frame_container, SwipeScreen1.newInstance());
         ft.commit();
@@ -110,13 +92,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void switchToFragment3() {
-        //initialize();
         FragmentManager fm = getSupportFragmentManager();
-// replace
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frame_container, ProfileActivity.newInstance());//MyInfor.newInstance());
         ft.commit();
-        //initialize();
     }
 
 
@@ -132,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<ArtistModel> getArtists(ArrayList<String> genres, ArrayList<String>
       identities, String gender, int maxAge) {
         //arraylist of all artists from another function
-        ArrayList<ArtistModel> usersFromDatabase = new ArrayList<ArtistModel>(); //should be full
+        ArrayList<ArtistModel> usersFromDatabase = new ArrayList<>(); //should be full
 
         ArrayList<ArtistModel> returnedUsers = new ArrayList<ArtistModel>();
 
@@ -182,22 +161,14 @@ public class MainActivity extends AppCompatActivity {
         if (genderPreference.isEmpty()) {
             return true;
         }
-        if (userGender.equals(genderPreference)) {
-            return true;
-        }
-        return false;
+        return userGender.equals(genderPreference);
     }
 
     public static boolean matchingAge(int agePref, int userAge) {
         if (agePref == 0) {
             return true;
         }
-        else if (agePref >= userAge) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        else return agePref >= userAge;
     }
 
     protected void saveContents() {
@@ -205,10 +176,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             FileOutputStream output = context.openFileOutput(RegisterActivity.userId+"profileInfo.txt", Context
               .MODE_PRIVATE);
-            StringBuilder text = new StringBuilder();
-            text.append(RegisterActivity.display_name + " \n");
-            text.append(RegisterActivity.isBand + " \n");
-            output.write(text.toString().getBytes());
+            String text = RegisterActivity.display_name + " \n" +
+                    RegisterActivity.isBand + " \n";
+            output.write(text.getBytes());
             output.close();
 
         } catch (IOException e) {

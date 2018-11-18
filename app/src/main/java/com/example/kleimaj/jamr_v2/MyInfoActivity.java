@@ -127,10 +127,10 @@ public class MyInfoActivity extends AppCompatActivity {
         String bio = bioEditText.getText().toString();
         String genres = genreMulti.getText().toString();
         String[] genresArray = genres.split(", ");
-        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
+        ArrayList<String> genresArrayList = new ArrayList<>(Arrays.asList(genresArray));
         String musicIdentities = identityMulti.getText().toString();
         String[] musicIdentitiesArray = musicIdentities.split(", ");
-        ArrayList<String> musicIdentitiesArrayList = new ArrayList<String>(Arrays.asList(musicIdentitiesArray));
+        ArrayList<String> musicIdentitiesArrayList = new ArrayList<>(Arrays.asList(musicIdentitiesArray));
 
         String success = "Save successful";
         String failure = "Failure to save info";
@@ -148,7 +148,7 @@ public class MyInfoActivity extends AppCompatActivity {
         String bio = bandBioEditText.getText().toString();
         String genres = bandGenreMulti.getText().toString();
         String[] genresArray = genres.split(", ");
-        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
+        ArrayList<String> genresArrayList = new ArrayList<>(Arrays.asList(genresArray));
 
         // put in strings resource file
         String success = "Save successful";
@@ -180,12 +180,11 @@ public class MyInfoActivity extends AppCompatActivity {
               .MODE_PRIVATE);
 
             //for name
-            StringBuilder bioText = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
             //text.append(bandNameEditText.getText().toString() + " \n");
-            bioText.append(bandGenreMulti.getText().toString() + " \n");
-            bioText.append(bandBioEditText.getText().toString() + " \n");
-            output.write(bioText.toString().getBytes());
+            String bioText = bandGenreMulti.getText().toString() + " \n" +
+                    bandBioEditText.getText().toString() + " \n";
+            output.write(bioText.getBytes());
             output.close();
             //check if name is null, if user didn't edit name, don't write
             //if user changed name, write to file profileInfo.txt
@@ -195,11 +194,11 @@ public class MyInfoActivity extends AppCompatActivity {
             else {
                 FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt",               Context.MODE_PRIVATE);
                 MainActivity.currentUser.setName(newName);
-                profileText.append(newName+ " \n");
-                profileText.append(MainActivity.currentUser.isBand() + " \n");
+                profileText.append(newName).append(" \n");
+                profileText.append(MainActivity.currentUser.isBand()).append(" \n");
                 //dont enter image to file if null
                 if (!MainActivity.currentUser.getImage().isEmpty()) {
-                    profileText.append(MainActivity.currentUser.getImage() + " \n");
+                    profileText.append(MainActivity.currentUser.getImage()).append(" \n");
                 }
                 output2.write(profileText.toString().getBytes());
                 output2.close();
@@ -228,16 +227,15 @@ public class MyInfoActivity extends AppCompatActivity {
             FileOutputStream output = context.openFileOutput(UID+"bioInfo.txt", Context
               .MODE_PRIVATE);
 
-            StringBuilder text = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
             //text.append(nameEditText.getText().toString() + " \n");
-            text.append(genreMulti.getText().toString() + " \n");
-            text.append(bioEditText.getText().toString() + " \n");
-            text.append(selectedAge + " \n");
-            text.append(selectedGender + " \n");
-            text.append(identityMulti.getText().toString() + " \n");
             //text.append(MainActivity.returnPicturePath() + " \n");
-            output.write(text.toString().getBytes());
+            String text = genreMulti.getText().toString() + " \n" +
+                    bioEditText.getText().toString() + " \n" +
+                    selectedAge + " \n" +
+                    selectedGender + " \n" +
+                    identityMulti.getText().toString() + " \n";
+            output.write(text.getBytes());
             output.close();
 
             String newName = nameEditText.getText().toString();
@@ -246,11 +244,11 @@ public class MyInfoActivity extends AppCompatActivity {
             else {
                 FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt",               Context.MODE_PRIVATE);
                 MainActivity.currentUser.setName(newName);
-                profileText.append(newName+ " \n");
-                profileText.append(MainActivity.currentUser.isBand() + " \n");
+                profileText.append(newName).append(" \n");
+                profileText.append(MainActivity.currentUser.isBand()).append(" \n");
                 //dont enter image to file if null
                 if (!MainActivity.currentUser.getImage().isEmpty()) {
-                    profileText.append(MainActivity.currentUser.getImage() + " \n");
+                    profileText.append(MainActivity.currentUser.getImage()).append(" \n");
                 }
                 output2.write(profileText.toString().getBytes());
                 output2.close();
@@ -315,7 +313,7 @@ public class MyInfoActivity extends AppCompatActivity {
         genderSpinner.setAdapter(genderAdapter);
         genderSpinner.setOnItemSelectedListener(new SpinnerActivity());
 
-        ArrayList<String> ageList = new ArrayList<String>();
+        ArrayList<String> ageList = new ArrayList<>();
         ageList.add("Age");
         for (int i = minAge; i <= maxAge; i++)
             ageList.add(Integer.toString(i));
@@ -355,7 +353,7 @@ public class MyInfoActivity extends AppCompatActivity {
             android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(ageSpinner);
             popupWindow.setHeight(700);
         }
-        catch (Exception e) { }
+        catch (Exception ignored) { }
     }
 
     /* bioInfo.txt for bands stores:
