@@ -2,11 +2,9 @@ package com.example.kleimaj.jamr_v2;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import static com.firebase.ui.auth.AuthUI.TAG;
+import java.util.ArrayList;
 
 
 /**
@@ -60,32 +58,32 @@ public class FeedFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        // Get the Query From db.
         query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Users")
                 .limitToLast(50);
-
-
+        
         FirebaseRecyclerOptions<Users> options =
                 new FirebaseRecyclerOptions.Builder<Users>()
                         .setQuery(query, Users.class)
                         .build();
 
-        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<Users, UsersViewHolder>(options) {
+        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<Users, FeedsViewHolder>(options) {
             @Override
-            public UsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public FeedsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 // Create a new instance of the ViewHolder, in this case we are using a custom
                 // layout called R.layout.message for each item
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.feed_single_layout, parent, false);
-
-                return new UsersViewHolder(view);
+                return new FeedsViewHolder(view);
             }
 
             @Override
-            protected void onBindViewHolder(UsersViewHolder holder, int position, Users model) {
+            protected void onBindViewHolder(FeedsViewHolder holder, int position, Users model) {
                 // Bind the Chat object to the ChatHolder
                 holder.setName(model.getName());
+                holder.setMusicIdentity(model.getMusic_identity());
             }
         };
 
@@ -93,16 +91,26 @@ public class FeedFragment extends Fragment {
         adapter.startListening();
     }
 
-    public static class UsersViewHolder extends RecyclerView.ViewHolder{
+    public static class FeedsViewHolder extends RecyclerView.ViewHolder{
         View mView;
 
-        public UsersViewHolder(View itemView){
+        public FeedsViewHolder(View itemView){
             super(itemView);
             mView = itemView;
         }
+
         public void setName(String name){
             TextView userNameView = mView.findViewById(R.id.feed_user_name);
             userNameView.setText(name);
+        }
+
+        public void setMusicIdentity(ArrayList<String> music_identity){
+            TextView userIdentity = mView.findViewById(R.id.feed_user_identity);
+            userIdentity.setText(music_identity.toString()
+                    .replace("[", "")
+                    .replace("]", "")
+                    .trim()
+                    .replaceAll(",$", ""));
         }
     }
 

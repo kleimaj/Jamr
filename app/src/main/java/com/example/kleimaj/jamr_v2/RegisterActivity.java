@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -127,14 +128,16 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                       FirebaseUser user = mAuth.getCurrentUser();
                       userId = user.getUid();
+                      ArrayList<String> defaultIdentity = new ArrayList<>();
+                      defaultIdentity.add(".");
                       mDatabase = FirebaseDatabase.getInstance().getReference
                         ().child("Users").child(userId);
-                      HashMap<String, String> userMap = new HashMap<>();
+                      HashMap<String,Object> userMap = new HashMap<>();
                       userMap.put("name", display_name);
                       userMap.put("thumb_image", "default");
                       userMap.put("image", "default");
                       userMap.put("isBand", String.valueOf(isBand));
-                      userMap.put("music_identity", "[.]");
+                      userMap.put("music_identity", defaultIdentity);
 
                       mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                           @Override
