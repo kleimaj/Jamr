@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        switchToFragment1();
+        navigation.setSelectedItemId(R.id.navigation_home);
     }
 
     // Switch to Fragment Feed

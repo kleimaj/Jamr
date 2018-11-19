@@ -108,9 +108,12 @@ public class FeedFragment extends Fragment {
             mView = itemView;
         }
 
+        // The first letter of name is capitalized.
         public void setName(String name){
             TextView userNameView = mView.findViewById(R.id.feed_user_name);
-            userNameView.setText(name);
+
+            userNameView.setText(name.substring(0,1).toUpperCase() + name
+                    .substring(1));
         }
 
         public void setMusicIdentity(ArrayList<String> music_identity){
