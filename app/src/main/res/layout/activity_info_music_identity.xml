@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MyInfoMusicIdentity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/MusicIdentity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="?attr/homeAsUpIndicator" />
+
+        <TextView
+            android:id="@+id/MusicIdentity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Music Identity"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/chip_cloud"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+        <com.adroitandroid.chipcloud.ChipCloud xmlns:chipcloud="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/chip_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:isScrollContainer="true"
+            android:scrollbars="vertical"
+            chipcloud:allCaps="true"
+            chipcloud:deselectTransitionMS="500"
+            chipcloud:deselectedColor="@color/deselected_color"
+            chipcloud:deselectedFontColor="@color/deselected_font_color"
+            chipcloud:gravity="staggered"
+            chipcloud:layout_constraintBottom_toBottomOf="parent"
+            chipcloud:layout_constraintEnd_toEndOf="parent"
+            chipcloud:layout_constraintHorizontal_bias="0.0"
+            chipcloud:layout_constraintStart_toStartOf="parent"
+            chipcloud:layout_constraintTop_toBottomOf="@+id/MusicIdentity"
+            chipcloud:minHorizontalSpacing="32dp"
+            chipcloud:selectMode="multi"
+            chipcloud:selectTransitionMS="750"
+            chipcloud:selectedColor="@color/selected_color"
+            chipcloud:selectedFontColor="@color/selected_font_color"
+            chipcloud:textSize="15sp"
+            chipcloud:verticalSpacing="16dp" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>

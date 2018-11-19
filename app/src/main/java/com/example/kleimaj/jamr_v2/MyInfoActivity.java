@@ -2,6 +2,7 @@ package com.example.kleimaj.jamr_v2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -30,9 +31,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static com.example.kleimaj.jamr_v2.DatabaseManager.indicator;
 
@@ -41,8 +45,8 @@ public class MyInfoActivity extends AppCompatActivity {
     public final static int minAge = 15;
     public final static int maxAge = 99;
     Spinner genderSpinner, ageSpinner;
-    EditText nameEditText, bioEditText, bandNameEditText, bandBioEditText;
-    MultiAutoCompleteTextView identityMulti, genreMulti, bandGenreMulti;
+    EditText identityMulti, nameEditText, bioEditText, bandNameEditText, bandBioEditText;
+    MultiAutoCompleteTextView genreMulti, bandGenreMulti;
     Button artistSave, bandSave;
     DatabaseManager db;
 
@@ -69,7 +73,8 @@ public class MyInfoActivity extends AppCompatActivity {
             ageSpinner = findViewById(R.id.spinner_age);
             nameEditText = findViewById(R.id.editText_name);
             bioEditText = findViewById(R.id.editText_bio);
-            identityMulti = findViewById(R.id.multiComplete_identity);
+            identityMulti = findViewById(R.id.multi_identity);
+            identityMulti.setText("");
             genreMulti = findViewById(R.id.multiComplete_genre);
             artistSave = findViewById(R.id.saveButton);
             initializeSpinners();
@@ -113,9 +118,8 @@ public class MyInfoActivity extends AppCompatActivity {
     private void setBandInfo(String text){
         String[] lines = text.split("\n");
         bandNameEditText.setText(MainActivity.currentUser.getName());
-       bandGenreMulti.setText(lines[0]);
+        bandGenreMulti.setText(lines[0]);
         bandBioEditText.setText(lines[1]);
-
     }
 
     public void onSaveArtistInfo(View v) {
@@ -141,6 +145,38 @@ public class MyInfoActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, failure, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void selectIdentity(View v) {
+        Intent intent = new Intent(v.getContext(), MyInfoMusicIdentity.class);
+        // this.startActivity(thisIntent);
+        ArrayList<String> musicIdentitiesArrayList;
+        String musicIdentities = identityMulti.getText().toString();
+        if (musicIdentities.equals("")){
+            musicIdentitiesArrayList = new ArrayList<String>();
+        } else {
+            String[] musicIdentitiesArray = musicIdentities.split(", ");
+            musicIdentitiesArrayList = new ArrayList<String>(Arrays.asList(musicIdentitiesArray));
+        }
+        intent.putExtra("chosenIdentities", musicIdentitiesArrayList);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Retrieve data in the intent
+        // not working
+        ArrayList<String> chosenIdentities = data.getStringArrayListExtra("chosenIdentities");
+
+        String textValue = "";
+        for (int i = 0; i < chosenIdentities.size(); i++) {
+            if (i != 0) {
+                textValue += ", ";
+            }
+            textValue += chosenIdentities.get(i);
+        }
+        identityMulti.setText(textValue);
     }
 
     public void onSaveBandInfo(View v) {
@@ -299,13 +335,7 @@ public class MyInfoActivity extends AppCompatActivity {
             genreMulti.setAdapter(genresAdapter);
             genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-            ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
-                    R.array.identities, android.R.layout.simple_dropdown_item_1line);
-            identityMulti.setAdapter(identityAdapter);
-            identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         }
-        //System.out.println("success");
-
     }
 
     public void initializeSpinners() {
