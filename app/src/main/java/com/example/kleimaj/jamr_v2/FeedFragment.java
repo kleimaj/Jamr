@@ -1,10 +1,12 @@
 package com.example.kleimaj.jamr_v2;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class FeedFragment extends Fragment {
 
+    private static final String TAG = "ssiy";
     private RecyclerView mFeedsList;
     private DatabaseReference mUsersDatabase;
 
@@ -64,7 +67,7 @@ public class FeedFragment extends Fragment {
 
         // -----------------------------------------------------------------
         // ----------------------  MAGIC  ----------------------------------
-        // https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md -----
+        // https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
         // ------------------------------------------------------------------------------
         // Get the Query From db.
         query = FirebaseDatabase.getInstance()
@@ -77,7 +80,8 @@ public class FeedFragment extends Fragment {
                         .setQuery(query, Users.class)
                         .build();
 
-        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<Users, FeedsViewHolder>(options) {
+        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<Users,
+        FeedsViewHolder>(options) {
             @Override
             public FeedsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 // Create a new instance of the ViewHolder, in this case we are using a custom
@@ -88,11 +92,28 @@ public class FeedFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(FeedsViewHolder holder, int position, Users model) {
+            protected void onBindViewHolder(FeedsViewHolder holder, int
+                position, Users model) {
                 // Bind the User object to the FeedsViewHolder
                 holder.setName(model.getName());
                 holder.setMusicIdentity(model.getMusic_identity());
                 holder.setThumbImage(model.getThumb_image());
+
+                final String user_id = getRef(position).getKey();
+
+                holder.mView.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent userProfileIntent = new Intent(getActivity(),
+                            UserProfile.class);
+                        userProfileIntent.putExtra("user_id", user_id);
+                        Log.e(TAG, "onClick: hahahha"+user_id);
+                        startActivity(userProfileIntent);
+
+                    }
+                });
+
             }
         };
 

@@ -24,4 +24,15 @@
         <item name="colorControlActivated">@color/yellow</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/yellow</item>
+        <item name="android:textColorSecondary">@color/purple</item>
+    </style>
+
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/yellow</item>
+        <item name="android:textColorSecondary">@color/purple</item>
+    </style>
+
 </resources>
