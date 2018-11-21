@@ -9,21 +9,21 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MyInfoMusicIdentity">
+        tools:context=".MyInfoChipsActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/MusicIdentity"
+            app:layout_constraintBottom_toTopOf="@+id/chipsTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="?attr/homeAsUpIndicator" />
 
         <TextView
-            android:id="@+id/MusicIdentity"
+            android:id="@+id/chipsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -56,7 +56,7 @@
             chipcloud:layout_constraintEnd_toEndOf="parent"
             chipcloud:layout_constraintHorizontal_bias="0.0"
             chipcloud:layout_constraintStart_toStartOf="parent"
-            chipcloud:layout_constraintTop_toBottomOf="@+id/MusicIdentity"
+            chipcloud:layout_constraintTop_toBottomOf="@+id/chipsTitle"
             chipcloud:minHorizontalSpacing="32dp"
             chipcloud:selectMode="multi"
             chipcloud:selectTransitionMS="750"

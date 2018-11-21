@@ -43,17 +43,22 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:onClick="selectGenreBand"
         app:layout_constraintBottom_toTopOf="@+id/multiComplete_genre_band"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_name_band" />
 
-    <MultiAutoCompleteTextView
+    <EditText
         android:id="@+id/multiComplete_genre_band"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="10dp"
-        android:hint="Add..."
+        android:isScrollContainer="true"
+        android:inputType="none"
+        android:hint=" Add..."
+        android:onClick="selectGenreBand"
+        android:focusable="false"
         app:layout_constraintBottom_toTopOf="@+id/BioText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
