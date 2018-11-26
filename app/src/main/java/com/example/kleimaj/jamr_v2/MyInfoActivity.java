@@ -2,6 +2,7 @@ package com.example.kleimaj.jamr_v2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -30,9 +31,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static com.example.kleimaj.jamr_v2.DatabaseManager.indicator;
 
@@ -40,9 +44,12 @@ public class MyInfoActivity extends AppCompatActivity {
 
     public final static int minAge = 15;
     public final static int maxAge = 99;
+    public static final int ARTIST_IDENTITY = 0;
+    public static final int ARTIST_GENRE = 1;
+    public static final int BAND_GENRE = 2;
+
     Spinner genderSpinner, ageSpinner;
     EditText nameEditText, bioEditText, bandNameEditText, bandBioEditText;
-    MultiAutoCompleteTextView identityMulti, genreMulti, bandGenreMulti;
     Button artistSave, bandSave;
     DatabaseManager db;
 
@@ -50,6 +57,11 @@ public class MyInfoActivity extends AppCompatActivity {
     String selectedGender;
     String bioInfoText;
 
+    public static ArrayList<String> chosenIdentities;
+    public static ArrayList<String> chosenGenres;
+    public static EditText identityMulti;
+    public static EditText genreMulti;
+    public static int chipsContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +81,24 @@ public class MyInfoActivity extends AppCompatActivity {
             ageSpinner = findViewById(R.id.spinner_age);
             nameEditText = findViewById(R.id.editText_name);
             bioEditText = findViewById(R.id.editText_bio);
-            identityMulti = findViewById(R.id.multiComplete_identity);
+            identityMulti = findViewById(R.id.multi_identity);
             genreMulti = findViewById(R.id.multiComplete_genre);
             artistSave = findViewById(R.id.saveButton);
             initializeSpinners();
-            initializeMultiAutoCompletes(1);
             bioInfoText = readUserFile();
+
             if(bioInfoText != null){
                 setArtistInfo(bioInfoText);
             }
             else {
                 nameEditText.setText(MainActivity.currentUser.getName());
+            }
+
+            if (identityMulti.getText().toString().equals("")) {
+                chosenIdentities = new ArrayList<String>();
+            }
+            if (genreMulti.getText().toString().equals("")) {
+                chosenGenres = new ArrayList<String>();
             }
         }
         else if (MainActivity.currentUser.isBand()) { //it's a band
@@ -87,14 +106,17 @@ public class MyInfoActivity extends AppCompatActivity {
             bandNameEditText = findViewById(R.id.editText_name_band);
             bandBioEditText = findViewById(R.id.editText_bio_band);
             bandSave = findViewById(R.id.saveButtonBand);
-            initializeMultiAutoCompletes(2);
             bioInfoText = readUserFile();
+            genreMulti = findViewById(R.id.multiComplete_genre_band);
             if (bioInfoText!=null) {
                 setBandInfo(bioInfoText);
             }
-
             else {
                 bandNameEditText.setText(MainActivity.currentUser.getName());
+            }
+
+            if (genreMulti.getText().toString().equals("")) {
+                chosenGenres = new ArrayList<String>();
             }
         }
     }
@@ -102,7 +124,7 @@ public class MyInfoActivity extends AppCompatActivity {
     private void setArtistInfo(String text) {
         String[] lines = text.split("\n");
         nameEditText.setText(MainActivity.currentUser.getName());
-        //ageSpinner.set text?
+        // ageSpinner.set text?
         // Set Gender and age dont work
         ageSpinner.setSelection(0);
         identityMulti.setText(lines[4]);
@@ -113,9 +135,32 @@ public class MyInfoActivity extends AppCompatActivity {
     private void setBandInfo(String text){
         String[] lines = text.split("\n");
         bandNameEditText.setText(MainActivity.currentUser.getName());
-       bandGenreMulti.setText(lines[0]);
+        genreMulti.setText(lines[0]);
         bandBioEditText.setText(lines[1]);
+    }
 
+    public static void updateIdentities() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s: chosenIdentities) {
+            if (!stringBuilder.toString().equals("")) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(s);
+        }
+        String text = stringBuilder.toString();
+        identityMulti.setText(text);
+    }
+
+    public static void updateGenres() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s: chosenGenres) {
+            if (!stringBuilder.toString().equals("")) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(s);
+        }
+        String text = stringBuilder.toString();
+        genreMulti.setText(text);
     }
 
     public void onSaveArtistInfo(View v) {
@@ -125,16 +170,13 @@ public class MyInfoActivity extends AppCompatActivity {
         }
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
-        String genres = genreMulti.getText().toString();
-        String[] genresArray = genres.split(", ");
-        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
-        String musicIdentities = identityMulti.getText().toString();
-        String[] musicIdentitiesArray = musicIdentities.split(", ");
-        ArrayList<String> musicIdentitiesArrayList = new ArrayList<String>(Arrays.asList(musicIdentitiesArray));
+//        String genres = genreMulti.getText().toString();
+//        String[] genresArray = genres.split(", ");
+//        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
 
         String success = "Save successful";
         String failure = "Failure to save info";
-        if (db.setArtistInfo(name, selectedGender, selectedAge, musicIdentitiesArrayList, genresArrayList, bio)) {
+        if (db.setArtistInfo(name, selectedGender, selectedAge, chosenIdentities, chosenGenres, bio)) {
             Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
             writeAristInfoToFile();
             this.finish();
@@ -143,10 +185,28 @@ public class MyInfoActivity extends AppCompatActivity {
         }
     }
 
+    public void selectIdentity(View v) {
+        chipsContext = ARTIST_IDENTITY;
+        Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void selectGenreArtist(View v) {
+        chipsContext = ARTIST_GENRE;
+        Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void selectGenreBand(View v) {
+        chipsContext = BAND_GENRE;
+        Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        this.startActivity(intent);
+    }
+
     public void onSaveBandInfo(View v) {
         String name = bandNameEditText.getText().toString();
         String bio = bandBioEditText.getText().toString();
-        String genres = bandGenreMulti.getText().toString();
+        String genres = genreMulti.getText().toString();
         String[] genresArray = genres.split(", ");
         ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
 
@@ -183,7 +243,7 @@ public class MyInfoActivity extends AppCompatActivity {
             StringBuilder bioText = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
             //text.append(bandNameEditText.getText().toString() + " \n");
-            bioText.append(bandGenreMulti.getText().toString() + " \n");
+            bioText.append(genreMulti.getText().toString() + " \n");
             bioText.append(bandBioEditText.getText().toString() + " \n");
             output.write(bioText.toString().getBytes());
             output.close();
@@ -278,34 +338,6 @@ public class MyInfoActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) { }
-    }
-
-    public void initializeMultiAutoCompletes(int indicator) {
-        if (MainActivity.currentUser.isBand()) { //for bands
-            bandGenreMulti = findViewById(R.id.multiComplete_genre_band);
-
-            System.out.println("inside function!");
-            ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
-                    R.array.genres, android.R.layout.simple_dropdown_item_1line);
-            System.out.println("LAST LINE WORKED!");
-            bandGenreMulti.setAdapter(genresAdapter);
-            bandGenreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-            System.out.println("fine here");
-        }
-        else if (!MainActivity.currentUser.isBand()) { //for artists
-            ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
-                    R.array.genres, android.R.layout.simple_dropdown_item_1line);
-            genreMulti.setAdapter(genresAdapter);
-            genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-            ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
-                    R.array.identities, android.R.layout.simple_dropdown_item_1line);
-            identityMulti.setAdapter(identityAdapter);
-            identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        }
-        //System.out.println("success");
-
     }
 
     public void initializeSpinners() {
