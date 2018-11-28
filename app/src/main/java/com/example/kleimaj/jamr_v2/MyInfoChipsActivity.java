@@ -17,25 +17,27 @@ public class MyInfoChipsActivity extends AppCompatActivity {
     public static final int ARTIST_IDENTITY = 0;
     public static final int ARTIST_GENRE = 1;
     public static final int BAND_GENRE = 2;
+    public static final int SETTINGS_IDENTITY = 3;
+    public static final int SETTINGS_GENRE = 4;
 
     ChipCloud chips;
     String[] chipValues;
     String[] identities;
     String[] genres;
     ArrayList<String> currentValues;
+    int chipsContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_chips);
-        // context
-
+        chipsContext = getIntent().getIntExtra("context", 0);
         chips = findViewById(R.id.chip_cloud);
         Toolbar toolbar = findViewById(R.id.toolbar);
         TextView title = findViewById(R.id.chipsTitle);
         initializeChips();
 
-        switch (MyInfoActivity.chipsContext) {
+        switch (chipsContext) {
             case ARTIST_IDENTITY: {
                 title.setText("Music Identities");
                 currentValues = MyInfoActivity.chosenIdentities;
@@ -66,6 +68,26 @@ public class MyInfoChipsActivity extends AppCompatActivity {
                 }
                 break;
             }
+            case SETTINGS_IDENTITY: {
+                title.setText("Music Identities");
+                currentValues = MySettingsActivity.chosenIdentities;
+                for (String s: identities) {
+                    if (currentValues.contains(s)) {
+                        chips.setSelectedChip(Arrays.asList(identities).indexOf(s));
+                    }
+                }
+                break;
+            }
+            case SETTINGS_GENRE: {
+                title.setText("Music Genres");
+                currentValues = MySettingsActivity.chosenGenres;
+                for (String s: genres) {
+                    if (currentValues.contains(s)) {
+                        chips.setSelectedChip(Arrays.asList(genres).indexOf(s));
+                    }
+                }
+                break;
+            }
         }
 
         setSupportActionBar(toolbar);
@@ -82,7 +104,7 @@ public class MyInfoChipsActivity extends AppCompatActivity {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
 
-            switch (MyInfoActivity.chipsContext) {
+            switch (chipsContext) {
                 case ARTIST_IDENTITY: {
                     MyInfoActivity.updateIdentities();
                     break;
@@ -93,6 +115,14 @@ public class MyInfoChipsActivity extends AppCompatActivity {
                 }
                 case BAND_GENRE: {
                     MyInfoActivity.updateGenres();
+                    break;
+                }
+                case SETTINGS_IDENTITY: {
+                    MySettingsActivity.updateIdentities();
+                    break;
+                }
+                case SETTINGS_GENRE: {
+                    MySettingsActivity.updateGenres();
                     break;
                 }
             }
@@ -108,7 +138,7 @@ public class MyInfoChipsActivity extends AppCompatActivity {
         genres = getResources().getStringArray(R.array.genres);
         Arrays.sort(genres);
 
-        if (MyInfoActivity.chipsContext == ARTIST_IDENTITY) {
+        if (chipsContext == ARTIST_IDENTITY || chipsContext == SETTINGS_IDENTITY) {
             chipValues = identities;
         } else {
             chipValues = genres;

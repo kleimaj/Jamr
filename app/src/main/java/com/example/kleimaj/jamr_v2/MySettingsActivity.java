@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SeekBar;
@@ -30,21 +31,27 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.example.kleimaj.jamr_v2.MyInfoActivity.chosenGenres;
+import static com.example.kleimaj.jamr_v2.MyInfoActivity.chosenIdentities;
 import static com.example.kleimaj.jamr_v2.MyInfoActivity.minAge;
 
 public class MySettingsActivity extends AppCompatActivity {
 
     public final static int minAge = 15;
+    public static final int SETTINGS_IDENTITY = 3;
+    public static final int SETTINGS_GENRE = 4;
     SeekBar ageSeek;
     SeekBar distanceSeek;
     Spinner genderSpinner;
-    MultiAutoCompleteTextView identityMulti, genreMulti;
+    public static EditText identityMulti, genreMulti;
     TextView ageRange;
     TextView distanceText;
     int maxAge;
     int distance;
     String preferredGender;
     DatabaseManager db;
+    public static ArrayList<String> chosenIdentities;
+    public static ArrayList<String> chosenGenres;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,26 +67,20 @@ public class MySettingsActivity extends AppCompatActivity {
         identityMulti = findViewById(R.id.set_multiComplete_identity);
         genreMulti = findViewById(R.id.set_multiComplete_genre);
         initializeSpinner();
-        initializeMultiAutoCompletes();
         initializeSeekBars();
 
         String fileInput = readUserFile();
 
-        if (fileInput!=null) { //adjust widgets
+        if (fileInput!=null) {
             String[] lines = fileInput.split("\n");
-            //age
             String age = lines[0];
             age = age.trim();
             int intAge = Integer.parseInt(age);
             ageSeek.setProgress(intAge);
 
-            //gender
             String gender = lines[1];
-
-            //identity
             String identity = lines[2];
             identityMulti.setText(identity);
-            //genre
             String genre = lines[3];
             genreMulti.setText(genre);
         }
@@ -89,6 +90,48 @@ public class MySettingsActivity extends AppCompatActivity {
         distance = distanceSeek.getProgress();
         distanceText.setText(Integer.toString(distance));
 
+        if (chosenIdentities == null || identityMulti.getText().toString().equals(""))
+            chosenIdentities = new ArrayList<String>();
+        if (chosenGenres == null || genreMulti.getText().toString().equals(""))
+            chosenGenres = new ArrayList<String>();
+    }
+
+    public void selectIdentity(View v) {
+        int chipsContext = SETTINGS_IDENTITY;
+        Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        intent.putExtra("context", chipsContext);
+        this.startActivity(intent);
+    }
+
+    public void selectGenre(View v) {
+        int chipsContext = SETTINGS_GENRE;
+        Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        intent.putExtra("context", chipsContext);
+        this.startActivity(intent);
+    }
+
+    public static void updateIdentities() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s: chosenIdentities) {
+            if (!stringBuilder.toString().equals("")) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(s);
+        }
+        String text = stringBuilder.toString();
+        identityMulti.setText(text);
+    }
+
+    public static void updateGenres() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s: chosenGenres) {
+            if (!stringBuilder.toString().equals("")) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(s);
+        }
+        String text = stringBuilder.toString();
+        genreMulti.setText(text);
     }
 
     public void initializeSeekBars() {
@@ -127,18 +170,6 @@ public class MySettingsActivity extends AppCompatActivity {
         });
     }
 
-    public void initializeMultiAutoCompletes() {
-        ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(this,
-                R.array.genres, android.R.layout.simple_dropdown_item_1line);
-        genreMulti.setAdapter(genresAdapter);
-        genreMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        ArrayAdapter<CharSequence> identityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.identities, android.R.layout.simple_dropdown_item_1line);
-        identityMulti.setAdapter(identityAdapter);
-        identityMulti.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-    }
-
     public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
@@ -163,18 +194,12 @@ public class MySettingsActivity extends AppCompatActivity {
     }
 
     public void onSaveInfo(View v) {
-        String genres = genreMulti.getText().toString();
-        String[] genresArray = genres.split(", ");
-        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
-        String musicIdentities = identityMulti.getText().toString();
-        String[] musicIdentitiesArray = musicIdentities.split(", ");
-        ArrayList<String> musicIdentitiesArrayList = new ArrayList<String>(Arrays.asList(musicIdentitiesArray));
         String success = "Save successful";
         try {
             db.setPrefAge(maxAge);
             db.setPrefGender(preferredGender);
-            db.setPrefIdentity(musicIdentitiesArrayList);
-            db.setPrefGenre(genresArrayList);
+            db.setPrefIdentity(chosenIdentities);
+            db.setPrefGenre(chosenGenres);
 
             Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
             saveSettingsToFile();
@@ -189,11 +214,9 @@ public class MySettingsActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         String UID = MainActivity.currentUser.getUID();
         try {
-            //for bio and genres
             FileOutputStream output = context.openFileOutput(UID + "Preferences.txt", Context
               .MODE_PRIVATE);
 
-            //for name
             StringBuilder preferenceText = new StringBuilder();
             preferenceText.append(maxAge + " \n");
             preferenceText.append(preferredGender + " \n");
@@ -213,7 +236,6 @@ public class MySettingsActivity extends AppCompatActivity {
         StringBuilder text = new StringBuilder();
         boolean success = false;
         String UID = MainActivity.currentUser.getUID();
-        //Try Catch block to open/read files from directory and put into view
         try {
             FileInputStream stream = context.openFileInput(UID + "Preferences.txt");
             InputStreamReader streamReader = new InputStreamReader(stream);
@@ -237,7 +259,6 @@ public class MySettingsActivity extends AppCompatActivity {
         }else{
             return null;
         }
-
     }
 
     public void onLogOut(View v) {
