@@ -47,6 +47,8 @@ public class MyInfoActivity extends AppCompatActivity {
     public static final int ARTIST_IDENTITY = 0;
     public static final int ARTIST_GENRE = 1;
     public static final int BAND_GENRE = 2;
+    public static String SAVE_SUCCESS = "Save successful";
+    public static String SAVE_FAILURE = "Failure to save info";
 
     Spinner genderSpinner, ageSpinner;
     EditText nameEditText, bioEditText, bandNameEditText, bandBioEditText;
@@ -61,21 +63,13 @@ public class MyInfoActivity extends AppCompatActivity {
     public static ArrayList<String> chosenGenres;
     public static EditText identityMulti;
     public static EditText genreMulti;
-    public static int chipsContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (RegisterActivity.isBand == false) {
-            setContentView(R.layout.activity_artist_info);
-        }
-        else {
-            setContentView(R.layout.activity_band_info);
-        }*/
         db = new DatabaseManager();
 
-        if (!MainActivity.currentUser.isBand()) { //if an artist
-            //System.out.println("Am an Artist!!!!");
+        if (!MainActivity.currentUser.isBand()) {
             setContentView(R.layout.activity_artist_info);
             genderSpinner = findViewById(R.id.spinner_gender);
             ageSpinner = findViewById(R.id.spinner_age);
@@ -94,14 +88,15 @@ public class MyInfoActivity extends AppCompatActivity {
                 nameEditText.setText(MainActivity.currentUser.getName());
             }
 
-            if (identityMulti.getText().toString().equals("")) {
+            if (chosenIdentities == null || identityMulti.getText().toString().equals(""))
                 chosenIdentities = new ArrayList<String>();
-            }
-            if (genreMulti.getText().toString().equals("")) {
+            if (chosenGenres == null || genreMulti.getText().toString().equals(""))
                 chosenGenres = new ArrayList<String>();
-            }
+            if (chosenIdentities.contains("."))
+                chosenIdentities.remove(".");
+
         }
-        else if (MainActivity.currentUser.isBand()) { //it's a band
+        else if (MainActivity.currentUser.isBand()) {
             setContentView(R.layout.activity_band_info);
             bandNameEditText = findViewById(R.id.editText_name_band);
             bandBioEditText = findViewById(R.id.editText_bio_band);
@@ -115,17 +110,14 @@ public class MyInfoActivity extends AppCompatActivity {
                 bandNameEditText.setText(MainActivity.currentUser.getName());
             }
 
-            if (genreMulti.getText().toString().equals("")) {
+            if (chosenGenres == null || genreMulti.getText().toString().equals(""))
                 chosenGenres = new ArrayList<String>();
-            }
         }
     }
 
     private void setArtistInfo(String text) {
         String[] lines = text.split("\n");
         nameEditText.setText(MainActivity.currentUser.getName());
-        // ageSpinner.set text?
-        // Set Gender and age dont work
         ageSpinner.setSelection(0);
         identityMulti.setText(lines[4]);
         bioEditText.setText(lines[1]);
@@ -170,67 +162,54 @@ public class MyInfoActivity extends AppCompatActivity {
         }
         String name = nameEditText.getText().toString();
         String bio = bioEditText.getText().toString();
-//        String genres = genreMulti.getText().toString();
-//        String[] genresArray = genres.split(", ");
-//        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
 
-        String success = "Save successful";
-        String failure = "Failure to save info";
+        if (chosenIdentities.isEmpty()) {
+            chosenIdentities.add(".");
+        }
+
         if (db.setArtistInfo(name, selectedGender, selectedAge, chosenIdentities, chosenGenres, bio)) {
-            Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
             writeAristInfoToFile();
             this.finish();
         } else {
-            Toast.makeText(this, failure, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, SAVE_FAILURE, Toast.LENGTH_LONG).show();
         }
     }
 
     public void selectIdentity(View v) {
-        chipsContext = ARTIST_IDENTITY;
+        int chipsContext = ARTIST_IDENTITY;
         Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        intent.putExtra("context", chipsContext);
         this.startActivity(intent);
     }
 
     public void selectGenreArtist(View v) {
-        chipsContext = ARTIST_GENRE;
+        int chipsContext = ARTIST_GENRE;
         Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        intent.putExtra("context", chipsContext);
         this.startActivity(intent);
     }
 
     public void selectGenreBand(View v) {
-        chipsContext = BAND_GENRE;
+        int chipsContext = BAND_GENRE;
         Intent intent = new Intent(v.getContext(), MyInfoChipsActivity.class);
+        intent.putExtra("context", chipsContext);
         this.startActivity(intent);
     }
 
     public void onSaveBandInfo(View v) {
         String name = bandNameEditText.getText().toString();
         String bio = bandBioEditText.getText().toString();
-        String genres = genreMulti.getText().toString();
-        String[] genresArray = genres.split(", ");
-        ArrayList<String> genresArrayList = new ArrayList<String>(Arrays.asList(genresArray));
 
-        // put in strings resource file
-        String success = "Save successful";
-        String failure = "Failure to save info";
-        if (db.setBandInfo(name, genresArrayList, bio)) {
-            Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+        if (db.setBandInfo(name, chosenGenres, bio)) {
+            Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
             writeBandInfoToFile();
             this.finish();
         } else {
-            Toast.makeText(this, failure, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, SAVE_FAILURE, Toast.LENGTH_LONG).show();
         }
     }
 
-    /* ProfileInfo.txt stores:
-      name
-      isBand
-      image
-
-   bioInfo.txt for bands stores:
-      genres
-      bio
- */
     public void writeBandInfoToFile(){
         Context context = getApplicationContext();
         String UID = MainActivity.currentUser.getUID();
@@ -253,7 +232,7 @@ public class MyInfoActivity extends AppCompatActivity {
             if (newName.equals(MainActivity.currentUser.getName())) {
             }
             else {
-                FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt",               Context.MODE_PRIVATE);
+                FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt", Context.MODE_PRIVATE);
                 MainActivity.currentUser.setName(newName);
                 profileText.append(newName+ " \n");
                 profileText.append(MainActivity.currentUser.isBand() + " \n");
@@ -269,18 +248,7 @@ public class MyInfoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    /* ProfileInfo.txt stores:
-          name
-          isBand
-          image
 
-       bioInfo.txt for artists stores:
-          genres
-          bio
-          age
-          gender
-          identities
-     */
     public void writeAristInfoToFile(){
         Context context = getApplicationContext();
         String UID = MainActivity.currentUser.getUID();
@@ -304,7 +272,7 @@ public class MyInfoActivity extends AppCompatActivity {
             if (newName.equals(MainActivity.currentUser.getName())) {
             }
             else {
-                FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt",               Context.MODE_PRIVATE);
+                FileOutputStream output2 = context.openFileOutput(UID+"profileInfo.txt", Context.MODE_PRIVATE);
                 MainActivity.currentUser.setName(newName);
                 profileText.append(newName+ " \n");
                 profileText.append(MainActivity.currentUser.isBand() + " \n");
@@ -390,18 +358,6 @@ public class MyInfoActivity extends AppCompatActivity {
         catch (Exception e) { }
     }
 
-    /* bioInfo.txt for bands stores:
-        genres
-        bio
-
-       bioInfo.txt for artists stores:
-          genres
-          bio
-          age
-          gender
-          identities
-     */
-
     public String readUserFile(){
         Context context = getApplicationContext();
         BufferedReader reader = null;
@@ -433,54 +389,5 @@ public class MyInfoActivity extends AppCompatActivity {
         }else{
             return null;
         }
-
     }
-
-
-    /*
-
-
-
-    public String readUserFile(){
-        Context context = getApplicationContext();
-        BufferedReader reader = null;
-        StringBuilder text = new StringBuilder();
-        //Try Catch block to open/read files from directory and put into view
-        try {
-            FileInputStream stream = context.openFileInput("bioInfo.txt");
-            InputStreamReader streamReader = new InputStreamReader(stream);
-            reader = new BufferedReader(streamReader);
-            String line;
-            int count = 0;
-            while((line = reader.readLine()) !=null){
-                text.append(line);
-                text.append('\n');
-                if (count == 0) { //it's the genre
-
-                }
-                else if (count == 1) { //it's the bio
-
-                }
-                else if (count == 2) { //it's the age
-
-                }
-                else if (count == 3) { //it's the gender
-
-                }
-                else if (count == 4) { //it's the identity
-
-                }
-                count++;
-            }
-            reader.close();
-            stream.close();
-            streamReader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return text.toString();
-    }
-
-    */
 }

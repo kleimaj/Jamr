@@ -96,6 +96,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                         .toString();
                 String thumb_image = dataSnapshot.child("thumb_image")
                         .getValue().toString();
+                // here lies the problem. Need to change how this works
                 String identity = dataSnapshot.child("music_identity")
                         .getValue().toString()
                         .replace("[", "")  //remove the right bracket
@@ -104,7 +105,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                         .replaceAll(",$", ""); // remove the last comma
 
                 mName.setText(name);
-                mIdentity.setText(identity);
+                mIdentity.setText(identity); // change this
 
                 // display the default avatar if no image uploaded
                 if (!image.equals("default")){

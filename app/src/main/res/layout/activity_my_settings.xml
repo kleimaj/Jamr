@@ -147,6 +147,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Music Identity"
+        android:onClick="selectIdentity"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -155,15 +156,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/set_spinner_gender" />
 
-    <MultiAutoCompleteTextView
+    <EditText
         android:id="@+id/set_multiComplete_identity"
         android:layout_width="200dp"
         android:layout_height="41dp"
-        android:layout_below="@+id/set_text_identity"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:isScrollContainer="true"
+        android:inputType="none"
         android:hint=" Add..."
+        android:onClick="selectIdentity"
+        android:focusable="false"
         app:layout_constraintBottom_toTopOf="@+id/set_text_genre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +183,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Genre"
+        android:onClick="selectGenre"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -188,15 +193,18 @@
         app:layout_constraintTop_toBottomOf="@+id/set_multiComplete_identity"
         app:layout_constraintVertical_bias="1.0" />
 
-    <MultiAutoCompleteTextView
+    <EditText
         android:id="@+id/set_multiComplete_genre"
         android:layout_width="200dp"
         android:layout_height="41dp"
-        android:layout_below="@+id/set_text_genre"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:hint=" Add..."
+        android:isScrollContainer="true"
+        android:inputType="none"
+        android:onClick="selectGenre"
+        android:focusable="false"
         app:layout_constraintBottom_toTopOf="@+id/set_saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
