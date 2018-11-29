@@ -34,6 +34,7 @@
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
 
         <activity android:name=".UserProfile"></activity>
+        <activity android:name=".MyInfoChipsActivity"></activity>
     </application>
 
 </manifest>
