@@ -79,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
       //  initialize();
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        navigation.setSelectedItemId(R.id.navigation_home);
+        if (RegisterActivity.justRegistered)
+            navigation.setSelectedItemId(R.id.navigation_notifications);
+        else
+            navigation.setSelectedItemId(R.id.navigation_home);
     }
 
     // Switch to Fragment Feed

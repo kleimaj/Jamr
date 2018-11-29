@@ -69,6 +69,10 @@ public class MyInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = new DatabaseManager();
 
+        if (RegisterActivity.justRegistered){
+            Toast.makeText(this, "Create your user profile!", Toast.LENGTH_LONG).show();
+        }
+
         if (!MainActivity.currentUser.isBand()) {
             setContentView(R.layout.activity_artist_info);
             genderSpinner = findViewById(R.id.spinner_gender);
@@ -161,16 +165,37 @@ public class MyInfoActivity extends AppCompatActivity {
             return;
         }
         String name = nameEditText.getText().toString();
+        //artist must enter name, age, gender
+        if (name==null || selectedAge==null || selectedGender==null) {
+            Toast.makeText(this, "Must provide Name, Age, Gender",
+              Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (name.equals("") || selectedAge.equals("Age")||selectedGender.equals("Gender")) {
+            Toast.makeText(this, "Must provide Name, Age, Gender",
+              Toast.LENGTH_LONG).show();
+            return;
+        }
         String bio = bioEditText.getText().toString();
 
         if (chosenIdentities.isEmpty()) {
             chosenIdentities.add(".");
         }
+        //need this??
+        if (chosenGenres.isEmpty()) {
+            chosenGenres.add(".");
+        }
 
         if (db.setArtistInfo(name, selectedGender, selectedAge, chosenIdentities, chosenGenres, bio)) {
             Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
             writeAristInfoToFile();
-            this.finish();
+            if (RegisterActivity.justRegistered) {
+                Intent myIntent = new Intent(this,MainActivity.class);
+                startActivity(myIntent);
+                this.finish();
+            }
+            else
+                this.finish();
         } else {
             Toast.makeText(this, SAVE_FAILURE, Toast.LENGTH_LONG).show();
         }

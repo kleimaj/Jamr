@@ -145,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
                               if (task.isSuccessful()) {
                                   mRegProgress.dismiss();
                                   Intent myIntent = new Intent(passingView.getContext(),
-                                    MainActivity.class);
+                                    MyInfoActivity.class);
                                   startActivity(myIntent);
                               }
                           }
