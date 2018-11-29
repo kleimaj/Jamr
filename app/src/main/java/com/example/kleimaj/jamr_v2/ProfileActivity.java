@@ -31,6 +31,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -91,8 +93,11 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child
                 ("Users").child(current_uid);
 
+        // this gives offline capabilities
+        mUserDatabase.keepSynced(true);
+
         mDisplayImage = view.findViewById(R.id.profile_image_circle);
-        mName = view.findViewById(R.id.ArtistName);
+        mName = view.findViewById(R.id.ArtistsName);
         mIdentity = view.findViewById(R.id.profile_identity);
 
         storage = FirebaseStorage.getInstance();
@@ -103,7 +108,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 String name = dataSnapshot.child("name").getValue().toString();
-                String image = dataSnapshot.child("image").getValue()
+                final String image = dataSnapshot.child("image").getValue()
                         .toString();
                 String thumb_image = dataSnapshot.child("thumb_image")
                         .getValue().toString();
@@ -119,7 +124,21 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
 
                 // display the default avatar if no image uploaded
                 if (!image.equals("default")) {
-                    Picasso.get().load(image).placeholder(R.drawable.default_avatar).into(mDisplayImage);
+                    Picasso.get().load(image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R
+                      .drawable
+                      .default_avatar).into
+                      (mDisplayImage, new Callback() {
+                          @Override
+                          public void onSuccess() {
+
+                          }
+
+                          @Override
+                          public void onError(Exception e) {
+                              Picasso.get().load(image).placeholder(R.drawable.default_avatar)
+                                .into(mDisplayImage);
+                          }
+                      });
                 }
             }
 

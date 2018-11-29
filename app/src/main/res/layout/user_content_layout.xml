@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation = "vertical"
-    >
+    tools:context=".UserProfile"
+    tools:layout_editor_absoluteY="25dp">
 
     <TextView
-        android:id="@+id/user_profile_displayName"
+        android:id="@+id/user_profile_music_identity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/user_profile_totalFriends"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_totalFriends"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_name" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/user_profile_iamge"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/anon" />
+
+    <TextView
+        android:id="@+id/user_profile_name"
+        android:layout_width="59dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        android:textSize="27dp"
+        app:layout_constraintEnd_toEndOf="@+id/user_profile_music_identity"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_music_identity"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_iamge" />
+
+    <TextView
+        android:id="@+id/user_profile_totalFriends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:text="Total Friends"
+        app:layout_constraintEnd_toEndOf="@+id/user_profile_send_req_btn"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_send_req_btn"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_music_identity" />
+
+    <Button
+        android:id="@+id/user_profile_send_req_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Send Friend Request"
+        app:layout_constraintBottom_toTopOf="@+id/user_profile_decline_req_btn"
+        app:layout_constraintEnd_toEndOf="@+id/user_profile_decline_req_btn"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_decline_req_btn"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_totalFriends" />
+
+    <Button
+        android:id="@+id/user_profile_decline_req_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Decline Friend Ruest"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
