@@ -3,7 +3,7 @@ package com.example.kleimaj.jamr_v2;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Profile {
+public class ProfileModel {
 
     @SerializedName("name")
     @Expose

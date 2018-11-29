@@ -8,50 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:689630199042:android:6244cd52400b3bcf",
-        "android_client_info": {
-          "package_name": "com.example.kleimaj.jamr"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "689630199042-5060q1ub2lg3ulisf78evbv0endmgepf.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.kleimaj.jamr",
-            "certificate_hash": "7204f7e57fe9197b7197a64dbe5fc0496127d611"
-          }
-        },
-        {
-          "client_id": "689630199042-o8t6s4dmmr95l7k34o29vgff75tgaqv7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBF-BMYuqoFTdsQIt4hFGYvHoP2YJ0BZ08"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "689630199042-o8t6s4dmmr95l7k34o29vgff75tgaqv7.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:689630199042:android:4fe64cb36feca823",
         "android_client_info": {
           "package_name": "com.example.kleimaj.jamr_v2"
@@ -64,6 +20,22 @@
           "android_info": {
             "package_name": "com.example.kleimaj.jamr_v2",
             "certificate_hash": "7204f7e57fe9197b7197a64dbe5fc0496127d611"
+          }
+        },
+        {
+          "client_id": "689630199042-l6btmtj20fnlc4ujer8apis7brk5hja8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kleimaj.jamr_v2",
+            "certificate_hash": "16112dc3acd689cfd7d34c08487bb3a17242a6d2"
+          }
+        },
+        {
+          "client_id": "689630199042-gk60b3u04n4nofk9pah489a1ncjae9ui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kleimaj.jamr_v2",
+            "certificate_hash": "ddda69572d02db06678e13ded7275ca4e3e8cd96"
           }
         },
         {

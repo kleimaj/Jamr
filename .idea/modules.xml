@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Jamr.iml" filepath="$PROJECT_DIR$/Jamr.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/Jamr.iml" filepath="$PROJECT_DIR$/.idea/Jamr.iml" />
       <module fileurl="file://$PROJECT_DIR$/Jamr_V2.iml" filepath="$PROJECT_DIR$/Jamr_V2.iml" />
+=======
+>>>>>>> 122608ddcc9c2756be2ff3817a7e85ab587ea6e3
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

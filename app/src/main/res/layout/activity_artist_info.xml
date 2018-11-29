@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kleimaj.jamr_v2.MyInfoActivity"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/BasicInfoText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="left|center_vertical"
+        android:text="Basic Info"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editText_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:gravity="left|center_vertical"
+        android:hint="Name"
+        android:inputType="text"
+        android:maxLength="32"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_age"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BasicInfoText" />
+
+    <Spinner
+        android:id="@+id/spinner_gender"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:hint="Gender"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/text_MusicIdentity"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_age"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_name"></Spinner>
+
+    <Spinner
+        android:id="@+id/spinner_age"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/text_MusicIdentity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinner_gender"
+        app:layout_constraintTop_toBottomOf="@+id/editText_name"></Spinner>
+
+    <TextView
+        android:id="@+id/text_MusicIdentity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="left|center_vertical"
+        android:text="Music Identity"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_gender"
+        android:onClick="selectIdentity"/>
+
+    <EditText
+        android:id="@+id/multi_identity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:isScrollContainer="true"
+        android:inputType="none"
+        android:hint=" Add..."
+        android:onClick="selectIdentity"
+        android:focusable="false"
+        app:layout_constraintBottom_toTopOf="@+id/text_Genre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_MusicIdentity" />
+
+    <TextView
+        android:id="@+id/text_Genre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Genre"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:onClick="selectGenreArtist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multi_identity" />
+
+    <EditText
+        android:id="@+id/multiComplete_genre"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:isScrollContainer="true"
+        android:inputType="none"
+        android:hint=" Add..."
+        android:onClick="selectGenreArtist"
+        android:focusable="false"
+        app:layout_constraintBottom_toTopOf="@+id/editText_bio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_Genre"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/BioText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:layout_margin="10dp"
+        android:text="Bio"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editText_bio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multiComplete_genre" />
+
+    <EditText
+        android:id="@+id/editText_bio"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:gravity="top"
+        android:hint="Say something"
+        android:inputType="textMultiLine"
+        android:isScrollContainer="true"
+        android:lines="5"
+        android:maxLength="2000"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BioText" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_border_button"
+        android:onClick="onSaveArtistInfo"
+        android:text="Save"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_bio" />
+
+</android.support.constraint.ConstraintLayout>

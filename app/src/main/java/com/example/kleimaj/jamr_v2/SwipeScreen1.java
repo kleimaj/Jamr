@@ -17,7 +17,7 @@ public class SwipeScreen1 extends Fragment {
     private Context mContext;
 
     public SwipeScreen1() {
-        // required empty public consturctor
+        // required empty public constructor
     }
 
     public static SwipeScreen1 newInstance() {
@@ -35,7 +35,7 @@ public class SwipeScreen1 extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mSwipeView = (SwipePlaceHolderView)getView().findViewById(R.id.swipeView);
+        mSwipeView = getView().findViewById(R.id.swipeView);
         mContext = getActivity().getApplicationContext();
 
         mSwipeView.getBuilder()
@@ -47,7 +47,7 @@ public class SwipeScreen1 extends Fragment {
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
 
 
-        for(Profile profile : Utils.loadProfiles(this.getActivity().getApplicationContext())){
+        for(ProfileModel profile : Utils.loadProfiles(this.getActivity().getApplicationContext())){
             mSwipeView.addView(new TinderCard(mContext, profile, mSwipeView));
         }
 
