@@ -26,6 +26,7 @@ import com.mindorks.placeholderview.SwipePlaceHolderView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,6 +37,7 @@ public class SwipeScreen1 extends Fragment {
     private Query query;
     private RecyclerView mFeedsList;
     private static final String TAG = "ssiy";
+    static List<ProfileModel> profiles = new ArrayList<>();
 
     public SwipeScreen1() {
         // required empty public constructor
@@ -51,7 +53,9 @@ public class SwipeScreen1 extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        ArrayList<ArtistModel> users = SwipeScreen.users;
+        ArrayList<ArtistModel> users = SwipeScreen.users; //full of users now
+
+        convertArray(users);
 
         for (int i = 0 ; i < users.size(); i++) {
             System.out.println("!!!!!!");
@@ -74,7 +78,9 @@ public class SwipeScreen1 extends Fragment {
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
 
         //loads profiles
-        for(ProfileModel profile : Utils.loadProfiles(this.getActivity().getApplicationContext())){
+        for(ProfileModel profile : profiles){//Utils.loadProfiles(this.getActivity()
+            // .getApplicationContext
+            // ())){
             mSwipeView.addView(new TinderCard(mContext, profile, mSwipeView));
         }
 
@@ -99,7 +105,23 @@ public class SwipeScreen1 extends Fragment {
         return inflater.inflate(R.layout.fragment_swipe_screen1, container, false);
     }
 
-    public void ready(){
+    public static void convertArray(ArrayList<ArtistModel> users){
+        for (int i = 0; i < users.size(); i++) {
+            ProfileModel profile = new ProfileModel();
+            profile.setName(users.get(i).getName());
+            String image = users.get(i).getImage();
+            if (image.equals("default")) {
+                image = "https://firebasestorage.googleapis.com" +
+                  "/v0/b/jamr-679a0.appspot.com/o/profile_images" +
+                  "%2Fdefault_avatar.jpeg?alt=media&token=db40887" +
+                  "f-838d-4f7a-a00a-4a4285c836d2";
+            }
+            profile.setImageUrl(image);
 
+            if  (!users.get(i).isBand()) {
+                profile.setAge(new Integer(users.get(i).getAge()));
+            }
+            profiles.add(profile);
+        }
     }
 }

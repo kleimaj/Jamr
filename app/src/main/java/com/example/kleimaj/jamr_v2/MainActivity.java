@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         if (RegisterActivity.justRegistered)
             navigation.setSelectedItemId(R.id.navigation_notifications);
         else
-            navigation.setSelectedItemId(R.id.navigation_notifications); //change to home
+            navigation.setSelectedItemId(R.id.navigation_home); //change to home
     }
 
     // Switch to Fragment Feed
