@@ -2,6 +2,7 @@ package com.example.kleimaj.jamr_v2;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -98,10 +99,16 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
     }
 
     public void dataLoaded() {
-        mLoadProgress.dismiss();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frame_container, SwipeScreen1.newInstance());
-        ft.commit();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mLoadProgress.dismiss();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.frame_container, SwipeScreen1.newInstance());
+                ft.commit();
+            }
+        }, 1000);
     }
 }
