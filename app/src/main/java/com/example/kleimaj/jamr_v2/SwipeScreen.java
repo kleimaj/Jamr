@@ -44,7 +44,7 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //users = new ArrayList<>();
+                users.clear();
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
                     String name = ds.child("name").getValue(String.class);
                     String isBand = ds.child("isBand").getValue(String.class);

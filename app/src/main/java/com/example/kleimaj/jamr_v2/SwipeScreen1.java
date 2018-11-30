@@ -78,11 +78,15 @@ public class SwipeScreen1 extends Fragment {
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
 
         //loads profiles
+        int count = 0;
         for(ProfileModel profile : profiles){//Utils.loadProfiles(this.getActivity()
             // .getApplicationContext
             // ())){
+
+            count++;
             mSwipeView.addView(new TinderCard(mContext, profile, mSwipeView));
         }
+        System.out.println(count);
 
         getView().findViewById(R.id.rejectBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +110,7 @@ public class SwipeScreen1 extends Fragment {
     }
 
     public static void convertArray(ArrayList<ArtistModel> users){
+        profiles.clear();
         for (int i = 0; i < users.size(); i++) {
             ProfileModel profile = new ProfileModel();
             profile.setName(users.get(i).getName());
