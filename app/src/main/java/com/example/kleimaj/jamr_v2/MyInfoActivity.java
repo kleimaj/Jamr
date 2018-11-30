@@ -181,10 +181,6 @@ public class MyInfoActivity extends AppCompatActivity {
         if (chosenIdentities.isEmpty()) {
             chosenIdentities.add(".");
         }
-        //need this??
-        if (chosenGenres.isEmpty()) {
-            chosenGenres.add(".");
-        }
 
         if (db.setArtistInfo(name, selectedGender, selectedAge, chosenIdentities, chosenGenres, bio)) {
             Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
