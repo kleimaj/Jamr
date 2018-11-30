@@ -6,11 +6,4 @@
     android:layout_height="match_parent"
     tools:context="com.example.kleimaj.jamr_v2.SwipeScreen">
 
-    <com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:rotation_degrees="15.5"
-        tools:context=".MyActivity" />
-
 </android.support.constraint.ConstraintLayout>

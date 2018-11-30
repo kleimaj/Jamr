@@ -30,6 +30,14 @@ public class ArtistModel {
         identities = new ArrayList<>();
     }
 
+    public ArtistModel(String name, boolean isBand) {
+        this.name = name;
+        this.isBand = isBand;
+        age = -1;
+        genres = new ArrayList<>();
+        identities = new ArrayList<>();
+    }
+
     public ArtistModel(String name, String gender) { //for testing
         this.name = name;
         this.gender = gender;
@@ -68,6 +76,14 @@ public class ArtistModel {
 
     public void setIdentities(ArrayList<String> identities){
         this.identities = identities;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAge(String age) {
+        this.age = Integer.parseInt(age);
     }
 
     /*Getters*/
