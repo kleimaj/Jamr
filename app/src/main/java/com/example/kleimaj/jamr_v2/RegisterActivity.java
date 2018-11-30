@@ -17,15 +17,21 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private TextInputLayout mDisplayName, mEmail, mPassword;
     private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private View passingView;
     private RadioGroup radioGroup;
@@ -126,12 +133,15 @@ public class RegisterActivity extends AppCompatActivity {
                   } else {
                       Toast.makeText(RegisterActivity.this, "Register successful",
                         Toast.LENGTH_SHORT).show();
+
                       FirebaseUser user = mAuth.getCurrentUser();
                       userId = user.getUid();
                       ArrayList<String> defaultIdentity = new ArrayList<>();
                       defaultIdentity.add(".");
                       mDatabase = FirebaseDatabase.getInstance().getReference
                         ().child("Users").child(userId);
+                      mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
                       HashMap<String,Object> userMap = new HashMap<>();
                       userMap.put("name", display_name);
                       userMap.put("thumb_image", "default");
@@ -143,13 +153,34 @@ public class RegisterActivity extends AppCompatActivity {
                           @Override
                           public void onComplete(@NonNull Task<Void> task) {
                               if (task.isSuccessful()) {
-                                  mRegProgress.dismiss();
-                                  Intent myIntent = new Intent(passingView.getContext(),
-                                    MyInfoActivity.class);
-                                  startActivity(myIntent);
+
+                                  // Get the token
+                                  FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( RegisterActivity.this,  new OnSuccessListener<InstanceIdResult>() {
+                                      @Override
+                                      public void onSuccess(InstanceIdResult instanceIdResult) {
+                                          String current_user_id = mAuth.getCurrentUser().getUid();
+                                          String deviceToken = instanceIdResult.getToken();
+
+                                          mUserDatabase.child(current_user_id).child("device_token")
+                                            .setValue(deviceToken).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                              @Override
+                                              public void onSuccess(Void aVoid) {
+                                                  mRegProgress.dismiss();
+                                                  Intent myIntent = new Intent(passingView.getContext(),
+                                                    MyInfoActivity.class);
+                                                  startActivity(myIntent);
+                                              }
+                                          });
+                                      }
+                                  });
+
+
                               }
                           }
                       });
+
+
+
                   }
               }
           });
