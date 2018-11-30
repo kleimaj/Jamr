@@ -36,7 +36,6 @@ public class SwipeScreen1 extends Fragment {
     private Query query;
     private RecyclerView mFeedsList;
     private static final String TAG = "ssiy";
-    public ArrayList<ArtistModel> users = new ArrayList<>();
 
     public SwipeScreen1() {
         // required empty public constructor
@@ -52,59 +51,16 @@ public class SwipeScreen1 extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference usersdRef = rootRef.child("Users");
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //users = new ArrayList<>();
-                for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                    String name = ds.child("name").getValue(String.class);
-                    System.out.println("NAME : "+name+"!!!!!!!!!!!!!!!!!!!");
-                    String isBand = ds.child("isBand").getValue(String.class);
-                    System.out.println("ISBAND : "+isBand+"!!!!!!!!!!!!!!!!!!!");
-                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    ArtistModel user= new ArtistModel(name,isBand);
-                    if (isBand.equals("true")) {
-                        ArrayList<String> genre = new ArrayList<String>();
-                        //add all genres to genre array
-                        for (DataSnapshot genreSnapshot : ds.child("genre").getChildren()) {
-                            genre.add(genreSnapshot.getValue(String.class));
-                        }
-                        user.setGenres(genre);
-                    }
-                    else {
-                        String gender = ds.child("gender").getValue(String.class);
-                        user.setGender(gender);
-                        String age = ds.child("age").getValue(String.class);
-                        user.setAge(age);
+        ArrayList<ArtistModel> users = SwipeScreen.users;
 
-                        ArrayList<String> identity = new ArrayList<String>();
-                        //add all genres to genre array
-                        for (DataSnapshot identitySnapshot : ds.child("genre").getChildren()) {
-                            identity.add(identitySnapshot.getValue(String.class));
-                        }
-                        user.setIdentities(identity);
-                    }
-                    //get image URL, might contain value "default"
-                    String image = ds.child("image").getValue(String.class);
-                    user.setImage(image);
-                    users.add(user);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        usersdRef.addListenerForSingleValueEvent(eventListener);
-
+        for (int i = 0 ; i < users.size(); i++) {
+            System.out.println("!!!!!!");
+            System.out.println(users.get(i).getName());
+        }
 
     }
 
-    @Override
+    @Override //called immediately after onCreateView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mSwipeView = getView().findViewById(R.id.swipeView);
         mContext = getActivity().getApplicationContext();
@@ -141,5 +97,9 @@ public class SwipeScreen1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_swipe_screen1, container, false);
+    }
+
+    public void ready(){
+
     }
 }

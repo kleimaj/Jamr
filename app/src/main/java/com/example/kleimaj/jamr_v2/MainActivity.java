@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         if (RegisterActivity.justRegistered)
             navigation.setSelectedItemId(R.id.navigation_notifications);
         else
-            navigation.setSelectedItemId(R.id.navigation_home);
+            navigation.setSelectedItemId(R.id.navigation_notifications); //change to home
     }
 
     // Switch to Fragment Feed
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     public void switchToFragment1() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frame_container, SwipeScreen1.newInstance());
+        ft.replace(R.id.frame_container, SwipeScreen.newInstance());
         ft.commit();
     }
 
