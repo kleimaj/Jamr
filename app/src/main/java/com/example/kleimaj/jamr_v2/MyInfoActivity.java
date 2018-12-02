@@ -122,7 +122,17 @@ public class MyInfoActivity extends AppCompatActivity {
     private void setArtistInfo(String text) {
         String[] lines = text.split("\n");
         nameEditText.setText(MainActivity.currentUser.getName());
-        ageSpinner.setSelection(0);
+        String age = lines[2].replaceAll("[^\\d.]", "");
+        int age_index = Integer.parseInt(age) + 1 - minAge;
+        String gender = lines[3].replaceAll("\\s+","");
+        ArrayList<String> genderList = new ArrayList<String>();
+        genderList.add("Gender");
+        genderList.add("Male");
+        genderList.add("Female");
+        genderList.add("Non-Binary");
+
+        ageSpinner.setSelection(age_index);
+        genderSpinner.setSelection(genderList.indexOf(gender));
         identityMulti.setText(lines[4]);
         bioEditText.setText(lines[1]);
         genreMulti.setText(lines[0]);

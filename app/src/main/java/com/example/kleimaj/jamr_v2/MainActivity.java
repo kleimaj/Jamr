@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -54,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
