@@ -52,6 +52,7 @@ public class MySettingsActivity extends AppCompatActivity {
     DatabaseManager db;
     public static ArrayList<String> chosenIdentities;
     public static ArrayList<String> chosenGenres;
+    public static ArrayList<String> genderList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +79,9 @@ public class MySettingsActivity extends AppCompatActivity {
             int intAge = Integer.parseInt(age);
             ageSeek.setProgress(intAge);
 
-            String gender = lines[1];
+            String gender = lines[1].replaceAll("\\s+","");
             String identity = lines[2];
+            genderSpinner.setSelection(genderList.indexOf(gender));
             identityMulti.setText(identity);
             String genre = lines[3];
             genreMulti.setText(genre);
@@ -181,7 +183,7 @@ public class MySettingsActivity extends AppCompatActivity {
     }
 
     public void initializeSpinner() {
-        ArrayList<String> genderList = new ArrayList<String>();
+        genderList = new ArrayList<String>();
         genderList.add("Any");
         genderList.add("Male");
         genderList.add("Female");
