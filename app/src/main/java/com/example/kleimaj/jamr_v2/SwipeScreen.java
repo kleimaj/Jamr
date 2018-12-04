@@ -56,9 +56,12 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                     ArtistModel user= new ArtistModel(name,isBand);
                     if (isBand!=null)
                     if (isBand.equals("true")) {
+                        user.setBand(true);
                         ArrayList<String> genre = new ArrayList<String>();
                         //add all genres to genre array
-                        for (DataSnapshot genreSnapshot : ds.child("genre").getChildren()) {
+                        for (DataSnapshot genreSnapshot : ds.child("genres").getChildren()) {
+                            System.out.println("GENRE!!!!!!!!!!!!!!!11 : "+genreSnapshot.getValue
+                              ().toString());
                             genre.add(genreSnapshot.getValue(String.class));
                         }
                         user.setGenres(genre);
@@ -69,9 +72,17 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                         String age = ds.child("age").getValue(String.class);
                         user.setAge(age);
 
+                        ArrayList<String> genre = new ArrayList<String>();
+                        //add all genres to genre array
+                        for (DataSnapshot identitySnapshot : ds.child("genres").getChildren()) {
+                            genre.add(identitySnapshot.getValue(String.class));
+                        }
+                        user.setGenres(genre);
+
                         ArrayList<String> identity = new ArrayList<String>();
                         //add all genres to genre array
-                        for (DataSnapshot identitySnapshot : ds.child("genre").getChildren()) {
+                        for (DataSnapshot identitySnapshot : ds.child("music_identity").getChildren
+                          ()) {
                             identity.add(identitySnapshot.getValue(String.class));
                         }
                         user.setIdentities(identity);
@@ -81,6 +92,9 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                     user.setImage(image);
                     if (!ds.getKey().equals(UID)) {
                         users.add(user);
+                    }
+                    else {
+                        MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
                     }
                 }
                 dataLoaded();

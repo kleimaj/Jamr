@@ -235,7 +235,13 @@ public class MyInfoActivity extends AppCompatActivity {
         if (db.setBandInfo(name, chosenGenres, bio)) {
             Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
             writeBandInfoToFile();
-            this.finish();
+            if (RegisterActivity.justRegistered) {
+                Intent myIntent = new Intent(this,MainActivity.class);
+                startActivity(myIntent);
+                this.finish();
+            }
+            else
+                this.finish();
         } else {
             Toast.makeText(this, SAVE_FAILURE, Toast.LENGTH_LONG).show();
         }

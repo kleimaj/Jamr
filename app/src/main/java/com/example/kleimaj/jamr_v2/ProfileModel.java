@@ -15,7 +15,7 @@ public class ProfileModel {
 
     @SerializedName("age")
     @Expose
-    private Integer age;
+    private String age ="";
 
     @SerializedName("location")
     @Expose
@@ -37,12 +37,17 @@ public class ProfileModel {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
     public void setAge(Integer age) {
-        this.age = age;
+        this.age = age.toString();
+        // this.age = age;
+    }
+
+    public void setAge(String age) {
+
     }
 
     public String getLocation() {

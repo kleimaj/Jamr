@@ -17,6 +17,7 @@ public class ArtistModel {
     private int age;
     private String image = "";
     private boolean isBand;
+    private String UID ="";
     private ArrayList<String> identities; //e.g. Producer, Guitarist, Vocalist
     private ArrayList<String> genres; //can switch to a String[] if need be
     private FirebaseAuth mAuth;
@@ -82,6 +83,8 @@ public class ArtistModel {
         this.age = age;
     }
 
+    public void setUID(String UID) {this.UID = UID;}
+
     public void setAge(String age) {
         this.age = Integer.parseInt(age);
     }
@@ -108,6 +111,8 @@ public class ArtistModel {
         return age;
     }
 
+    public String getUID() {return UID;}
+
     public ArrayList<String> getIdentities() {
         return identities;
     }
@@ -116,10 +121,4 @@ public class ArtistModel {
         return genres;
     }
 
-    public String getUID() {
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        String userId = user.getUid();
-        return  userId;
-    }
 }

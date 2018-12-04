@@ -108,6 +108,7 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 String name = dataSnapshot.child("name").getValue().toString();
+                String genre = "";
                 final String image = dataSnapshot.child("image").getValue()
                         .toString();
                 String thumb_image = dataSnapshot.child("thumb_image")
@@ -120,8 +121,21 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                         .trim()
                         .replaceAll(",$", ""); // remove the last comma
 
+                if (dataSnapshot.child("genres").exists()) {
+                    genre = dataSnapshot.child("genres")
+                      .getValue().toString()
+                      .replace("[", "")
+                      .replace("]", "")
+                      .trim()
+                      .replaceAll(",$", "");
+                }
+
                 mName.setText(name);
+                if (dataSnapshot.child("isBand").getValue().toString().equals("false"))
                 mIdentity.setText(identity); // change this
+                else {
+                    mIdentity.setText(genre);
+                }
 
                 // display the default avatar if no image uploaded
                 if (!image.equals("default")) {

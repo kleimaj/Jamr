@@ -54,7 +54,7 @@ public class SwipeScreen1 extends Fragment {
         super.onCreate(savedInstanceState);
 
         ArrayList<ArtistModel> users = SwipeScreen.users; //full of users now
-
+        //filter users to preferences first, if there are any
         convertArray(users);
 
         for (int i = 0 ; i < users.size(); i++) {
@@ -125,6 +125,27 @@ public class SwipeScreen1 extends Fragment {
 
             if  (!users.get(i).isBand()) {
                 profile.setAge(new Integer(users.get(i).getAge()));
+                String identities = "";
+                for (int j = 0; j < users.get(i).getIdentities().size(); j++) {
+                    identities += users.get(i).getIdentities().get(j);
+                    if (j != users.get(i).getIdentities().size()-1) {
+                        identities += ", ";
+                    }
+                }
+                profile.setLocation(identities);
+            }
+            else {
+                profile.setAge("");
+                String genres = "";
+                for (int j = 0; j < users.get(i).getGenres().size(); j++) {
+                    System.out.println("THIS GENRE IS!!!! : "+users.get(i).getGenres().get(j));
+                    genres += users.get(i).getGenres().get(j);
+                    if (j != users.get(i).getGenres().size()-1) {
+                        genres+=", ";
+                    }
+                }
+                profile.setLocation(genres);
+                System.out.println(genres +" GENRES!!!!!!!!!!");
             }
             profiles.add(profile);
         }
