@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,8 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
 
     private ProgressDialog mLoadProgress;
     public static ArrayList<ArtistModel> users = new ArrayList<>();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    String UID = mAuth.getCurrentUser().getUid();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                     String name = ds.child("name").getValue(String.class);
                     String isBand = ds.child("isBand").getValue(String.class);
                     ArtistModel user= new ArtistModel(name,isBand);
+                    if (isBand!=null)
                     if (isBand.equals("true")) {
                         ArrayList<String> genre = new ArrayList<String>();
                         //add all genres to genre array
@@ -74,9 +79,11 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                     //get image URL, might contain value "default"
                     String image = ds.child("image").getValue(String.class);
                     user.setImage(image);
-                    users.add(user);
-                    dataLoaded();
+                    if (!ds.getKey().equals(UID)) {
+                        users.add(user);
+                    }
                 }
+                dataLoaded();
             }
 
             @Override
@@ -99,6 +106,10 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
     }
 
     public void dataLoaded() {
+        for (int i = 0; i < users.size(); i++) {
+            System.out.println(users.get(i).getName());
+            System.out.println("HEEEEEEEEEEEEYYYYYYYYYYYYYYYYYY");
+        }
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
