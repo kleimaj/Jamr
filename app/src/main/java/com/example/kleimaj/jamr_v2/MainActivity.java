@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +9,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,11 +112,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frame_container, ProfileActivity.newInstance());//MyInfor.newInstance());
         ft.commit();
-    }
-
-
-    public static String returnPicturePath() {
-        return picturePath;
     }
 
 

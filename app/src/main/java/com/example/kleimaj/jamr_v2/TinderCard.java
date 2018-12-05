@@ -1,6 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class TinderCard {
     private ProfileModel mProfile;
     private Context mContext;
     private SwipePlaceHolderView mSwipeView;
+    boolean isSwiping = false;
+    int swipe = 0;
 
     public TinderCard(Context context, ProfileModel profile, SwipePlaceHolderView swipeView) {
         mContext = context;
@@ -47,27 +50,42 @@ public class TinderCard {
 
     @SwipeOut
     private void onSwipedOut(){
+        swipe = 0;
         Log.d("EVENT", "onSwipedOut");
-        mSwipeView.addView(this);
+        //mSwipeView.addView(this);
     }
 
     @SwipeCancelState
     private void onSwipeCancelState(){
+        System.out.println(swipe);
+        if (swipe == 0) {
+            //create intent
+            SwipeScreen1.seeProfile(mProfile.getUID());
+            /*Intent userProfileIntent = new Intent(this,
+              UserProfile.class);
+            userProfileIntent.putExtra("user_id", user_id);
+            startActivity(userProfileIntent);*/
+        }
+        else if (swipe > 0)
+            swipe = 0;
         Log.d("EVENT", "onSwipeCancelState");
     }
 
     @SwipeIn
     private void onSwipeIn(){
+        swipe = 0;
         Log.d("EVENT", "onSwipedIn");
     }
 
     @SwipeInState
     private void onSwipeInState(){
+        swipe++;
         Log.d("EVENT", "onSwipeInState");
     }
 
     @SwipeOutState
     private void onSwipeOutState(){
+        swipe++;
         Log.d("EVENT", "onSwipeOutState");
     }
 }

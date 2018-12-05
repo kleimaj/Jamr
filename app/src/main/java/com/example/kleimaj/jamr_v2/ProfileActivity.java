@@ -39,6 +39,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +61,13 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
     // Storage Firebase
     private FirebaseStorage storage;
     private StorageReference mImageStorage;
+
+    //Profile for referencing in MyInfo
+    static String profile = "";
+
+    static String profileName = "";
+
+    static int isBand;
 
     // Thumbnail bitmap
     private Bitmap thumb_bitmap;
@@ -106,21 +114,24 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                profile = "";
                 String name = dataSnapshot.child("name").getValue().toString();
+                profileName = name;
                 String genre = "";
+                String identity = "";
                 final String image = dataSnapshot.child("image").getValue()
                         .toString();
                 String thumb_image = dataSnapshot.child("thumb_image")
                         .getValue().toString();
                 // here lies the problem. Need to change how this works
-                String identity = dataSnapshot.child("music_identity")
-                        .getValue().toString()
-                        .replace("[", "")  //remove the right bracket
-                        .replace("]", "")  //remove the left bracket
-                        .trim()
-                        .replaceAll(",$", ""); // remove the last comma
-
+                if (dataSnapshot.child("music_identity").exists()) {
+                    identity = dataSnapshot.child("music_identity")
+                      .getValue().toString()
+                      .replace("[", "")  //remove the right bracket
+                      .replace("]", "")  //remove the left bracket
+                      .trim()
+                      .replaceAll(",$", ""); // remove the last comma
+                }
                 if (dataSnapshot.child("genres").exists()) {
                     genre = dataSnapshot.child("genres")
                       .getValue().toString()
@@ -131,10 +142,34 @@ public class ProfileActivity extends Fragment implements View.OnClickListener {
                 }
 
                 mName.setText(name);
-                if (dataSnapshot.child("isBand").getValue().toString().equals("false"))
-                mIdentity.setText(identity); // change this
+                if (dataSnapshot.child("isBand").getValue().toString().equals("false")) {
+                    String bio = "";
+                    if (dataSnapshot.child("bio").exists()) {
+                        bio += dataSnapshot.child("bio").getValue().toString();
+                    }
+                    String age = "";
+                    if (dataSnapshot.child("age").exists()) {
+                        age += dataSnapshot.child("age").getValue().toString();
+                    }
+                    String gender = "";
+                    if (dataSnapshot.child("gender").exists()) {
+                        gender += dataSnapshot.child("gender").getValue().toString();
+                    }
+                    mIdentity.setText(identity);
+                    profile += genre + " \n";
+                    profile += bio +" \n";
+                    profile += age +" \n";
+                    profile += gender +" \n";
+                    profile += identity+ " \n";
+                }
                 else {
                     mIdentity.setText(genre);
+                    String bio = "";
+                    if (dataSnapshot.child("bio").exists()) {
+                        bio += dataSnapshot.child("bio").getValue().toString();
+                    }
+                    profile += genre + " \n";
+                    profile += bio + " \n";
                 }
 
                 // display the default avatar if no image uploaded

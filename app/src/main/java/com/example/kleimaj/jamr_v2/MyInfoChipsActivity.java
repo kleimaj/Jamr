@@ -49,6 +49,7 @@ public class MyInfoChipsActivity extends AppCompatActivity {
                 break;
             }
             case ARTIST_GENRE: {
+                System.out.println("IN CHIIIIIPS....ARTIST!!!");
                 title.setText("Music Genres");
                 currentValues = MyInfoActivity.chosenGenres;
                 for (String s: genres) {
@@ -63,6 +64,7 @@ public class MyInfoChipsActivity extends AppCompatActivity {
                 currentValues = MyInfoActivity.chosenGenres;
                 for (String s: genres) {
                     if (currentValues.contains(s)) {
+                        System.out.println(s);
                         chips.setSelectedChip(Arrays.asList(genres).indexOf(s));
                     }
                 }

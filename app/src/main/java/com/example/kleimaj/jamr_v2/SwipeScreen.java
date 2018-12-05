@@ -90,6 +90,7 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                     //get image URL, might contain value "default"
                     String image = ds.child("image").getValue(String.class);
                     user.setImage(image);
+                    user.setUID(ds.getKey());
                     if (!ds.getKey().equals(UID)) {
                         users.add(user);
                     }

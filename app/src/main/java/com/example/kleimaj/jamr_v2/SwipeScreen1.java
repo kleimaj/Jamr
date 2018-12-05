@@ -37,6 +37,7 @@ public class SwipeScreen1 extends Fragment {
     private Query query;
     private RecyclerView mFeedsList;
     private static final String TAG = "ssiy";
+    public static View view;
     static List<ProfileModel> profiles = new ArrayList<>();
 
     public SwipeScreen1() {
@@ -103,16 +104,25 @@ public class SwipeScreen1 extends Fragment {
         });
     }
 
+    public static void seeProfile(String UID){
+        Intent userProfileIntent = new Intent(view.getContext(),
+          UserProfile.class);
+        userProfileIntent.putExtra("user_id", UID);
+        view.getContext().startActivity(userProfileIntent);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_swipe_screen1, container, false);
+        view = inflater.inflate(R.layout.fragment_swipe_screen1, container, false);
+        return view;
     }
 
     public static void convertArray(ArrayList<ArtistModel> users){
         profiles.clear();
         for (int i = 0; i < users.size(); i++) {
             ProfileModel profile = new ProfileModel();
+            profile.setUID(users.get(i).getUID());
             profile.setName(users.get(i).getName());
             String image = users.get(i).getImage();
             if (image.equals("default")) {

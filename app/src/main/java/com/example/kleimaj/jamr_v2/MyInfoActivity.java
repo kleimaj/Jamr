@@ -68,9 +68,14 @@ public class MyInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new DatabaseManager();
+        chosenGenres = new ArrayList<String>();
+        chosenIdentities = new ArrayList<String>();
 
         if (RegisterActivity.justRegistered){
             Toast.makeText(this, "Create your user profile!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            bioInfoText = readUserInfo();
         }
 
         if (!MainActivity.currentUser.isBand()) {
@@ -83,9 +88,10 @@ public class MyInfoActivity extends AppCompatActivity {
             genreMulti = findViewById(R.id.multiComplete_genre);
             artistSave = findViewById(R.id.saveButton);
             initializeSpinners();
-            bioInfoText = readUserFile();
-
+            //bioInfoText = readUserFile();
+            bioInfoText = readUserInfo();
             if(bioInfoText != null){
+                //System.out.println(bioInfoText);
                 setArtistInfo(bioInfoText);
             }
             else {
@@ -98,14 +104,14 @@ public class MyInfoActivity extends AppCompatActivity {
                 chosenGenres = new ArrayList<String>();
             if (chosenIdentities.contains("."))
                 chosenIdentities.remove(".");
-
         }
         else if (MainActivity.currentUser.isBand()) {
             setContentView(R.layout.activity_band_info);
             bandNameEditText = findViewById(R.id.editText_name_band);
             bandBioEditText = findViewById(R.id.editText_bio_band);
             bandSave = findViewById(R.id.saveButtonBand);
-            bioInfoText = readUserFile();
+            //bioInfoText = readUserFile();
+            bioInfoText = readUserInfo();
             genreMulti = findViewById(R.id.multiComplete_genre_band);
             if (bioInfoText!=null) {
                 setBandInfo(bioInfoText);
@@ -114,14 +120,16 @@ public class MyInfoActivity extends AppCompatActivity {
                 bandNameEditText.setText(MainActivity.currentUser.getName());
             }
 
-            if (chosenGenres == null || genreMulti.getText().toString().equals(""))
+            if (chosenGenres == null || genreMulti.getText().toString().equals("")) {
+                System.out.println("HERE");
                 chosenGenres = new ArrayList<String>();
+            }
         }
     }
 
     private void setArtistInfo(String text) {
         String[] lines = text.split("\n");
-        nameEditText.setText(MainActivity.currentUser.getName());
+        nameEditText.setText(ProfileActivity.profileName);
         String age = lines[2].replaceAll("[^\\d.]", "");
         int age_index = Integer.parseInt(age) + 1 - minAge;
         String gender = lines[3].replaceAll("\\s+","");
@@ -134,14 +142,26 @@ public class MyInfoActivity extends AppCompatActivity {
         ageSpinner.setSelection(age_index);
         genderSpinner.setSelection(genderList.indexOf(gender));
         identityMulti.setText(lines[4]);
+        String[] identities = lines[4].split(",");
+        for (int i = 0; i < identities.length; i++) {
+            chosenIdentities.add(identities[i].trim());
+        }
         bioEditText.setText(lines[1]);
         genreMulti.setText(lines[0]);
+        String[] genres = lines[0].split(",");
+        for (int i = 0; i < genres.length; i++) {
+            chosenGenres.add(genres[i].trim());
+        }
     }
 
     private void setBandInfo(String text){
         String[] lines = text.split("\n");
-        bandNameEditText.setText(MainActivity.currentUser.getName());
+        bandNameEditText.setText(ProfileActivity.profileName);
         genreMulti.setText(lines[0]);
+        String[] genres = lines[0].split(",");
+        for (int i = 0; i < genres.length; i++) {
+            chosenGenres.add(genres[i].trim());
+        }
         bandBioEditText.setText(lines[1]);
     }
 
@@ -426,5 +446,11 @@ public class MyInfoActivity extends AppCompatActivity {
         }else{
             return null;
         }
+    }
+
+    public String readUserInfo() {
+        String returnString = ProfileActivity.profile;
+        return returnString;
+
     }
 }

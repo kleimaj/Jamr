@@ -21,6 +21,8 @@ public class ProfileModel {
     @Expose
     private String location;
 
+    private String UID;
+
     public String getName() {
         return name;
     }
@@ -41,6 +43,8 @@ public class ProfileModel {
         return age;
     }
 
+    public String getUID(){return UID;}
+
     public void setAge(Integer age) {
         this.age = age.toString();
         // this.age = age;
@@ -49,6 +53,8 @@ public class ProfileModel {
     public void setAge(String age) {
 
     }
+
+    public void setUID(String UID) { this.UID = UID;}
 
     public String getLocation() {
         return location;
