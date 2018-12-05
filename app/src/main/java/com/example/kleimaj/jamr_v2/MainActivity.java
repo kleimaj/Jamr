@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = new DatabaseManager();
 
-        if (RegisterActivity.justRegistered) {
+        if (RegisterActivity.isJustRegistered()) {
             //save contents to local file
             saveContents();
         }
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
       //  initialize();
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        if (RegisterActivity.justRegistered)
+        if (RegisterActivity.isJustRegistered())
             navigation.setSelectedItemId(R.id.navigation_notifications);
         else
             navigation.setSelectedItemId(R.id.navigation_home); //change to home

@@ -2,9 +2,11 @@ package com.example.kleimaj.jamr_v2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adroitandroid.chipcloud.ChipCloud;
 import com.adroitandroid.chipcloud.ChipListener;
@@ -19,11 +21,13 @@ public class MyInfoChipsActivity extends AppCompatActivity {
     public static final int BAND_GENRE = 2;
     public static final int SETTINGS_IDENTITY = 3;
     public static final int SETTINGS_GENRE = 4;
+    public final static int MAX_CHOICES = 5;
 
     ChipCloud chips;
     String[] chipValues;
     String[] identities;
     String[] genres;
+    TextView title;
     ArrayList<String> currentValues;
     int chipsContext;
 
@@ -34,9 +38,20 @@ public class MyInfoChipsActivity extends AppCompatActivity {
         chipsContext = getIntent().getIntExtra("context", 0);
         chips = findViewById(R.id.chip_cloud);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        TextView title = findViewById(R.id.chipsTitle);
+        title = findViewById(R.id.chipsTitle);
         initializeChips();
+        loadChips();
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    public void loadChips() {
         switch (chipsContext) {
             case ARTIST_IDENTITY: {
                 title.setText("Music Identities");
@@ -49,7 +64,6 @@ public class MyInfoChipsActivity extends AppCompatActivity {
                 break;
             }
             case ARTIST_GENRE: {
-                System.out.println("IN CHIIIIIPS....ARTIST!!!");
                 title.setText("Music Genres");
                 currentValues = MyInfoActivity.chosenGenres;
                 for (String s: genres) {
@@ -90,14 +104,6 @@ public class MyInfoChipsActivity extends AppCompatActivity {
                 }
                 break;
             }
-        }
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 
@@ -145,17 +151,21 @@ public class MyInfoChipsActivity extends AppCompatActivity {
         } else {
             chipValues = genres;
         }
-
         new ChipCloud.Configure().chipCloud(chips).labels(chipValues).chipListener(new ChipListener() {
+
             @Override
             public void chipSelected(int index) {
-                if (!currentValues.contains(chipValues[index])) {
+                if (currentValues.size() >= MAX_CHOICES) {
+                    Toast.makeText(getApplicationContext(), "No more than 5 selections can be chosen", Toast.LENGTH_LONG).show();
+                } else if (!currentValues.contains(chipValues[index])) {
                     currentValues.add(chipValues[index]);
                 }
             }
+
             @Override
             public void chipDeselected(int index) {
-                currentValues.remove(chipValues[index]);
+                if (currentValues.contains(chipValues[index]))
+                    currentValues.remove(chipValues[index]);
             }
         }).build();
     }

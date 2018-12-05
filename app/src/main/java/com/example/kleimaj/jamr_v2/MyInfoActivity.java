@@ -59,6 +59,7 @@ public class MyInfoActivity extends AppCompatActivity {
     String selectedGender;
     String bioInfoText;
 
+    public static ArrayList<String> genderList;
     public static ArrayList<String> chosenIdentities;
     public static ArrayList<String> chosenGenres;
     public static EditText identityMulti;
@@ -70,8 +71,13 @@ public class MyInfoActivity extends AppCompatActivity {
         db = new DatabaseManager();
         chosenGenres = new ArrayList<String>();
         chosenIdentities = new ArrayList<String>();
+        genderList = new ArrayList<String>();
+        genderList.add("Gender");
+        genderList.add("Male");
+        genderList.add("Female");
+        genderList.add("Non-Binary");
 
-        if (RegisterActivity.justRegistered){
+        if (RegisterActivity.isJustRegistered()){
             Toast.makeText(this, "Create your user profile!", Toast.LENGTH_LONG).show();
         }
         else {
@@ -88,41 +94,26 @@ public class MyInfoActivity extends AppCompatActivity {
             genreMulti = findViewById(R.id.multiComplete_genre);
             artistSave = findViewById(R.id.saveButton);
             initializeSpinners();
-            //bioInfoText = readUserFile();
-            bioInfoText = readUserInfo();
+
             if(bioInfoText != null){
-                //System.out.println(bioInfoText);
                 setArtistInfo(bioInfoText);
             }
             else {
                 nameEditText.setText(MainActivity.currentUser.getName());
             }
-
-            if (chosenIdentities == null || identityMulti.getText().toString().equals(""))
-                chosenIdentities = new ArrayList<String>();
-            if (chosenGenres == null || genreMulti.getText().toString().equals(""))
-                chosenGenres = new ArrayList<String>();
-            if (chosenIdentities.contains("."))
-                chosenIdentities.remove(".");
         }
         else if (MainActivity.currentUser.isBand()) {
             setContentView(R.layout.activity_band_info);
             bandNameEditText = findViewById(R.id.editText_name_band);
             bandBioEditText = findViewById(R.id.editText_bio_band);
             bandSave = findViewById(R.id.saveButtonBand);
-            //bioInfoText = readUserFile();
-            bioInfoText = readUserInfo();
             genreMulti = findViewById(R.id.multiComplete_genre_band);
-            if (bioInfoText!=null) {
+
+            if (bioInfoText != null) {
                 setBandInfo(bioInfoText);
             }
             else {
                 bandNameEditText.setText(MainActivity.currentUser.getName());
-            }
-
-            if (chosenGenres == null || genreMulti.getText().toString().equals("")) {
-                System.out.println("HERE");
-                chosenGenres = new ArrayList<String>();
             }
         }
     }
@@ -133,35 +124,53 @@ public class MyInfoActivity extends AppCompatActivity {
         String age = lines[2].replaceAll("[^\\d.]", "");
         int age_index = Integer.parseInt(age) + 1 - minAge;
         String gender = lines[3].replaceAll("\\s+","");
-        ArrayList<String> genderList = new ArrayList<String>();
-        genderList.add("Gender");
-        genderList.add("Male");
-        genderList.add("Female");
-        genderList.add("Non-Binary");
 
         ageSpinner.setSelection(age_index);
         genderSpinner.setSelection(genderList.indexOf(gender));
-        identityMulti.setText(lines[4]);
+        if (lines[4].contains(".")) {
+            // empty
+            identityMulti.setText("");
+        } else {
+            identityMulti.setText(lines[4]);
+        }
         String[] identities = lines[4].split(",");
         for (int i = 0; i < identities.length; i++) {
             chosenIdentities.add(identities[i].trim());
         }
-        bioEditText.setText(lines[1]);
-        genreMulti.setText(lines[0]);
+        if (chosenIdentities.contains("."))
+            chosenIdentities.remove(".");
+
+        if (lines[0].contains(".") || lines[0].equals(" ")) {
+            genreMulti.setText("");
+        } else {
+            genreMulti.setText(lines[0]);
+        }
+
         String[] genres = lines[0].split(",");
         for (int i = 0; i < genres.length; i++) {
             chosenGenres.add(genres[i].trim());
         }
+        if (chosenGenres.contains("."))
+            chosenGenres.remove(".");
+
+        bioEditText.setText(lines[1]);
     }
 
     private void setBandInfo(String text){
         String[] lines = text.split("\n");
         bandNameEditText.setText(ProfileActivity.profileName);
-        genreMulti.setText(lines[0]);
+        if (lines[0].contains(".") || lines[0].equals(" ")) {
+            genreMulti.setText("");
+        } else {
+            genreMulti.setText(lines[0]);
+        }
         String[] genres = lines[0].split(",");
         for (int i = 0; i < genres.length; i++) {
             chosenGenres.add(genres[i].trim());
         }
+        if (chosenGenres.contains("."))
+            chosenGenres.remove(".");
+
         bandBioEditText.setText(lines[1]);
     }
 
@@ -211,11 +220,39 @@ public class MyInfoActivity extends AppCompatActivity {
         if (chosenIdentities.isEmpty()) {
             chosenIdentities.add(".");
         }
+        if (chosenGenres.isEmpty()) {
+            chosenGenres.add(".");
+        }
 
         if (db.setArtistInfo(name, selectedGender, selectedAge, chosenIdentities, chosenGenres, bio)) {
             Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
             writeAristInfoToFile();
-            if (RegisterActivity.justRegistered) {
+            if (RegisterActivity.isJustRegistered()) {
+                RegisterActivity.setJustRegistered(false);
+                Intent myIntent = new Intent(this,MainActivity.class);
+                startActivity(myIntent);
+                this.finish();
+            }
+            else
+                this.finish();
+        } else {
+            Toast.makeText(this, SAVE_FAILURE, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onSaveBandInfo(View v) {
+        String name = bandNameEditText.getText().toString();
+        String bio = bandBioEditText.getText().toString();
+
+        if (chosenGenres.isEmpty()) {
+            chosenGenres.add(".");
+        }
+
+        if (db.setBandInfo(name, chosenGenres, bio)) {
+            Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
+            writeBandInfoToFile();
+            if (RegisterActivity.isJustRegistered()) {
+                RegisterActivity.setJustRegistered(false);
                 Intent myIntent = new Intent(this,MainActivity.class);
                 startActivity(myIntent);
                 this.finish();
@@ -248,25 +285,6 @@ public class MyInfoActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
-    public void onSaveBandInfo(View v) {
-        String name = bandNameEditText.getText().toString();
-        String bio = bandBioEditText.getText().toString();
-
-        if (db.setBandInfo(name, chosenGenres, bio)) {
-            Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
-            writeBandInfoToFile();
-            if (RegisterActivity.justRegistered) {
-                Intent myIntent = new Intent(this,MainActivity.class);
-                startActivity(myIntent);
-                this.finish();
-            }
-            else
-                this.finish();
-        } else {
-            Toast.makeText(this, SAVE_FAILURE, Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void writeBandInfoToFile(){
         Context context = getApplicationContext();
         String UID = MainActivity.currentUser.getUID();
@@ -279,8 +297,8 @@ public class MyInfoActivity extends AppCompatActivity {
             StringBuilder bioText = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
             //text.append(bandNameEditText.getText().toString() + " \n");
-            bioText.append(genreMulti.getText().toString() + " \n");
-            bioText.append(bandBioEditText.getText().toString() + " \n");
+            bioText.append(genreMulti.getText().toString() + "\n");
+            bioText.append(bandBioEditText.getText().toString() + "\n");
             output.write(bioText.toString().getBytes());
             output.close();
             //check if name is null, if user didn't edit name, don't write
@@ -316,11 +334,11 @@ public class MyInfoActivity extends AppCompatActivity {
             StringBuilder text = new StringBuilder();
             StringBuilder profileText = new StringBuilder();
             //text.append(nameEditText.getText().toString() + " \n");
-            text.append(genreMulti.getText().toString() + " \n");
-            text.append(bioEditText.getText().toString() + " \n");
-            text.append(selectedAge + " \n");
-            text.append(selectedGender + " \n");
-            text.append(identityMulti.getText().toString() + " \n");
+            text.append(genreMulti.getText().toString() + "\n");
+            text.append(bioEditText.getText().toString() + "\n");
+            text.append(selectedAge + "\n");
+            text.append(selectedGender + "\n");
+            text.append(identityMulti.getText().toString() + "\n");
             //text.append(MainActivity.returnPicturePath() + " \n");
             output.write(text.toString().getBytes());
             output.close();
@@ -451,6 +469,5 @@ public class MyInfoActivity extends AppCompatActivity {
     public String readUserInfo() {
         String returnString = ProfileActivity.profile;
         return returnString;
-
     }
 }
