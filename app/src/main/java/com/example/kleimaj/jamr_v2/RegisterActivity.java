@@ -46,8 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     static String userId = "";
     static String display_name, email, password;
-    static boolean isBand;
-    static boolean justRegistered = false;
+    public static boolean isBand;
+    public static boolean justRegistered = false;
 
     // Progress Dialog
     private ProgressDialog mRegProgress;
@@ -245,5 +245,13 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(firebaseAuthStateListener);
+    }
+
+    public static boolean isJustRegistered() {
+        return justRegistered;
+    }
+
+    public static void setJustRegistered(boolean val) {
+        justRegistered = val;
     }
 }
