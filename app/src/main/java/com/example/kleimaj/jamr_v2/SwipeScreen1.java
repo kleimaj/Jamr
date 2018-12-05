@@ -12,9 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +31,11 @@ import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -38,6 +48,15 @@ public class SwipeScreen1 extends Fragment {
     private RecyclerView mFeedsList;
     private static final String TAG = "ssiy";
     public static View view;
+    private static String mCurrent_state;
+    private static DatabaseReference mFriendReqDatabase;
+    private static DatabaseReference mEnemyDatabase;
+    private static DatabaseReference mNotificationDatase;
+    //private static DatabaseReference mFriendDatabase = FirebaseDatabase.getInstance()
+      //.getReference().child("Friends");
+
+    private static FirebaseUser mCurrent_user;
+
     static List<ProfileModel> profiles = new ArrayList<>();
 
     public SwipeScreen1() {
@@ -58,11 +77,13 @@ public class SwipeScreen1 extends Fragment {
         //filter users to preferences first, if there are any
         convertArray(users);
 
-        for (int i = 0 ; i < users.size(); i++) {
-            System.out.println("!!!!!!");
-            System.out.println(users.get(i).getName());
-        }
-
+        mFriendReqDatabase = FirebaseDatabase.getInstance()
+          .getReference().child("Friend_req");
+        mEnemyDatabase = FirebaseDatabase.getInstance()
+          .getReference().child("Enemy");
+        mCurrent_state = "not_friends";
+        mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
+        mNotificationDatase = FirebaseDatabase.getInstance().getReference().child("notifications");
     }
 
     @Override //called immediately after onCreateView
@@ -109,6 +130,88 @@ public class SwipeScreen1 extends Fragment {
           UserProfile.class);
         userProfileIntent.putExtra("user_id", UID);
         view.getContext().startActivity(userProfileIntent);
+    }
+
+    public static void sendRequest(final String UID){
+        System.out.println(UID +" IN FRIEND REQUEST Sent");
+        // --------- Not Friend State
+        if(mCurrent_state.equals("not_friends")){
+            mFriendReqDatabase.child(mCurrent_user.getUid()).child(UID).child
+              ("request_type").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        mFriendReqDatabase.child(UID).child(mCurrent_user.getUid())
+                          .child("request_type").setValue("received")
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+
+                                  HashMap<String, String> notificationData = new
+                                    HashMap<>();
+                                  notificationData.put("from", mCurrent_user.getUid());
+                                  notificationData.put("type", "request");
+
+                                  mNotificationDatase.child(UID).push().setValue
+                                    (notificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                      @Override
+                                      public void onSuccess(Void aVoid) {
+                                          //mCurrent_state = "req_sent";
+                                      }
+                                  });
+
+
+
+//                                        Toast.makeText(UserProfile.this, "Request sent~", Toast.LENGTH_SHORT).show();
+                              }
+                          });
+                    }else{
+                        Toast.makeText(view.getContext(), "Failed Sending Request", Toast
+                          .LENGTH_SHORT)
+                          .show();
+                    }
+                }
+            });
+        }
+
+    }
+
+    public static void declineRequest(final String UID) {
+        Date now = Calendar.getInstance().getTime();
+        final String currentDate = SimpleDateFormat.getDateTimeInstance().format(now);
+        //add to this child UID the UID of the enemy
+        mEnemyDatabase.child(mCurrent_user.getUid()).child(UID).setValue
+          (currentDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                /*
+            }
+                //add to the UID of the enemy, this UID
+
+                mEnemyDatabase.child(UID).child(mCurrent_user.getUid()).setValue
+                  (currentDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+
+                        mFriendReqDatabase.child(mCurrent_user.getUid()).child(UID).removeValue()
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+                                  mFriendReqDatabase.child(UID).child(mCurrent_user.getUid())
+                                    .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                      @Override
+                                      public void onSuccess(Void aVoid) {
+
+                                      }
+                                  });
+                              }
+                          });
+                    }
+                });
+                */
+            }
+        });
     }
 
     @Override

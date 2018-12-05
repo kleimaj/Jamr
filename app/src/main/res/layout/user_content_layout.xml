@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textAlignment="center"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/user_profile_totalFriends"
-        app:layout_constraintStart_toStartOf="@+id/user_profile_totalFriends"
+        android:text="identity"
+        app:layout_constraintEnd_toEndOf="@+id/user_profile_bio"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_bio"
         app:layout_constraintTop_toBottomOf="@+id/user_profile_name" />
 
     <ImageView
@@ -40,16 +40,27 @@
         android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textSize="27dp"
+        android:text="Name"
         app:layout_constraintEnd_toEndOf="@+id/user_profile_music_identity"
         app:layout_constraintStart_toStartOf="@+id/user_profile_music_identity"
         app:layout_constraintTop_toBottomOf="@+id/user_profile_iamge" />
 
     <TextView
-        android:id="@+id/user_profile_totalFriends"
+        android:id="@+id/user_profile_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/user_profile_music_identity"
+        app:layout_constraintBottom_toBottomOf="@id/user_profile_bio"
+        android:text="genres"/>
+
+    <TextView
+        android:id="@+id/user_profile_bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
-        android:text="Total Friends"
+        android:text="Bio"
         app:layout_constraintEnd_toEndOf="@+id/user_profile_send_req_btn"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="@+id/user_profile_send_req_btn"
@@ -65,7 +76,7 @@
         app:layout_constraintBottom_toTopOf="@+id/user_profile_decline_req_btn"
         app:layout_constraintEnd_toEndOf="@+id/user_profile_decline_req_btn"
         app:layout_constraintStart_toStartOf="@+id/user_profile_decline_req_btn"
-        app:layout_constraintTop_toBottomOf="@+id/user_profile_totalFriends" />
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_bio" />
 
     <Button
         android:id="@+id/user_profile_decline_req_btn"

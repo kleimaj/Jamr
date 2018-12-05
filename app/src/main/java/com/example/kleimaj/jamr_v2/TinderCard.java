@@ -50,6 +50,7 @@ public class TinderCard {
 
     @SwipeOut
     private void onSwipedOut(){
+        SwipeScreen1.declineRequest(mProfile.getUID());
         swipe = 0;
         Log.d("EVENT", "onSwipedOut");
         //mSwipeView.addView(this);
@@ -74,6 +75,7 @@ public class TinderCard {
     @SwipeIn
     private void onSwipeIn(){
         swipe = 0;
+        SwipeScreen1.sendRequest(mProfile.getUID());
         Log.d("EVENT", "onSwipedIn");
     }
 

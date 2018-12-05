@@ -33,7 +33,7 @@ public class UserProfile extends AppCompatActivity {
 
     private TextView mDisplayID;
     private ImageView mProfileImage;
-    private TextView mProfileName, mProfileMusicIdentity, mProfileFriendsCount;
+    private TextView mProfileName, mProfileMusicIdentity, mProfileGenre, mProfileBio;
     private Button mProfileSendReqBtn, mProfileDeclineReqBtn;
 
     private DatabaseReference mUsersDatabase;
@@ -69,7 +69,8 @@ public class UserProfile extends AppCompatActivity {
 
         mProfileName = findViewById(R.id.user_profile_name);
         mProfileMusicIdentity = findViewById(R.id.user_profile_music_identity);
-        mProfileFriendsCount = findViewById(R.id.user_profile_totalFriends);
+        mProfileGenre = findViewById(R.id.user_profile_genre);
+        mProfileBio = findViewById(R.id.user_profile_bio);
         mProfileSendReqBtn = findViewById(R.id.user_profile_send_req_btn);
         mProfileDeclineReqBtn = findViewById(R.id.user_profile_decline_req_btn);
 
@@ -79,7 +80,6 @@ public class UserProfile extends AppCompatActivity {
         mProgressDialog.setTitle("Loading User Data");
         mProgressDialog.setMessage("Please wait while we load the user data");
         mProgressDialog.setCanceledOnTouchOutside(false);
-
 
 
         mUsersDatabase.addValueEventListener(new ValueEventListener() {
@@ -93,9 +93,24 @@ public class UserProfile extends AppCompatActivity {
                   .trim()
                   .replaceAll(",$", ""); // remove the last comma
                 String image = dataSnapshot.child("image").getValue().toString();
+                String genre = "";
+                if (dataSnapshot.child("genres").exists()) {
+                    genre = dataSnapshot.child("genres")
+                      .getValue().toString()
+                      .replace("[", "")  //remove the right bracket
+                      .replace("]", "")  //remove the left bracket
+                      .trim()
+                      .replaceAll(",$", ""); // remove the last comma
+                }
+                String bio = "";
+                if (dataSnapshot.child("bio").exists()) {
+                    bio = dataSnapshot.child("bio").getValue().toString();
+                }
 
                 mProfileName.setText(display_name);
                 mProfileMusicIdentity.setText(music_identity);
+                mProfileGenre.setText(genre);
+                mProfileBio.setText(bio);
 
                 Picasso.get().load(image).placeholder(R.drawable.default_avatar).into(mProfileImage);
 
@@ -104,11 +119,11 @@ public class UserProfile extends AppCompatActivity {
                   (new ValueEventListener() {
                       @Override
                       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                          if (dataSnapshot.hasChild(user_id)){
+                          if (dataSnapshot.hasChild(user_id)) {
                               String req_type = dataSnapshot.child(user_id).child("request_type")
                                 .getValue().toString();
 
-                              if (req_type.equals("received")){
+                              if (req_type.equals("received")) {
 
                                   mCurrent_state = "req_received";
                                   mProfileSendReqBtn.setText("Accept Friend Request");
@@ -117,7 +132,7 @@ public class UserProfile extends AppCompatActivity {
                                   mProfileDeclineReqBtn.setEnabled(true);
 
 
-                              }else if (req_type.equals("sent")){
+                              } else if (req_type.equals("sent")) {
 
                                   mCurrent_state = "req_sent";
                                   mProfileSendReqBtn.setText("Cancel Friend Request");
@@ -127,12 +142,12 @@ public class UserProfile extends AppCompatActivity {
                                   mProfileDeclineReqBtn.setEnabled(false);
                               }
                               mProgressDialog.dismiss();
-                          } else{
+                          } else {
                               mFriendDatabase.child(mCurrent_user.getUid())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        if (dataSnapshot.hasChild(user_id)){
+                                        if (dataSnapshot.hasChild(user_id)) {
 
                                             mCurrent_state = "friends";
                                             mProfileSendReqBtn.setText("Unfriend this Person");
@@ -175,12 +190,12 @@ public class UserProfile extends AppCompatActivity {
                 mProfileSendReqBtn.setEnabled(false);
 
                 // --------- Not Friend State
-                if(mCurrent_state.equals("not_friends")){
+                if (mCurrent_state.equals("not_friends")) {
                     mFriendReqDatabase.child(mCurrent_user.getUid()).child(user_id).child
                       ("request_type").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 mFriendReqDatabase.child(user_id).child(mCurrent_user.getUid())
                                   .child("request_type").setValue("received")
                                   .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -206,11 +221,10 @@ public class UserProfile extends AppCompatActivity {
                                           });
 
 
-
 //                                        Toast.makeText(UserProfile.this, "Request sent~", Toast.LENGTH_SHORT).show();
                                       }
                                   });
-                            }else{
+                            } else {
                                 Toast.makeText(UserProfile.this, "Failed Sending Request", Toast
                                   .LENGTH_SHORT)
                                   .show();
@@ -220,7 +234,7 @@ public class UserProfile extends AppCompatActivity {
                 }
 
                 // ------ Cancel Request
-                if (mCurrent_state.equals("req_sent")){
+                if (mCurrent_state.equals("req_sent")) {
                     mFriendReqDatabase.child(mCurrent_user.getUid()).child(user_id).removeValue()
                       .addOnSuccessListener(new OnSuccessListener<Void>() {
                           @Override
@@ -243,7 +257,7 @@ public class UserProfile extends AppCompatActivity {
 
 
                 // req received state
-                if (mCurrent_state.equals("req_received")){
+                if (mCurrent_state.equals("req_received")) {
 
                     Date now = Calendar.getInstance().getTime();
                     final String currentDate = SimpleDateFormat.getDateTimeInstance().format(now);
@@ -287,6 +301,11 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
-
+        mProfileDeclineReqBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwipeScreen1.declineRequest(user_id);
+            }
+        });
     }
 }

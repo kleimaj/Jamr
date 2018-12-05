@@ -11,10 +11,10 @@
         android:icon="@drawable/ic_inbox_black_24dp"
         android:title="@string/title_inbox" />
 
-    <item
+    <!--item
         android:id="@+id/navigation_feed"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_feed" />
+        android:title="@string/title_feed" /-->
 
     <item
         android:id="@+id/navigation_notifications"

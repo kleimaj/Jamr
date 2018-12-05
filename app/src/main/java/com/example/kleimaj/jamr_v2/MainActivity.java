@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     switchToFragment3();
                     return true;
-                case R.id.navigation_feed:
+                /*case R.id.navigation_feed:
                     switchToFragmentFeed();
-                    return true;
+                    return true;*/
             }
             return false;
         }
