@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     switchToFragment1();
                     return true;
                 case R.id.navigation_dashboard:
-                    Toast.makeText(MainActivity.this,
-                            "Messaging Coming Soon!", Toast.LENGTH_SHORT).show();
+                    switchToFragmentFeed();
                     return true;
                 case R.id.navigation_notifications:
                     switchToFragment3();
