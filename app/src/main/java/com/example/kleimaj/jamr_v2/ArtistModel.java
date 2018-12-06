@@ -21,6 +21,7 @@ public class ArtistModel {
     private ArrayList<String> identities; //e.g. Producer, Guitarist, Vocalist
     private ArrayList<String> genres; //can switch to a String[] if need be
     private FirebaseAuth mAuth;
+    private ArrayList<String> recv;
 
     /*Constructors*/
 
@@ -85,6 +86,8 @@ public class ArtistModel {
 
     public void setUID(String UID) {this.UID = UID;}
 
+    public void setRecv(ArrayList<String> uids) {recv = uids;}
+
     public void setAge(String age) {
         this.age = Integer.parseInt(age);
     }
@@ -120,5 +123,7 @@ public class ArtistModel {
     public ArrayList<String> getGenres() {
         return genres;
     }
+
+    public ArrayList<String> getRecv() {return recv;}
 
 }

@@ -30,7 +30,10 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
 
     private ProgressDialog mLoadProgress;
     public static ArrayList<ArtistModel> users = new ArrayList<>();
+    public static ArrayList<String> received = new ArrayList<>();
+    public static ArrayList<String> dontAdd = new ArrayList<>(); //dont add to swipe cards
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private DatabaseReference mFriendReqDatabase;
     String UID = mAuth.getCurrentUser().getUid();
 
     @Override
@@ -45,12 +48,13 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
         mLoadProgress.show();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference usersdRef = rootRef.child("Users");
+        mFriendReqDatabase = rootRef.child("Friend_req");
+        DatabaseReference usersdRef = rootRef;//.child("Users");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 users.clear();
-                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                for(DataSnapshot ds: dataSnapshot.child("Users").getChildren()) {
                     String name = ds.child("name").getValue(String.class);
                     String isBand = ds.child("isBand").getValue(String.class);
                     ArtistModel user= new ArtistModel(name,isBand);
@@ -70,6 +74,7 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                         String gender = ds.child("gender").getValue(String.class);
                         user.setGender(gender);
                         String age = ds.child("age").getValue(String.class);
+                        System.out.println(ds.child("name").getValue().toString());
                         user.setAge(age);
 
                         ArrayList<String> genre = new ArrayList<String>();
@@ -97,6 +102,22 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                     else {
                         MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
                     }
+                }
+                //iterate through friend_req
+                for (DataSnapshot ds : dataSnapshot.child("Friend_req").child(UID).getChildren()) {
+                    if (ds.child("request_type").getValue().equals("received")) {
+                        received.add(ds.getKey().toString()); //add the UID to the arraylist
+                        //System.out.println(ds.getKey().toString() +" SENT A FRIEND " +
+                        //"REQUEST!!!!!!");
+                    }
+                }
+
+                //iterate through friends and enemies, add to dont add
+                for (DataSnapshot ds : dataSnapshot.child("Friends").child(UID).getChildren()) {
+                    dontAdd.add(ds.getKey().toString());
+                }
+                for (DataSnapshot ds : dataSnapshot.child("Enemy").child(UID).getChildren()) {
+                    dontAdd.add(ds.getKey().toString());
                 }
                 dataLoaded();
             }

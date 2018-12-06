@@ -32,7 +32,6 @@ public class TinderCard {
     private ProfileModel mProfile;
     private Context mContext;
     private SwipePlaceHolderView mSwipeView;
-    boolean isSwiping = false;
     int swipe = 0;
 
     public TinderCard(Context context, ProfileModel profile, SwipePlaceHolderView swipeView) {

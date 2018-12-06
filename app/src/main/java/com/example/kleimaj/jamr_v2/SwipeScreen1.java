@@ -133,47 +133,86 @@ public class SwipeScreen1 extends Fragment {
     }
 
     public static void sendRequest(final String UID){
-        System.out.println(UID +" IN FRIEND REQUEST Sent");
-        // --------- Not Friend State
-        if(mCurrent_state.equals("not_friends")){
-            mFriendReqDatabase.child(mCurrent_user.getUid()).child(UID).child
-              ("request_type").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        mFriendReqDatabase.child(UID).child(mCurrent_user.getUid())
-                          .child("request_type").setValue("received")
-                          .addOnSuccessListener(new OnSuccessListener<Void>() {
-                              @Override
-                              public void onSuccess(Void aVoid) {
+        if (SwipeScreen.received.contains(UID)) { //if card swiped sent a request
+            //call accept friend request
+            acceptRequest(UID);
+        }
+        else {
+            //System.out.println(UID +" IN FRIEND REQUEST Sent");
+            // --------- Not Friend State
+            if (mCurrent_state.equals("not_friends")) {
+                mFriendReqDatabase.child(mCurrent_user.getUid()).child(UID).child
+                  ("request_type").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            mFriendReqDatabase.child(UID).child(mCurrent_user.getUid())
+                              .child("request_type").setValue("received")
+                              .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                  @Override
+                                  public void onSuccess(Void aVoid) {
 
-                                  HashMap<String, String> notificationData = new
-                                    HashMap<>();
-                                  notificationData.put("from", mCurrent_user.getUid());
-                                  notificationData.put("type", "request");
+                                      HashMap<String, String> notificationData = new
+                                        HashMap<>();
+                                      notificationData.put("from", mCurrent_user.getUid());
+                                      notificationData.put("type", "request");
 
-                                  mNotificationDatase.child(UID).push().setValue
-                                    (notificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                      @Override
-                                      public void onSuccess(Void aVoid) {
-                                          //mCurrent_state = "req_sent";
-                                      }
-                                  });
-
+                                      mNotificationDatase.child(UID).push().setValue
+                                        (notificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                          @Override
+                                          public void onSuccess(Void aVoid) {
+                                              //mCurrent_state = "req_sent";
+                                          }
+                                      });
 
 
 //                                        Toast.makeText(UserProfile.this, "Request sent~", Toast.LENGTH_SHORT).show();
-                              }
-                          });
-                    }else{
-                        Toast.makeText(view.getContext(), "Failed Sending Request", Toast
-                          .LENGTH_SHORT)
-                          .show();
+                                  }
+                              });
+                        } else {
+                            Toast.makeText(view.getContext(), "Failed Sending Request", Toast
+                              .LENGTH_SHORT)
+                              .show();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
+    }
+
+    public static void acceptRequest(final String UID) {
+        Date now = Calendar.getInstance().getTime();
+        final String currentDate = SimpleDateFormat.getDateTimeInstance().format(now);
+        final DatabaseReference mFriendDatabase = FirebaseDatabase.getInstance().getReference()
+          .child
+          ("Friends");
+        mFriendDatabase.child(mCurrent_user.getUid()).child(UID).setValue
+          (currentDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                mFriendDatabase.child(UID).child(mCurrent_user.getUid()).setValue
+                  (currentDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+
+                        mFriendReqDatabase.child(mCurrent_user.getUid()).child(UID).removeValue()
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+                                  mFriendReqDatabase.child(UID).child(mCurrent_user.getUid())
+                                    .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                      @Override
+                                      public void onSuccess(Void aVoid) {
+                                      }
+                                  });
+                              }
+                          });
+                    }
+                });
+            }
+        });
     }
 
     public static void declineRequest(final String UID) {
@@ -222,12 +261,15 @@ public class SwipeScreen1 extends Fragment {
     }
 
     public static void convertArray(ArrayList<ArtistModel> users){
+        ArrayList<String> dontAdd = SwipeScreen.dontAdd;
         profiles.clear();
         for (int i = 0; i < users.size(); i++) {
             ProfileModel profile = new ProfileModel();
             profile.setUID(users.get(i).getUID());
             profile.setName(users.get(i).getName());
             String image = users.get(i).getImage();
+            //System.out.println("NAME IS: "+users.get(i).getName());
+            //System.out.println("IMAGE IS "+image);
             if (image.equals("default")) {
                 image = "https://firebasestorage.googleapis.com" +
                   "/v0/b/jamr-679a0.appspot.com/o/profile_images" +
@@ -237,6 +279,7 @@ public class SwipeScreen1 extends Fragment {
             profile.setImageUrl(image);
 
             if  (!users.get(i).isBand()) {
+                System.out.println(users.get(i).getName());
                 profile.setAge(new Integer(users.get(i).getAge()));
                 String identities = "";
                 for (int j = 0; j < users.get(i).getIdentities().size(); j++) {
@@ -260,7 +303,9 @@ public class SwipeScreen1 extends Fragment {
                 profile.setLocation(genres);
                 System.out.println(genres +" GENRES!!!!!!!!!!");
             }
-            profiles.add(profile);
+            if (!dontAdd.contains(profile.getUID())) {
+                profiles.add(profile);
+            }
         }
     }
 }
