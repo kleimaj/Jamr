@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jamr_V2</string>
+    <string name="app_name">Jamr</string>
 
     <string-array name="gender">
         <item>Gender</item>
