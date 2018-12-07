@@ -1,5 +1,7 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -177,10 +179,10 @@ public class SwipeScreen1 extends Fragment {
         view.getContext().startActivity(userProfileIntent);
     }
 
-    public static void sendRequest(final String UID){
+    public static void sendRequest(final String UID,String name){
         if (SwipeScreen.received.contains(UID)) { //if card swiped sent a request
             //call accept friend request
-            acceptRequest(UID);
+            acceptRequest(UID, name);
         }
         else {
             //System.out.println(UID +" IN FRIEND REQUEST Sent");
@@ -226,7 +228,13 @@ public class SwipeScreen1 extends Fragment {
 
     }
 
-    public static void acceptRequest(final String UID) {
+    public static void acceptRequest(final String UID,String name) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setMessage("You are now friends with "+name + "!").setTitle("New Connection");
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
         Date now = Calendar.getInstance().getTime();
         final String currentDate = SimpleDateFormat.getDateTimeInstance().format(now);
         final DatabaseReference mFriendDatabase = FirebaseDatabase.getInstance().getReference()

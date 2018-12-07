@@ -74,7 +74,7 @@ public class TinderCard {
     @SwipeIn
     private void onSwipeIn(){
         swipe = 0;
-        SwipeScreen1.sendRequest(mProfile.getUID());
+        SwipeScreen1.sendRequest(mProfile.getUID(),mProfile.getName());
         Log.d("EVENT", "onSwipedIn");
     }
 

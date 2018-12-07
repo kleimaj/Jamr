@@ -116,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     // sign up the user
     protected void registerUserToDB() {
+        justRegistered = true;
         //make a singleton artistmodel
         MainActivity.currentUser = new ArtistModel(display_name);
         MainActivity.currentUser.setBand(isBand);
@@ -184,7 +185,6 @@ public class RegisterActivity extends AppCompatActivity {
                   }
               }
           });
-        justRegistered = true;
         //saveContents(); //writes to local file
     }
     //writes name and isBand to file, to be used on login

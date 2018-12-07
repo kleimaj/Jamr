@@ -11,6 +11,7 @@
     <string-array name="genres">
         <item>Rock</item>
         <item>Jazz</item>
+        <item>Math Rock</item>
         <item>Pop</item>
         <item>Mariachi</item>
         <item>Funk</item>

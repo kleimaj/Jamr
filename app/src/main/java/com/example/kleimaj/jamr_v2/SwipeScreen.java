@@ -144,6 +144,10 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                 for (DataSnapshot ds : dataSnapshot.child("Enemy").child(UID).getChildren()) {
                     dontAdd.add(ds.getKey().toString());
                 }
+                for (DataSnapshot ds : dataSnapshot.child("Friend_req").child(UID).getChildren()) {
+                    if (ds.child("request_type").getValue().toString().equals("sent"))
+                    dontAdd.add(ds.getKey().toString());
+                }
                 dataLoaded();
             }
 
