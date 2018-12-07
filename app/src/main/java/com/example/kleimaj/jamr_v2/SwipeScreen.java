@@ -171,10 +171,6 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
     }
 
     public void dataLoaded() {
-        for (int i = 0; i < users.size(); i++) {
-            System.out.println(users.get(i).getName());
-            System.out.println("HEEEEEEEEEEEEYYYYYYYYYYYYYYYYYY");
-        }
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

@@ -1,5 +1,6 @@
 package com.example.kleimaj.jamr_v2;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -62,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         if (RegisterActivity.isJustRegistered()) {
             //save contents to local file
             saveContents();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Don't forget to add a profile picture!").setTitle("Welcome to " +
+              "Jamr");
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         }
         else { //they're signing in
 
@@ -69,8 +76,10 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        if (RegisterActivity.isJustRegistered())
+        if (RegisterActivity.isJustRegistered()) {
             navigation.setSelectedItemId(R.id.navigation_notifications);
+            switchToFragment3();
+        }
         else
             navigation.setSelectedItemId(R.id.navigation_home); //change to home
     }

@@ -76,7 +76,8 @@ public class MyInfoActivity extends AppCompatActivity {
         genderList.add("Male");
         genderList.add("Female");
         genderList.add("Non-Binary");
-
+        System.out.println(RegisterActivity.justRegistered);
+        System.out.println(RegisterActivity.isJustRegistered());
         if (RegisterActivity.isJustRegistered()){
             Toast.makeText(this, "Create your user profile!", Toast.LENGTH_LONG).show();
         }
@@ -228,7 +229,6 @@ public class MyInfoActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
             writeAristInfoToFile();
             if (RegisterActivity.isJustRegistered()) {
-                RegisterActivity.setJustRegistered(false);
                 Intent myIntent = new Intent(this,MainActivity.class);
                 startActivity(myIntent);
                 this.finish();
@@ -252,7 +252,6 @@ public class MyInfoActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), SAVE_SUCCESS, Toast.LENGTH_LONG).show();
             writeBandInfoToFile();
             if (RegisterActivity.isJustRegistered()) {
-                RegisterActivity.setJustRegistered(false);
                 Intent myIntent = new Intent(this,MainActivity.class);
                 startActivity(myIntent);
                 this.finish();
