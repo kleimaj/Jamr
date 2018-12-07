@@ -1,0 +1,49 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportHeight="170"
+    android:viewportWidth="170">
+    <group
+        android:translateY="45"
+        android:translateX="50">
+    <path
+        android:fillType="evenOdd"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="78.5885"
+                android:endY="90.9159"
+                android:startX="48.7653"
+                android:startY="61.0927"
+                android:type="linear">
+                <item
+                    android:color="#44000000"
+                    android:offset="0.0" />
+                <item
+                    android:color="#00000000"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="nonZero"
+        android:pathData="M 42.04,5.18
+           C 47.81,8.37 56.16,9.27 57.57,17.00
+             58.49,22.07 54.20,32.42 48.00,27.00
+             52.69,20.38 48.95,19.17 43.00,16.00
+             43.00,16.00 43.00,60.00 43.00,60.00
+             42.94,64.46 42.60,68.31 39.58,71.89
+             34.21,78.29 20.47,78.89 14.22,73.43
+             8.94,68.82 9.00,60.40 9.00,54.00
+             11.42,54.00 17.60,53.60 19.40,55.02
+             21.76,56.88 20.70,66.83 26.88,65.26
+             33.35,63.61 30.02,48.85 30.00,44.00
+             30.00,44.00 30.00,0.00 30.00,0.00
+             39.01,0.10 35.44,1.52 42.04,5.18 Z"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1" />
+        </group>
+</vector>
