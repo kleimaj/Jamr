@@ -27,9 +27,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-    private static String picturePath;
-    private static int RESULT_LOAD_IMAGE = 1;
     public static ArtistModel currentUser;
     DatabaseReference currentUserDb;
     private FirebaseAuth mAuth;
@@ -50,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     switchToFragment3();
                     return true;
-                /*case R.id.navigation_feed:
-                    switchToFragmentFeed();
-                    return true;*/
             }
             return false;
         }
@@ -73,11 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        //can't find display??
-        //TextView display = (TextView) findViewById(R.id.ArtistName);
-        //must load data from local file first... still need to figure that out
-       // display.setText(currentUser.getName());
-      //  initialize();
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         if (RegisterActivity.isJustRegistered())
@@ -101,84 +90,11 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void switchToFragment2(){
-
-    }
-
-
     public void switchToFragment3() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frame_container, ProfileActivity.newInstance());//MyInfor.newInstance());
         ft.commit();
-    }
-
-
-    /* FUNCTIONS FOR MATCHING ALGORITHM */
-
-    //use for users who have full preferences, algo works for unfilled preferences --
-    // (i.e if maxAge is set to 0, if gender is null, arraylists are empty)
-    public static ArrayList<ArtistModel> getArtists(ArrayList<String> genres, ArrayList<String>
-      identities, String gender, int maxAge) {
-        //arraylist of all artists from another function
-        ArrayList<ArtistModel> usersFromDatabase = new ArrayList<>(); //should be full
-
-        ArrayList<ArtistModel> returnedUsers = new ArrayList<ArtistModel>();
-
-        for (int i = 0; i < usersFromDatabase.size(); i++) {
-            ArtistModel currentUser = usersFromDatabase.get(i);
-            if (matchingAge(maxAge,currentUser.getAge()) &&
-                matchingGender(gender, currentUser.getGender()) &&
-                matchingIdentities(identities,currentUser.getIdentities()) &&
-                matchingGenres(genres, currentUser.getGenres())) {
-
-                returnedUsers.add(currentUser);
-            }
-        }
-        return returnedUsers;
-    }
-    //if userIdentities contains AT LEAST ONE identity in identityPreferences, return true
-    public static boolean matchingIdentities(ArrayList<String> identityPreferences,
-                                             ArrayList<String> userIdentities) {
-        //if this user has no preferences, they will see every user
-        if (identityPreferences.size() == 0) {
-            return true;
-        }
-        for (int i = 0; i < identityPreferences.size(); i++) {
-            String thisIdentity = identityPreferences.get(i);
-            if (userIdentities.contains(thisIdentity)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean matchingGenres(ArrayList<String> genrePreferences,
-                                         ArrayList<String> userGenres) {
-        if (genrePreferences.size() == 0) {
-            return true;
-        }
-        for (int i = 0; i < genrePreferences.size(); i++) {
-            String thisGenre = genrePreferences.get(i);
-            if (userGenres.contains(thisGenre)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean matchingGender(String genderPreference, String userGender) {
-        if (genderPreference.isEmpty()) {
-            return true;
-        }
-        return userGender.equals(genderPreference);
-    }
-
-    public static boolean matchingAge(int agePref, int userAge) {
-        if (agePref == 0) {
-            return true;
-        }
-        else return agePref >= userAge;
     }
 
     protected void saveContents() {
@@ -194,31 +110,5 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public String readUserFile(boolean isBand){
-        Context context = getApplicationContext();
-        BufferedReader reader = null;
-        StringBuilder text = new StringBuilder();
-        String userId = mAuth.getCurrentUser().getUid();
-        //Try Catch block to open/read files from directory and put into view
-        try {
-            FileInputStream stream = context.openFileInput(userId+"profileInfo.txt");
-            InputStreamReader streamReader = new InputStreamReader(stream);
-            reader = new BufferedReader(streamReader);
-
-            String line;
-            while((line = reader.readLine()) !=null){
-                text.append(line);
-                text.append('\n');
-            }
-            reader.close();
-            stream.close();
-            streamReader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return text.toString();
     }
 }

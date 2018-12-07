@@ -31,6 +31,10 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
     private ProgressDialog mLoadProgress;
     public static ArrayList<ArtistModel> users = new ArrayList<>();
     public static ArrayList<String> received = new ArrayList<>();
+    public static String pref_gender = "";
+    public static ArrayList<String> pref_genre = new ArrayList<>();
+    public static ArrayList<String> pref_identity = new ArrayList<>();
+    public static int pref_age = 0;
     public static ArrayList<String> dontAdd = new ArrayList<>(); //dont add to swipe cards
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private DatabaseReference mFriendReqDatabase;
@@ -40,6 +44,8 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_swipe_screen);
+        pref_genre.clear();
+        pref_identity.clear();
         mLoadProgress = new ProgressDialog(getActivity());
 
         mLoadProgress.setTitle("Finding Musicians");
@@ -49,7 +55,7 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         mFriendReqDatabase = rootRef.child("Friend_req");
-        DatabaseReference usersdRef = rootRef;//.child("Users");
+        DatabaseReference usersdRef = rootRef;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -64,8 +70,6 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                         ArrayList<String> genre = new ArrayList<String>();
                         //add all genres to genre array
                         for (DataSnapshot genreSnapshot : ds.child("genres").getChildren()) {
-                            System.out.println("GENRE!!!!!!!!!!!!!!!11 : "+genreSnapshot.getValue
-                              ().toString());
                             genre.add(genreSnapshot.getValue(String.class));
                         }
                         user.setGenres(genre);
@@ -101,6 +105,27 @@ public class SwipeScreen extends android.support.v4.app.Fragment {
                     }
                     else {
                         MainActivity.currentUser.setBand(Boolean.parseBoolean(isBand));
+                        //get preferences
+                        if (ds.child("pref_age").exists()) {
+                            String prefAgeString = ds.child("pref_age").getValue().toString();
+                            pref_age = Integer.parseInt(prefAgeString);
+                        }
+                        if (ds.child("pref_gender").exists()) {
+                            String prefGender = ds.child("pref_gender").getValue().toString();
+                            pref_gender = prefGender;
+                        }
+                        if (ds.child("pref_genre").exists()) {
+                            for (DataSnapshot genreSnapshot : ds.child("pref_genre").getChildren()) {
+                                pref_genre.add(genreSnapshot.getValue().toString());
+                            }
+                        }
+                        if (ds.child("pref_identity").exists()) {
+                            for (DataSnapshot identitySnapshot : ds.child("pref_identity")
+                              .getChildren
+                              ()) {
+                                pref_identity.add(identitySnapshot.getValue().toString());
+                            }
+                        }
                     }
                 }
                 //iterate through friend_req

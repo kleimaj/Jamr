@@ -37,7 +37,7 @@ import static com.example.kleimaj.jamr_v2.MyInfoActivity.minAge;
 
 public class MySettingsActivity extends AppCompatActivity {
 
-    public final static int minAge = 15;
+    public final static int minAge = 18;
     public static final int SETTINGS_IDENTITY = 3;
     public static final int SETTINGS_GENRE = 4;
     SeekBar ageSeek;

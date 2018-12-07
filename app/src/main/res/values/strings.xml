@@ -12,6 +12,7 @@
         <item>Rock</item>
         <item>Jazz</item>
         <item>Pop</item>
+        <item>Mariachi</item>
         <item>Funk</item>
         <item>RnB</item>
         <item>Hip Hop</item>
@@ -85,6 +86,7 @@
         <item>Vocalist</item>
         <item>Singer</item>
         <item>Songwriter</item>
+        <item>Student</item>
         <item>Producer</item>
         <item>Drummer</item>
         <item>Percussion</item>
@@ -143,7 +145,7 @@
     <string name="reg_email_invalid">Please enter a valid email</string>
     <string name="reg_create_account_title">Registering User</string>
     <string name="profile_setting_text">Setting</string>
-    <string name="profile_collection_text">Collection</string>
+    <string name="profile_collection_text">Edit Profile</string>
     <string name="title_feed">Feed</string>
     <string name="user_music_identity">User Music Identity</string>
 
