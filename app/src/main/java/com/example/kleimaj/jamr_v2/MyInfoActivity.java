@@ -42,7 +42,7 @@ import static com.example.kleimaj.jamr_v2.DatabaseManager.indicator;
 
 public class MyInfoActivity extends AppCompatActivity {
 
-    public final static int minAge = 15;
+    public final static int minAge = 18;
     public final static int maxAge = 99;
     public static final int ARTIST_IDENTITY = 0;
     public static final int ARTIST_GENRE = 1;
